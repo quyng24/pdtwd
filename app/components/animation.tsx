@@ -1,6 +1,8 @@
 "use client"
 import { ReactNode, useEffect, useRef, useState } from "react";
 
+type FadeInDirection = 'up' | 'down' | 'left' | 'right';
+
 type FadeOnScrollProps = {
     children?: ReactNode;
     startFade?: number;
@@ -8,15 +10,9 @@ type FadeOnScrollProps = {
 }
 type FadeInProps = {
     children: ReactNode;
-    direction?: string;
+    direction?: FadeInDirection;
     delay?: number,
     duration?: number
-}
-type DirectionProps = {
-    up?: string;
-    down?: string;
-    left?: string;
-    right?: string
 }
 
 const useScrollPosition = () => {
@@ -79,10 +75,10 @@ export const FadeOnScroll = ({ children, startFade = 100, endFade = 600 }: FadeO
   );
 };
 
-const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6 }: FadeInProps) => {
+export const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6 }: FadeInProps) => {
   const [ref, isInView] = useInView();
   
-  const directions = {
+  const directions: Record<FadeInDirection, string> = {
     up: 'translate-y-20',
     down: '-translate-y-20',
     left: 'translate-x-20',
