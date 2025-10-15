@@ -32,7 +32,7 @@ export default function Home() {
       <FadeOnScroll startFade={300} endFade={1000}>
         <section 
           id="hero" 
-          className="relative bg-fixed bg-center bg-cover h-screen flex flex-col justify-center items-center bg-gradient-to-b from-blue-500 to-indigo-600 text-white"
+          className="relative bg-fixed bg-center bg-cover h-screen flex flex-col justify-center items-center text-white"
           style={{ backgroundImage: `url(${imgBgSection1.src})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/70 pointer-events-none"></div>
@@ -44,7 +44,7 @@ export default function Home() {
         </section>
       </FadeOnScroll>
 
-      <div className="w-full h-screen bg-amber-100 flex justify-center items-center">
+      <div className="w-full h-screen flex justify-center items-center">
         {dataCard.map((item, idx) => (
           <div key={idx} className="w-[30%]">
             <FadeIn direction="up" delay={0}>
@@ -54,14 +54,14 @@ export default function Home() {
         ))}
       </div>
 
-      <section id="about" className="h-screen flex flex-col justify-center items-center bg-gray-100">
+      <section id="about" className="h-screen flex flex-col justify-center items-center">
         <h2 className="text-3xl font-bold mb-4">Về tôi</h2>
         <p className="max-w-xl text-center text-gray-700">
           Tôi là một lập trình viên yêu thích web và AI, chuyên về React & Next.js.
         </p>
       </section>
 
-      <section id="contact" className="h-screen flex flex-col justify-center items-center bg-indigo-50">
+      <section id="contact" className="h-screen flex flex-col justify-center items-center">
         <h2 className="text-3xl font-bold mb-4">Liên hệ</h2>
         <p>Email: <a href="mailto:quy@example.com" className="text-blue-600 underline">quy@example.com</a></p>
       </section>
