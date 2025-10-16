@@ -16,7 +16,6 @@ export const  login = async () => {
         } else {
             await signOut(auth);
             alert("Email của bạn không có quyền truy cập hệ thống!");
-            window.location.href = "/"
             return null;
         }
     } catch (error) {
