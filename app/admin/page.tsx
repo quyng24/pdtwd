@@ -2,26 +2,36 @@
 import { useRouter } from "next/navigation";
 import Navbar from "../components/Navbar";
 import { getUserCookie } from "../lib/cookies";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Admin() {
     const router = useRouter();
+    const [nameUser, setNameUser] = useState();
     
     useEffect(() => {
+        let isMouted = true;
         const fetchData = async () => {
-            const user = await getUserCookie();
-            const allowedEmails = ["nquy50771@gmail.com", "phanthanhnhanh2460@gmail.com"];
-            if (!user || !allowedEmails.includes(user.email)) router.push("/");
+            try {
+                const user = await getUserCookie();
+                const allowedEmails = ["nquy50771@gmail.com", "phamthanhnhan2460@gmail.com"];
+                if(isMouted) {
+                    if (!user || !allowedEmails.includes(user.email)) router.push("/");
+                    else setNameUser(user.name);
+                }
+                
+            } catch (error) {
+                console.error("Error fetching user: ", error);
+            }
         }
         fetchData();
-    }, [router]);
+        return () => { isMouted = false};
+    }, []);
     return (
-        <div className="w-full min-h-screen">
+        <div className="w-full min-h-screen bg-gradient-to-r from-[#e6f7fa] to-[#fff3f8]">
             <Navbar/>
             <div className="w-full h-full mt-[88px]"></div>
-            <h1 className="text-3xl font-bold mb-4">Trang Admin</h1>
-            <p>Xin chào</p>
+            <h1 className="text-3xl font-bold mb-4">Xin chào, {nameUser}</h1>
         </div>
     )
 }

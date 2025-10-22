@@ -93,3 +93,7 @@ body {
   opacity: 1;
   transform: translate(0, 0);
 }
+
+.remove-bg {
+    mix-blend-mode: multiply; /* Xóa nền trắng */
+}
