@@ -26,7 +26,7 @@ export default function Admin() {
         }
         fetchData();
         return () => { isMouted = false};
-    }, []);
+    }, [router]);
     return (
         <div className="w-full min-h-screen bg-gradient-to-r from-[#e6f7fa] to-[#fff3f8]">
             <Navbar/>
