@@ -97,23 +97,3 @@ body {
 .remove-bg {
     mix-blend-mode: multiply; /* Xóa nền trắng */
 }
-
-
-/* Google map section 3 */
-@media (min-width: 640px) {
-  .google-map {
-    height: 300px;
-  }
-}
-
-@media (min-width: 768px) {
-  .google-map {
-    height: 400px; 
-  }
-}
-
-@media (min-width: 1024px) {
-  .google-map {
-    height: 500px;
-  }
-}

@@ -120,7 +120,7 @@ export default function Home() {
           <div className="flex-1 w-full md:w-[50%]">
             <FadeIn direction="left" delay={0.5}>
               <iframe
-              className="google-map"
+                className="h-[300px] md:h-[500px]"
                 src="https://www.google.com/maps/embed?pb=!1m17!1m12!1m3!1d3724.0859170273093!2d105.76281607525658!3d21.029247980620234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m2!1m1!2zMjHCsDAxJzQ1LjMiTiAxMDXCsDQ1JzU1LjQiRQ!5e0!3m2!1svi!2skr!4v1761546185393!5m2!1svi!2skr"
                 style={{ border: 0, width: '100%', borderRadius: '20px' }}
                 allowFullScreen
