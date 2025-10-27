@@ -17,7 +17,7 @@ export default function Footer() {
                         </div>
 
                         <div className="w-[30px] h-[30px] rounded-full bg-gray-400 flex items-center justify-center cursor-pointer">
-                            <a href="https://www.facebook.com/share/1HJ9xi4Dx6/?mibextid=wwXIfr"><FaFacebookF size={14} /></a>
+                            <a href="https://www.facebook.com/share/1JoPgGY9pS/"><FaFacebookF size={14} /></a>
                         </div>
 
                         <div className="w-[30px] h-[30px] rounded-full bg-gray-400 flex items-center justify-center cursor-pointer">
