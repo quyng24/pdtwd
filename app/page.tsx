@@ -83,8 +83,8 @@ export default function Home() {
 
       {/* Section3 register study */}
       <section id="register" className="px-5 sm:px-10 md:px-20">
-        <FadeIn direction="down"><h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">ĐĂNG KÝ HỌC NGAY BÂY GIỜ!</h2></FadeIn>
-        <div className="flex justify-center items-center flex-col md:flex-row gap-10 my-40">
+        <FadeIn direction="down"><h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-20">ĐĂNG KÝ HỌC NGAY BÂY GIỜ!</h2></FadeIn>
+        <div className="flex justify-center items-center flex-col md:flex-row gap-10 mb-40">
           <div className="w-full md:w-[50%] flex flex-col gap-6">
             <FadeIn direction="right" delay={0.2}>
               <h3 className="text-xl md:text-3xl font-bold text-left">🔥CHIÊU SINH PANDA TEAKWONDO: <br /> Rèn Luyện Sức Mạnh, Khẳng Định Bản Lĩnh!</h3>
@@ -98,6 +98,7 @@ export default function Home() {
                   <li><strong>Thanh thiếu niên & Người lớn (16+):</strong> Cải thiện sức khỏe, giải tỏa căng thẳng, thành thạo kỹ thuật võ thuật.</li>
                 </ul>
               </div>
+              <div className="w-full bg-gray-900 h-0.5 my-3"></div>
             </FadeIn>
 
             <FadeIn direction="right" delay={0.6}>
@@ -109,7 +110,12 @@ export default function Home() {
                   <li><strong>Tinh thần:</strong> Xây dựng tính kỷ luật, sự tự tin và tinh thần võ đạo.</li>
                 </ul>
               </div>
+              <div className="w-full bg-gray-900 h-0.5 mt-3 mb-10"></div>
             </FadeIn>
+            <FadeIn direction="up" delay={0.8}>
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7 " className="bg-[#2daeff] p-5 w-full rounded-2xl text-white text-2xl font-semibold text-center">Đăng ký học</a>
+            </FadeIn>
+            
           </div>
           <div className="flex-1 w-full md:w-[50%]">
             <FadeIn direction="left" delay={0.5}>
