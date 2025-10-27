@@ -38,7 +38,7 @@ export default function Navbar() {
   return (
     <>
       {user ? (
-        <nav className="fixed top-0 w-full bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
+        <nav className="fixed top-0 max-w-screen bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
           <Image src={Logo} alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
           <button 
             onClick={() => { clearUserCookie(); router.push("/"); }}
@@ -47,18 +47,18 @@ export default function Navbar() {
         </nav>
       ) : (
         <nav className="fixed flex items-center justify-between top-0 w-full bg-white shadow z-50 px-5 sm:px-10 md:px-20">
-          <Image src={Logo} alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
+          <a href="#hero" className="w-[50%] sm:w-[30%] md:w-[20%]"><Image src={Logo} alt="Logo" className="remove-bg" /></a>
           
           {/* Menu - Desktop and Tablet */}
           <ul className="hidden sm:flex justify-center gap-4 space-x-6 p-4 flex-1">
             <li className="hover:text-blue-600 duration-300">
-              <a href="#hero" className="hover-underline text-2xl font-semibold">Trang chủ</a>
+              <a href="#introduce" className="hover-underline text-2xl font-semibold">Giới thiệu</a>
             </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#about" className="hover-underline text-2xl font-semibold">Giới thiệu</a>
+              <a href="#work" className="hover-underline text-2xl font-semibold">Hoạt động của lớp</a>
             </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#contact" className="hover-underline text-2xl font-semibold">Liên hệ</a>
+              <a href="#register" className="hover-underline text-2xl font-semibold">Đăng ký học</a>
             </li>
           </ul>
           
@@ -89,13 +89,13 @@ export default function Navbar() {
         <div ref={menuRef} className="sm:hidden fixed top-0 left-0 w-full bg-white z-40 shadow-lg py-3">
           <ul className="flex flex-col items-center justify-center space-y-6 pt-20">
             <li className="hover:text-blue-600 duration-300">
-              <a href="#hero" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Trang chủ</a>
+              <a href="#introduce" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Giới thiệu</a>
               </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#about" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Giới thiệu</a>
+              <a href="#work" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Hoạt động của lớp</a>
             </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#contact" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Liên hệ</a>
+              <a href="#register" className="hover-underline text-2xl font-semibold" onClick={closeMenu}>Đăng ký học</a>
             </li>
             <li className="my-4">
               <Link 
