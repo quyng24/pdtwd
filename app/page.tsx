@@ -29,6 +29,8 @@ export default function Home() {
   return (
     <main className="bg-[#DBF4FE] max-w-screen">
       <Navbar></Navbar>
+
+      {/* Section1 hero section */}
       <FadeOnScroll startFade={300} endFade={1000}>
         <section
           id="hero"
@@ -51,6 +53,7 @@ export default function Home() {
         </section>
       </FadeOnScroll>
 
+      {/* Section2 introduce clb */}
       <section
         id="introduce"
         className="h-screen flex flex-col justify-center items-center"
@@ -62,6 +65,7 @@ export default function Home() {
         </p>
       </section>
 
+      {/* Section3 activity of clb */}
       <section id="work" className="w-full min-h-screen my-40 md:my-0 px-5 sm:px-10 md:px-20 ">
         <FadeIn direction="down">
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-20 md:mb-40">HOẠT ĐỘNG CỦA CLB</h2>
@@ -81,7 +85,7 @@ export default function Home() {
         </div>
       </section>
 
-      {/* Section3 register study */}
+      {/* Section4 register study */}
       <section id="register" className="px-5 sm:px-10 md:px-20">
         <FadeIn direction="down"><h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center">ĐĂNG KÝ HỌC NGAY BÂY GIỜ!</h2></FadeIn>
         <div className="flex justify-center items-center flex-col md:flex-row gap-10 my-40">
