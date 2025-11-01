@@ -38,7 +38,7 @@ export default function Navbar() {
   return (
     <>
       {user ? (
-        <nav className="fixed top-0 max-w-screen bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
+        <nav className="fixed top-0 w-full bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
           <Image src={Logo} alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
           <button 
             onClick={() => { clearUserCookie(); router.push("/"); }}
