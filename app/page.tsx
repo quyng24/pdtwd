@@ -27,7 +27,7 @@ export default function Home() {
     },
   ];
   return (
-    <main className="bg-[#DBF4FE] max-w-screen">
+    <main className="bg-[#DBF4FE] w-screen">
       <Navbar></Navbar>
 
       {/* Section1 hero section */}
@@ -59,7 +59,7 @@ export default function Home() {
         className="h-screen flex flex-col justify-center items-center"
       >
         <h2 className="text-3xl font-bold mb-4">Về tôi</h2>
-        <p className="max-w-xl text-center text-gray-700">
+        <p className="text-center text-gray-700">
           Tôi là một lập trình viên yêu thích web và AI, chuyên về React &
           Next.js.
         </p>
@@ -121,7 +121,7 @@ export default function Home() {
             </FadeIn>
             
           </div>
-          <div className="flex-1 w-full md:w-[50%]">
+          <div className="flex-1 w-full md:w-[50%] overflow-hidden">
             <FadeIn direction="left" delay={0.5}>
               <iframe
                 className="h-[300px] md:h-[500px]"

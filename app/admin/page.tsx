@@ -30,7 +30,7 @@ export default function Admin() {
     return (
         <div className="w-full min-h-screen">
             <Navbar/>
-            <div className="w-full h-full mt-[88px]"></div>
+            <div className="w-full h-full mt-64"></div>
             <h1 className="text-3xl font-bold mb-4">Xin chào, {nameUser}</h1>
         </div>
     )

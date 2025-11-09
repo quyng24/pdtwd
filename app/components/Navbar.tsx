@@ -38,7 +38,7 @@ export default function Navbar() {
   return (
     <>
       {user ? (
-        <nav className="fixed top-0 w-full bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
+        <nav className="fixed top-0 bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
           <Image src={Logo} alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
           <button 
             onClick={() => { clearUserCookie(); router.push("/"); }}
@@ -46,7 +46,7 @@ export default function Navbar() {
           >Logout</button>
         </nav>
       ) : (
-        <nav className="fixed flex items-center justify-between top-0 w-full bg-white shadow z-50 px-5 sm:px-10 md:px-20">
+        <nav className="fixed max-w-screen flex items-center justify-between top-0 bg-white shadow z-50 px-5 sm:px-10 md:px-20">
           <a href="#hero" className="w-[50%] sm:w-[30%] md:w-[20%]"><Image src={Logo} alt="Logo" className="remove-bg" /></a>
           
           {/* Menu - Desktop and Tablet */}
@@ -100,7 +100,7 @@ export default function Navbar() {
             <li className="my-4">
               <Link 
                 href="/login" 
-                className="pt-2 pb-2 pl-5 pr-5 rounded-lg text-sm font-medium border-[2px] border-blue-200 text-blue-500"
+                className="py-2 px-5 rounded-lg text-sm font-medium border-[2px] border-blue-200 text-blue-500"
                 onClick={closeMenu}
               >
                 Login Admin
