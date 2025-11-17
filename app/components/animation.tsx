@@ -26,14 +26,15 @@ const useScrollPosition = () => {
 
   return scrollY;
 };
-const useInView = (options: IntersectionObserverInit = {}): [React.RefObject<HTMLDivElement>, boolean] => {
-  const ref = useRef<HTMLDivElement>(null);
+const useInView = (options: IntersectionObserverInit = {}): [React.RefObject<HTMLDivElement | null>, boolean] => {
+  const ref = useRef<HTMLDivElement | null>(null);
   const [isInView, setIsInView] = useState(false);
   useEffect(() => {
-    const observer = new IntersectionObserver(([entry]) => {setIsInView(entry.isIntersecting);},{ threshold: 0.1, ...options });
+    const observer = new IntersectionObserver(([entry]) => { setIsInView(entry.isIntersecting); }, { threshold: 0.1, ...options });
     const element = ref.current;
     if (element) observer.observe(element);
-    return () => {if (element) observer.unobserve(element);};}, [options]);
+    return () => { if (element) observer.unobserve(element); };
+  }, [options]);
   return [ref, isInView];
 };
 
