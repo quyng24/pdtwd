@@ -46,7 +46,7 @@ export default function Navbar() {
           >Logout</button>
         </nav>
       ) : (
-        <nav className="fixed max-w-screen flex items-center justify-between top-0 bg-white shadow z-50 px-5 sm:px-10 md:px-20">
+        <nav className="fixed w-full flex items-center justify-between top-0 bg-white shadow z-50 px-5 sm:px-10 md:px-20">
           <a href="#hero" className="w-[50%] sm:w-[30%] md:w-[20%]"><Image src={Logo} alt="Logo" className="remove-bg" /></a>
           
           {/* Menu - Desktop and Tablet */}
