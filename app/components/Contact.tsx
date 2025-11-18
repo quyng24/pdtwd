@@ -3,7 +3,7 @@ import { FaFacebookMessenger } from "react-icons/fa";
 import { FadeIn } from "./animation";
 import { MdCall } from "react-icons/md";
 import { SiZalo } from "react-icons/si";
-import { Modal } from "antd";
+import { Image, Modal } from "antd";
 import { useState } from "react";
 
 export default function Contact() {
@@ -50,7 +50,7 @@ export default function Contact() {
             onCancel={handleCancel}
             footer={null}
           >
-            <img src="/images/qr-pham-thanh-nhan.jpg" alt="Mã QR Phạm Thanh Nhàn" className="w-full" />
+            <Image src="/images/qr-pham-thanh-nhan.jpg" alt="Mã QR Phạm Thanh Nhàn"/>
           </Modal>
 
           <a
