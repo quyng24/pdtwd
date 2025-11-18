@@ -8,7 +8,7 @@ type CardBaseProps = {
 
 export default function CardBase({img, title, description}: CardBaseProps) {
   return (
-    <div className="w-full bg-white rounded-2xl overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-shadow duration-300">
+    <div className="w-full bg-white rounded overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-shadow duration-300">
       <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden">
         {/* Ảnh nền */}
         <div
