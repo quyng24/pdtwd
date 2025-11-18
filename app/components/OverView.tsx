@@ -5,7 +5,10 @@ import { useState } from "react";
 import { IoBody, IoHandLeft, IoWalk } from "react-icons/io5";
 
 export default function OverView() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modals, setModals] = useState({
+    modalA: false,
+    modalB: false,
+  });
   const dataCard = [
     {
       title: 'Kỹ năng',
@@ -24,30 +27,35 @@ export default function OverView() {
     },
   ]
     
-  const showModal = () => setIsModalOpen(true);
-  const handleCancel = () => setIsModalOpen(false);
+  const open = (key: "modalA" | "modalB") => {
+    setModals(prev => ({ ...prev, [key]: true }));
+  };
+
+  const close = (key: "modalA" | "modalB") => {
+    setModals(prev => ({ ...prev, [key]: false }));
+  };
   return (
     <div className="w-full">
       <div className="w-full flex flex-col md:flex-row items-center justify-between gap-20 mb-40">
         <FadeIn direction="right">
-          <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={showModal}>
+          <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalA")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 1: Bắt đầu với võ thuật</h3>
             <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ con và thiếu niên)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
-        <Modal title="Thông tin lớp số 1:" closable={true} open={isModalOpen} onCancel={handleCancel} footer={null}>
+        <Modal title="Thông tin lớp số 1:" closable={true} open={modals.modalA} onCancel={() => close("modalA")} footer={null}>
           <h2>Infomation of clb</h2>
         </Modal>
 
         <FadeIn direction="left">
-          <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={showModal}>
+          <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalB")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 2: Nâng cao tự vệ chuyên sâu</h3>
             <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho người lớn)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
-        <Modal title="Thông tin lớp số 2:" closable={true} open={isModalOpen} onCancel={handleCancel} footer={null}>
+        <Modal title="Thông tin lớp số 2:" closable={true} open={modals.modalB} onCancel={() => close("modalB")} footer={null}>
           <h2>Infomation of clb 2</h2>
         </Modal>
       </div>
