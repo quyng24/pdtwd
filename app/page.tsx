@@ -34,7 +34,7 @@ export default function Home() {
       <FadeOnScroll startFade={300} endFade={1000}>
         <section
           id="hero"
-          className="relative bg-fixed bg-center bg-cover h-screen flex flex-col items-start justify-center text-white px-5 sm:px-10 md:px-20"
+          className="relative bg-fixed bg-center bg-cover h-screen flex flex-col items-start justify-center text-white px-10 sm:px-16 md:px-20"
           style={{ backgroundImage: `url(${imgBgSection1.src})` }}
         >
           <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent pointer-events-none"></div>
@@ -56,7 +56,7 @@ export default function Home() {
       {/* Section2 introduce clb */}
       <section
         id="introduce"
-        className="h-screen flex flex-col justify-center items-center"
+        className="h-screen flex flex-col justify-center items-center px-10 sm:px-16 md:px-20"
       >
         <h2 className="text-3xl font-bold mb-4">Về tôi</h2>
         <p className="text-center text-gray-700">
@@ -66,11 +66,11 @@ export default function Home() {
       </section>
 
       {/* Section3 activity of clb */}
-      <section id="work" className="w-full min-h-screen my-40 md:my-0 px-5 sm:px-10 md:px-20 ">
+      <section id="work" className="w-full min-h-screen mb-20 md:my-0 px-10 sm:px-16 md:px-20">
         <FadeIn direction="down">
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-20 md:mb-40">HOẠT ĐỘNG CỦA CLB</h2>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-10 md:mb-40">HOẠT ĐỘNG CỦA CLB</h2>
         </FadeIn>
-        <div className="flex justify-between items-center flex-wrap gap-8">
+        <div className="flex justify-between items-center flex-wrap gap-20 md:gap-8">
           {dataCard.map((item, idx) => (
             <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
               <FadeIn direction="up" delay={0}>

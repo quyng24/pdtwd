@@ -27,6 +27,7 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.ico",
   },
+  metadataBase: new URL("https://panda-taekwondo.vercel.app"),
   openGraph: {
     title: "Panda Taekwondo",
     description:
