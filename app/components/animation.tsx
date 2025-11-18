@@ -89,12 +89,10 @@ export const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6 }
   return (
     <div
       ref={ref}
-      className={`transition-all ${isInView ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${directions[direction]}`}`}
+      className={`transition-all ${isInView ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${directions[direction]}`} w-full h-full`}
       style={{
         transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,
-        width: '100%',
-        height: '100%'
       }}
     >
       {children}
