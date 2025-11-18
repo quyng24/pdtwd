@@ -12,6 +12,7 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.7.0",
     "@supabase/supabase-js": "^2.75.0",
+    "antd": "^5.29.0",
     "cookie": "^1.0.2",
     "firebase": "^12.4.0",
     "framer-motion": "^12.23.24",
