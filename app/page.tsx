@@ -1,10 +1,10 @@
-import { FadeIn, FadeOnScroll } from "./components/animation";
+import { FadeIn } from "./components/animation";
 import Navbar from "./components/Navbar";
-import imgBgSection1 from "@/app/images/bg-section1.jpg";
 import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import ClbActivities from "./components/clbActivities";
 import OverView from "./components/OverView";
+import imgHerosection from "../public/images/img-herosection.jpg";
 
 export default function Home() {
   return (
@@ -12,27 +12,42 @@ export default function Home() {
       <Navbar></Navbar>
 
       {/* Section1 hero section */}
-      <FadeOnScroll startFade={300} endFade={1000}>
-        <section
-          id="hero"
-          className="relative bg-fixed bg-center bg-cover h-screen flex flex-col items-start justify-center text-white px-10 sm:px-16 md:px-20"
-          style={{ backgroundImage: `url(${imgBgSection1.src})` }}
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-black/90 to-transparent pointer-events-none"></div>
-          <div className="z-2">
-            <h1 className="text-5xl font-bold mb-4">
-              PANDA TAEKWONDO: SỨC MẠNH TỪ KỶ LUẬT
-            </h1>
-            <p className="text-lg">Tôi xây dựng website bằng Next.js 🚀</p>
-            <a
-              href="#introduce"
-              className="mt-8 bg-white text-blue-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition"
-            >
-              Tìm hiểu thêm
-            </a>
-          </div>
-        </section>
-      </FadeOnScroll>
+      <section
+        id="hero"
+        className="relative h-screen flex items-center justify-center bg-gradient-to-r from-[#1f3c5d] to-[#0d233f] text-white"
+      >
+        {/* Text Section */}
+        <div className="absolute z-10 flex flex-col items-center justify-center text-center px-8 sm:px-12 md:px-16 lg:px-20 max-w-2xl space-y-8">
+          <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold leading-tight">
+            PANDA TAEKWONDO
+          </h1>
+          <p className="text-lg sm:text-xl lg:text-2xl opacity-80">
+            Khai phóng tiềm năng, làm chủ bản thân
+          </p>
+          <a
+            href="#register"
+            className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-105"
+          >
+            Đăng ký học ca 2
+          </a>
+        </div>
+
+        {/* Background Image */}
+        <div
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-top z-0 opacity-60"
+          style={{
+            backgroundImage: `url(${imgHerosection.src})`,
+            backgroundAttachment: 'fixed',
+            backgroundSize: 'cover',
+            backgroundPosition: 'top',
+          }}
+        ></div>
+
+        {/* Overlay to enhance text contrast */}
+        <div className="absolute top-0 left-0 w-full h-full bg-black opacity-50 z-0"></div>
+      </section>
+
+
 
       {/* Section2 Overview clb */}
       <section id="introduce" className="w-full px-10 sm:px-16 md:px-20 py-20">

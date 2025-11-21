@@ -52,13 +52,13 @@ export default function Navbar() {
           {/* Menu - Desktop and Tablet */}
           <ul className="hidden sm:flex justify-center gap-4 space-x-6 p-4 flex-1">
             <li className="hover:text-blue-600 duration-300">
-              <a href="#introduce" className="hover-underline text-2xl font-semibold">Giới thiệu</a>
+              <a href="#introduce" className="hover-underline text-2xl font-semibold">Tổng quát</a>
             </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#work" className="hover-underline text-2xl font-semibold">Hoạt động của lớp</a>
+              <a href="#work" className="hover-underline text-2xl font-semibold">Hoạt động</a>
             </li>
             <li className="hover:text-blue-600 duration-300">
-              <a href="#register" className="hover-underline text-2xl font-semibold">Đăng ký học</a>
+              <a href="#register" className="hover-underline text-2xl font-semibold">Liên hệ</a>
             </li>
           </ul>
           

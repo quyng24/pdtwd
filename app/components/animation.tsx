@@ -12,7 +12,8 @@ type FadeInProps = {
     children: ReactNode;
     direction?: FadeInDirection;
     delay?: number,
-    duration?: number
+    duration?: number,
+    className?: string
 }
 
 const useScrollPosition = () => {
@@ -76,7 +77,7 @@ export const FadeOnScroll = ({ children, startFade = 100, endFade = 600 }: FadeO
   );
 };
 
-export const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6 }: FadeInProps) => {
+export const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6, className }: FadeInProps) => {
   const [ref, isInView] = useInView();
   
   const directions: Record<FadeInDirection, string> = {
@@ -89,7 +90,7 @@ export const FadeIn = ({ children, direction = 'up', delay = 0, duration = 0.6 }
   return (
     <div
       ref={ref}
-      className={`transition-all ${isInView ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${directions[direction]}`} w-full h-full`}
+      className={`transition-all ${isInView ? 'opacity-100 translate-x-0 translate-y-0' : `opacity-0 ${directions[direction]}`} ${className}`}
       style={{
         transitionDuration: `${duration}s`,
         transitionDelay: `${delay}s`,
