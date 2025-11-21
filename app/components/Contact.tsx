@@ -14,8 +14,8 @@ export default function Contact() {
   return (
     <>
       <div className="w-full flex justify-between items-center flex-wrap gap-10 py-10">
-        <FadeIn direction="right">
-          <a href="tel:0338287804" className="w-full sm:w-[48%] md:w-[30%] flex items-center hover:mt-[-10px] duration-300 cursor-pointer">
+        <FadeIn direction="right" className="w-full sm:w-[48%] md:w-[30%]">
+          <a href="tel:0338287804" className="flex items-center hover:mt-[-10px] duration-300 cursor-pointer">
             <div className="w-[60px] h-[60px] flex items-center justify-center p-2 rounded-xl bg-green-500"><MdCall size={40} color="white" /></div>
             <div className="flex-1 pl-2">
               <h3 className="text-base md:text-lg lg:text-xl font-bold text-black">Số điện thoại đăng ký học</h3>
@@ -24,8 +24,8 @@ export default function Contact() {
           </a>
         </FadeIn>
 
-        <FadeIn direction="right" delay={0.2}>
-          <div onClick={showModal} className="w-full sm:w-[48%] md:w-[30%] flex items-center hover:mt-[-10px] duration-300 cursor-pointer">
+        <FadeIn direction="right" delay={0.2} className="w-full sm:w-[48%] md:w-[30%]">
+          <div onClick={showModal} className="flex items-center hover:mt-[-10px] duration-300 cursor-pointer">
             <div className="w-[60px] h-[60px] flex items-center justify-center p-2 rounded-xl bg-blue-500"><SiZalo size={40} color="white"/></div>
             <div className="flex-1 pl-2">
               <h3 className="text-base md:text-lg lg:text-xl font-bold text-black">Quét mã QR  để nhận tư vấn</h3>
@@ -37,12 +37,12 @@ export default function Contact() {
           <Image src="/images/qr-pham-thanh-nhan.jpg" alt="Mã QR Phạm Thanh Nhàn"/>
         </Modal>
 
-        <FadeIn direction="right" delay={0.4}>
+        <FadeIn direction="right" delay={0.4} className="w-full sm:w-[48%] md:w-[30%]">
           <a
             href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr"
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-[48%] md:w-[30%] flex items-center hover:mt-[-10px] duration-300 cursor-pointer"
+            className="flex items-center hover:mt-[-10px] duration-300 cursor-pointer"
           >
             <div className="w-[60px] h-[60px] flex items-center justify-center p-2 rounded-xl bg-white"><FaFacebookMessenger size={40} color="#356ff5" /></div>
             <div className="flex-1 pl-2">

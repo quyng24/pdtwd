@@ -37,7 +37,7 @@ export default function OverView() {
   return (
     <div className="w-full">
       <div className="w-full flex flex-col md:flex-row items-center justify-between gap-20 mb-40">
-        <FadeIn direction="right">
+        <FadeIn direction="right" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalA")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 1: Bắt đầu với võ thuật</h3>
             <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ con và thiếu niên)</p>
@@ -48,7 +48,7 @@ export default function OverView() {
           <h2>Infomation of clb</h2>
         </Modal>
 
-        <FadeIn direction="left">
+        <FadeIn direction="left" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalB")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 2: Nâng cao tự vệ chuyên sâu</h3>
             <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho người lớn)</p>
