@@ -25,7 +25,7 @@ export default function Home() {
             Khai phóng tiềm năng, làm chủ bản thân
           </p>
           <a
-            href="#register"
+            href="https://forms.gle/fkx7VL47VDwkHZDR7"
             className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-105"
           >
             Đăng ký học ca 2
@@ -34,7 +34,7 @@ export default function Home() {
 
         {/* Background Image */}
         <div
-          className="absolute top-0 left-0 w-full h-full bg-cover bg-top z-0 opacity-60"
+          className="absolute top-0 left-0 w-full h-full bg-cover bg-top z-0 opacity-60 lg:bg-fixed"
           style={{
             backgroundImage: `url(${imgHerosection.src})`,
             backgroundAttachment: 'fixed',

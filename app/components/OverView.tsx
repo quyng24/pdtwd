@@ -45,7 +45,49 @@ export default function OverView() {
           </div>
         </FadeIn>
         <Modal title="Thông tin lớp số 1:" closable={true} open={modals.modalA} onCancel={() => close("modalA")} footer={null}>
-          <h2>Infomation of clb</h2>
+          {/* Lớp số 1 */}
+          <div>
+            <div className="mb-6">
+              <p className="text-lg font-semibold">BẮT ĐẦU VÕ THUẬT (Dành cho Trẻ em & Thiếu niên)</p>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Đối tượng</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">Các bạn nhỏ từ <strong>5 tuổi đến hết cấp THCS</strong></p>
+                <p className="w-[50%]">Khuyến khích phát triển toàn diện (thể chất, tinh thần, kỷ luật)</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Môn học</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">Taekwondo</p>
+                <p className="w-[50%]">Tập trung vào căn bản, tăng cường sức khỏe, kỹ năng tự vệ cơ bản và tính kỷ luật</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Thời gian học</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">18h15 – 19h30 (Các ngày: [Thứ Hai, Tư, Sáu] hoặc [Thứ Ba, Năm, Bảy])</p>
+                <p className="w-[50%]">Khung giờ phù hợp sau giờ học và trước giờ nghỉ ngơi của gia đình</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Lợi ích nổi bật</div>
+              <div className="w-[70%]">Tăng khả năng tập trung, nâng cao thể lực, hình thành tính kỷ luật và sự tự tin</div>
+            </div>
+          </div>
+          <div className="my-4 w-full">
+            <a href="tel:0338287804">
+              <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
+                Gọi điện đăng ký trực tiếp
+              </div>
+            </a>
+            <p className="mt-6">Hoặc liên hệ tư vấn đăng ký qua Zalo: 0338287804 (Phạm Thanh Nhàn)</p>
+          </div>
         </Modal>
 
         <FadeIn direction="left" className="w-full">
@@ -56,7 +98,55 @@ export default function OverView() {
           </div>
         </FadeIn>
         <Modal title="Thông tin lớp số 2:" closable={true} open={modals.modalB} onCancel={() => close("modalB")} footer={null}>
-          <h2>Infomation of clb 2</h2>
+          {/* Lớp số 1 */}
+          <div>
+            <div className="mb-6">
+              <p className="text-lg font-semibold">NÂNG CAO & TỰ VỆ CHUYÊN SÂU (Dành cho Người lớn)</p>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Đối tượng</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">Thanh thiếu niên và người lớn <strong>từ 16 tuổi trở lên</strong></p>
+                <p className="w-[50%]">Phù hợp cho người đi làm, muốn rèn luyện sức khỏe, giảm stress và học tự vệ thực chiến</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Môn học</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">Taekwondo</p>
+                <p className="w-[50%]">Tập trung vào kỹ thuật thực chiến, rèn luyện sức bền, đối kháng cường độ cao, và nâng cao sức khỏe tim mạch</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Thời gian học</div>
+              <div className="w-[70%] flex items-start gap-4">
+                <p className="w-[50%]">19h45 – 21h00 (Các ngày: [Thứ Hai, Tư, Sáu] hoặc [Thứ Ba, Năm, Bảy])</p>
+                <p className="w-[50%]">Khung giờ sau giờ làm, thuận tiện cho người bận rộn</p>
+              </div>
+            </div>
+
+            <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
+              <div className="w-[30%] font-semibold">Lợi ích nổi bật</div>
+              <div className="w-[70%]">Giảm stress, tăng cường sức khỏe tim mạch, học được kỹ năng tự vệ hiệu quả và tăng sự tự tin trong giao tiếp xã hội</div>
+            </div>
+          </div>
+
+          <div className="my-4 w-full">
+            <div className="w-full flex gap-4">
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7" className="w-[50%]">
+                <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
+              </a>
+              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" className="w-[50%]">
+                <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
+                  Nhận tư vấn qua Messeger
+                </div>
+              </a>
+            </div>
+            <p className="mt-6">Hoặc liên hệ tư vấn đăng ký qua Zalo: 0338287804 (Phạm Thanh Nhàn)</p>
+          </div>
         </Modal>
       </div>
 
@@ -67,7 +157,7 @@ export default function OverView() {
               <div className="w-full flex items-center justify-center mb-5">
                 {item.icon}
               </div>
-              <div className="flex flex-col items-center rounded-2xl bg-white p-5">
+              <div className="flex flex-col items-center rounded-2xl bg-white min-h-[112px] p-5">
                 <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-1">{item.title}</h3>
                 <p className="text-xs md:text-sm xl:text-lg text-black text-center">{item.desc}</p>
               </div>
