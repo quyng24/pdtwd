@@ -136,11 +136,11 @@ export default function OverView() {
           </div>
 
           <div className="my-4 w-full">
-            <div className="w-full flex gap-4">
-              <a href="https://forms.gle/fkx7VL47VDwkHZDR7" className="w-[50%]">
+            <div className="w-full flex flex-col gap-4">
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7">
                 <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
               </a>
-              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" className="w-[50%]">
+              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr">
                 <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
                   <FaFacebookMessenger/>
                   Tư vấn miễn phí
