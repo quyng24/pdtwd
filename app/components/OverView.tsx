@@ -3,6 +3,7 @@ import { Button, Modal } from "antd";
 import { FadeIn } from "./animation";
 import { useState } from "react";
 import { IoBody, IoHandLeft, IoWalk } from "react-icons/io5";
+import { FaFacebookMessenger } from "react-icons/fa";
 
 export default function OverView() {
   const [modals, setModals] = useState({
@@ -40,7 +41,7 @@ export default function OverView() {
         <FadeIn direction="right" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalA")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 1: Bắt đầu với võ thuật</h3>
-            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ con và thiếu niên)</p>
+            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ cem và thiếu niên)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
@@ -70,7 +71,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Thời gian học</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">18h15 – 19h30 (Các ngày: [Thứ Hai, Tư, Sáu] hoặc [Thứ Ba, Năm, Bảy])</p>
+                <p className="w-[50%]">18h15 – 19h30 (Các ngày: Thứ Ba, Năm, Bảy)</p>
                 <p className="w-[50%]">Khung giờ phù hợp sau giờ học và trước giờ nghỉ ngơi của gia đình</p>
               </div>
             </div>
@@ -123,7 +124,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Thời gian học</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">19h45 – 21h00 (Các ngày: [Thứ Hai, Tư, Sáu] hoặc [Thứ Ba, Năm, Bảy])</p>
+                <p className="w-[50%]">19h15 – 20h30 (Các ngày: Thứ Ba, Năm, Bảy)</p>
                 <p className="w-[50%]">Khung giờ sau giờ làm, thuận tiện cho người bận rộn</p>
               </div>
             </div>
@@ -140,8 +141,9 @@ export default function OverView() {
                 <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
               </a>
               <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" className="w-[50%]">
-                <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
-                  Nhận tư vấn qua Messeger
+                <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
+                  <FaFacebookMessenger/>
+                  Tư vấn miễn phí
                 </div>
               </a>
             </div>
