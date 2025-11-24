@@ -9,3 +9,9 @@ export interface AuthContextType {
   logoutProvider: () => void;
   isAdmin: () => void;
 };
+
+export interface FormDataType {
+  title: string;
+  description: string;
+  image: string | null; // base64
+}
