@@ -28,7 +28,7 @@ export default function Home() {
             href="https://forms.gle/fkx7VL47VDwkHZDR7"
             className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-105"
           >
-            Đăng ký học ca 2
+            Đăng ký học
           </a>
         </div>
 

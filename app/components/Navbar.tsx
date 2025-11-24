@@ -1,11 +1,9 @@
 "use client"
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
-import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { clearUserCookie, getUserCookie } from "../lib/cookies";
 import { UserCookie } from "../types/type";
-import Logo from "@/app/images/logo-primary.png";
 
 export default function Navbar() {
   const [user, setUser] = useState<UserCookie | null>(null);
@@ -39,7 +37,7 @@ export default function Navbar() {
     <>
       {user ? (
         <nav className="fixed top-0 w-full bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
-          <Image src={Logo} alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
+          <img src="/images/logo-primary.svg" alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
           <button 
             onClick={() => { clearUserCookie(); router.push("/"); }}
             className="pt-3 pb-3 pl-5 pr-5 rounded-lg text-base font-semibold border-[2px] border-blue-200 text-blue-500"
@@ -47,7 +45,7 @@ export default function Navbar() {
         </nav>
       ) : (
         <nav className="fixed w-screen flex items-center justify-between top-0 bg-white shadow z-50 px-5 sm:px-10 md:px-20">
-          <a href="#hero" className="w-[50%] sm:w-[30%] md:w-[20%]"><Image src={Logo} alt="Logo" className="remove-bg" /></a>
+          <a href="#hero" className="w-[50%] sm:w-[30%] md:w-[20%]"><img src="/images/logo-primary.svg" alt="Logo" className="remove-bg" /></a>
           
           {/* Menu - Desktop and Tablet */}
           <ul className="hidden sm:flex justify-center gap-4 space-x-6 p-4 flex-1">
