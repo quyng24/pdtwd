@@ -4,7 +4,6 @@ import Footer from "./components/Footer";
 import Contact from "./components/Contact";
 import ClbActivities from "./components/clbActivities";
 import OverView from "./components/OverView";
-import imgHerosection from "../public/images/img-herosection.jpg";
 
 export default function Home() {
   return (
@@ -26,9 +25,9 @@ export default function Home() {
           </p>
           <a
             href="https://forms.gle/fkx7VL47VDwkHZDR7"
-            className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-105"
+            className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-95"
           >
-            Đăng ký học
+            Đăng ký luyện tập
           </a>
         </div>
 
@@ -36,10 +35,7 @@ export default function Home() {
         <div
           className="absolute top-0 left-0 w-full h-full bg-cover bg-top z-0 opacity-60 lg:bg-fixed"
           style={{
-            backgroundImage: `url(${imgHerosection.src})`,
-            backgroundAttachment: 'fixed',
-            backgroundSize: 'cover',
-            backgroundPosition: 'top',
+            backgroundImage: `url("/images/herosection-v2.jpg")`,
           }}
         ></div>
 
