@@ -1,7 +1,5 @@
-import { StaticImageData } from 'next/image';
-
 type CardBaseProps = {
-    img?: StaticImageData,
+    img?: string,
     title: string,
     description?: string
 }
@@ -12,7 +10,7 @@ export default function CardBase({img, title, description}: CardBaseProps) {
       <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden">
         {/* Ảnh nền */}
         <div
-          style={{ backgroundImage: `url(${img?.src})` }}
+          style={{ backgroundImage: `url(${img})` }}
           className="bg-cover bg-center w-full h-full transform transition-transform duration-500 hover:scale-105"
         ></div>
 
