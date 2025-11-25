@@ -69,7 +69,7 @@ export default function Admin() {
         }
             setLoading(true);
         try {
-            await addDoc(collection(db, "contents_single"), {...formData, createdAt: new Date().toISOString()});
+            await addDoc(collection(db, "activities"), {...formData, createdAt: new Date().toISOString()});
             Modal.success({title: "Thành công!", content: "Dữ liệu đã được lưu vào Firestore."});
             // Reset
             setFormData({title: "", description: "", image: null});
