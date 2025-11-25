@@ -1,3 +1,5 @@
+import { NotificationPlacement } from "antd/es/notification/interface";
+
 export interface UserCookie {
     name?: string,
     email?: string
@@ -22,6 +24,15 @@ export interface Activity {
   description: string;
   createdAt: string;
 };
+
+export interface NotifyOptions {
+  message: string;
+  description?: string;
+  placement?: NotificationPlacement;
+  duration?: number;
+}
+
+export type NotifyType = "success" | "error" | "info" | "warning";
 
 export const dataCardActivities = [
     {
