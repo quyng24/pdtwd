@@ -15,10 +15,8 @@ export default function ClbActivities() {
         const response = await getDataActivities();
         const formattedData = response as Activity[];
         if (formattedData.length > 0) {
-          const latestActivities = [...formattedData]
-            .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
-            .slice(0, 3);
-
+          const latestActivities = [...formattedData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
+          console.log(latestActivities)
           setActivities(latestActivities);
         } else {
           setActivities(dataCardActivities);
@@ -39,7 +37,7 @@ export default function ClbActivities() {
         <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
           <FadeIn direction="up" delay={0}>
             <CardBase
-              img={item.image}
+              img={item.image || "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg  "}
               title={item.title}
               description={item.description}
             />

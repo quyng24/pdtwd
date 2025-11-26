@@ -1,8 +1,15 @@
 import { NotificationPlacement } from "antd/es/notification/interface";
 
 export interface UserCookie {
-    name?: string,
-    email?: string
+  name?: string,
+  email?: string
+}
+
+export interface CardBaseProps {
+  img?: string,
+  title: string,
+  description?: string,
+  link?: string
 }
 export interface AuthContextType {
   user: UserCookie | null;
@@ -15,6 +22,7 @@ export interface AuthContextType {
 export interface FormDataType {
   title: string;
   description: string;
+  link?: string;
   image: string | null; // base64
 }
 

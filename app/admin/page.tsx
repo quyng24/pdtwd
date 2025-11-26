@@ -21,6 +21,7 @@ export default function Admin() {
     const [formData, setFormData] = useState<FormDataType>({
         title: "",
         description: "",
+        link: "",
         image: null,
     });
 
@@ -69,7 +70,7 @@ export default function Admin() {
             await addDoc(collection(db, "activities"), {...formData, createdAt: new Date().toISOString()});
             messageApi.open({type: 'success', content: "Đã thêm hoạt động mới thành công!"});
             // Reset
-            setFormData({title: "", description: "", image: null});
+            setFormData({title: "", description: "", link: "", image: null});
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : String(err);
             Modal.error({title: "Lỗi!", content: errorMessage});
@@ -140,19 +141,13 @@ export default function Admin() {
                             beforeUpload={() => false}
                             onChange={handleUploadChange}
                             maxCount={1}
-                            fileList={formData.image ? [{
-                                uid: '-1',
-                                name: 'image.png',
-                                status: 'done',
-                                url: formData.image,
-                            }] : []}
+                            fileList={formData.image ? [{uid: '-1', name: 'image.png', status: 'done', url: formData.image}] : []}
                         >
                             {!formData.image && (
                             <div>
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Thêm ảnh</div>
-                            </div>
-                            )}
+                            </div>)}
                         </Upload>
                     </div>
 
@@ -161,15 +156,15 @@ export default function Admin() {
                         type="primary"
                         onClick={() => {
                             if (!formData.title.trim()) {
-                                message.warning("Vui lòng nhập Title!");
+                                messageApi.open({type: 'error', content: "Vui lòng nhập tiêu đề!"});
                                 return;
                             }
                             if (!formData.description.trim()) {
-                                message.warning("Vui lòng nhập Description!");
+                                messageApi.open({type: 'error', content: "Vui lòng nhập nội dung mô tả của hoạt động!"});
                                 return;
                             }
                             if (!formData.image) {
-                                message.warning("Vui lòng thêm Ảnh!");
+                                messageApi.open({type: 'error', content: "Vui lòng thêm ảnh!"});
                                 return;
                             }
                             setPreviewOpen(true);
@@ -201,8 +196,8 @@ export default function Admin() {
                             </div>
 
                             <div className='p-6'>
-                                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2 relative z-10">{formData.title}</h2>
-                                <p className='text-sm text-gray-500'>{formData.description}</p>
+                                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2 relative z-10 line-clamp-1">{formData.title}</h2>
+                                <p className='text-sm text-gray-500 line-clamp-3'>{formData.description}</p>
                             </div>
 
                         </div>
