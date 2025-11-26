@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { clearUserCookie, getUserCookie } from "../lib/cookies";
 import { UserCookie } from "../types/type";
+import { message } from "antd";
 
 export default function Navbar() {
   const [user, setUser] = useState<UserCookie | null>(null);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
+    const [messageApi, contextHolder] = message.useMessage();
 
   const closeMenu = () => setMenuOpen(false);
 
@@ -35,11 +37,12 @@ export default function Navbar() {
   }, []);
   return (
     <>
+      {contextHolder}
       {user ? (
         <nav className="fixed top-0 w-full bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
           <img src="/images/logo-primary.svg" alt="Logo" className="remove-bg w-[50%] sm:w-[30%] md:w-[20%]" />
           <button 
-            onClick={() => { clearUserCookie(); router.push("/"); }}
+            onClick={() => { clearUserCookie(); router.push("/"); messageApi.success("Đăng xuất thành công"); }}
             className="pt-3 pb-3 pl-5 pr-5 rounded-lg text-base font-semibold border-[2px] border-blue-200 text-blue-500"
           >Logout</button>
         </nav>
