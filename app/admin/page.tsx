@@ -14,15 +14,16 @@ import { PlusOutlined } from "@ant-design/icons";
 
 export default function Admin() {
     const router = useRouter();
+    const [messageApi, contextHolder] = message.useMessage();
     const [nameUser, setNameUser] = useState<string | undefined>("");
     const [previewOpen, setPreviewOpen] = useState(false);
     const [loading, setLoading] = useState(false);
     const [formData, setFormData] = useState<FormDataType>({
         title: "",
         description: "",
+        link: "",
         image: null,
     });
-
 
     // function convert file → Base64
     const toBase64 = (file: File): Promise<string> =>
@@ -42,11 +43,11 @@ export default function Admin() {
     const latestFile = fileList[fileList.length - 1];
     if (latestFile.originFileObj) {
         try {
-            const base64 = await toBase64(latestFile.originFileObj);            
+            const base64 = await toBase64(latestFile.originFileObj);
             setFormData(prev => ({ ...prev, image: base64 }));
-            message.success("Đã thêm ảnh thành công!");
+            messageApi.open({type: 'success', content: "Đã thêm ảnh thành công"});
         } catch (err) {
-            message.error("Lỗi convert ảnh!");
+            messageApi.open({type: 'error', content: "Lỗi tải hình ảnh"});
             console.error(err);
         }
     }
@@ -61,10 +62,10 @@ export default function Admin() {
         }
             setLoading(true);
         try {
-            await addDoc(collection(db, "contents_single"), {...formData, createdAt: new Date().toISOString()});
-            Modal.success({title: "Thành công!", content: "Dữ liệu đã được lưu vào Firestore."});
+            await addDoc(collection(db, "activities"), {...formData, createdAt: new Date().toISOString()});
+            messageApi.open({type: 'success', content: "Đã thêm hoạt động mới thành công!"});
             // Reset
-            setFormData({title: "", description: "", image: null});
+            setFormData({title: "", description: "", link: "", image: null});
         } catch (err: unknown) {
             const errorMessage = err instanceof Error ? err.message : String(err);
             Modal.error({title: "Lỗi!", content: errorMessage});
@@ -93,6 +94,7 @@ export default function Admin() {
     }, [router]);
     return (
         <div className="w-full min-h-screen">
+            {contextHolder}
             <Navbar/>
             <div className="w-full h-full px-10 sm:px-16 md:px-20 py-5 lg:py-10 mt-[88px]">
                 <h1 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">Xin chào, {nameUser}</h1>
@@ -134,19 +136,13 @@ export default function Admin() {
                             beforeUpload={() => false}
                             onChange={handleUploadChange}
                             maxCount={1}
-                            fileList={formData.image ? [{
-                                uid: '-1',
-                                name: 'image.png',
-                                status: 'done',
-                                url: formData.image,
-                            }] : []}
+                            fileList={formData.image ? [{uid: '-1', name: 'image.png', status: 'done', url: formData.image}] : []}
                         >
                             {!formData.image && (
                             <div>
                                 <PlusOutlined />
                                 <div style={{ marginTop: 8 }}>Thêm ảnh</div>
-                            </div>
-                            )}
+                            </div>)}
                         </Upload>
                     </div>
 
@@ -155,15 +151,15 @@ export default function Admin() {
                         type="primary"
                         onClick={() => {
                             if (!formData.title.trim()) {
-                                message.warning("Vui lòng nhập Title!");
+                                messageApi.open({type: 'error', content: "Vui lòng nhập tiêu đề!"});
                                 return;
                             }
                             if (!formData.description.trim()) {
-                                message.warning("Vui lòng nhập Description!");
+                                messageApi.open({type: 'error', content: "Vui lòng nhập nội dung mô tả của hoạt động!"});
                                 return;
                             }
                             if (!formData.image) {
-                                message.warning("Vui lòng thêm Ảnh!");
+                                messageApi.open({type: 'error', content: "Vui lòng thêm ảnh!"});
                                 return;
                             }
                             setPreviewOpen(true);
@@ -194,8 +190,8 @@ export default function Admin() {
                             </div>
 
                             <div className='p-6'>
-                                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2 relative z-10">{formData.title}</h2>
-                                <p className='text-sm text-gray-500'>{formData.description}</p>
+                                <h2 className="text-xl md:text-2xl font-semibold text-gray-900 mb-2 relative z-10 line-clamp-1">{formData.title}</h2>
+                                <p className='text-sm text-gray-500 line-clamp-3'>{formData.description}</p>
                             </div>
 
                         </div>

@@ -41,7 +41,7 @@ export default function OverView() {
         <FadeIn direction="right" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalA")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 1: Bắt đầu với võ thuật</h3>
-            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ cem và thiếu niên)</p>
+            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ em và thiếu niên)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
@@ -55,7 +55,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Đối tượng</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">Các bạn nhỏ từ <strong>5 tuổi đến hết cấp THCS</strong></p>
+                <p className="w-[50%]"><strong>Từ 5 tuổi trở lên</strong>(Phù hợp với các bạn nhỏ từ 5 tuổi đến hết THCS)</p>
                 <p className="w-[50%]">Khuyến khích phát triển toàn diện (thể chất, tinh thần, kỷ luật)</p>
               </div>
             </div>
@@ -102,13 +102,13 @@ export default function OverView() {
           {/* Lớp số 1 */}
           <div>
             <div className="mb-6">
-              <p className="text-lg font-semibold">NÂNG CAO & TỰ VỆ CHUYÊN SÂU (Dành cho Người lớn)</p>
+              <p className="text-lg font-semibold">NÂNG CAO & TỰ VỆ CHUYÊN SÂU (Dành cho Người lớn )</p>
             </div>
 
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Đối tượng</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">Thanh thiếu niên và người lớn <strong>từ 16 tuổi trở lên</strong></p>
+                <p className="w-[50%]"><strong>Từ 16 tuổi trở lên</strong> (Phù hợp với thanh thiếu niên và người lớn)</p>
                 <p className="w-[50%]">Phù hợp cho người đi làm, muốn rèn luyện sức khỏe, giảm stress và học tự vệ thực chiến</p>
               </div>
             </div>
