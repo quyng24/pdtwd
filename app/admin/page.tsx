@@ -33,24 +33,16 @@ export default function Admin() {
         reader.onerror = (err) => reject(err);
     });
 
-      // Xử lý upload của Antd
     const handleUploadChange = async (info: UploadChangeParam<UploadFile>) => {
     const { file, fileList } = info;
-
-    // Nếu người dùng xóa ảnh
     if (fileList.length === 0) {
         setFormData(prev => ({ ...prev, image: null }));
         return;
     }
-
-    // Chỉ xử lý file mới nhất (vì maxCount=1)
     const latestFile = fileList[fileList.length - 1];
     if (latestFile.originFileObj) {
         try {
-            const base64 = await toBase64(latestFile.originFileObj);
-            // Đảm bảo set đúng, và có thể log để kiểm tra
-            console.log("Base64 đã convert:", base64.slice(0, 50) + "...");
-            
+            const base64 = await toBase64(latestFile.originFileObj);            
             setFormData(prev => ({ ...prev, image: base64 }));
             message.success("Đã thêm ảnh thành công!");
         } catch (err) {
@@ -61,7 +53,7 @@ export default function Admin() {
 };
 
 
-    // Xử lý lưu vào Firestore
+    // handle save Firestore
     const handleConfirm = async () => {
         if (!formData.title.trim() || !formData.description.trim() || !formData.image) {
             message.error("Bạn phải nhập Title, Description và Ảnh!");
@@ -192,7 +184,6 @@ export default function Admin() {
                     >
                         <div className="w-full bg-white rounded overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-shadow duration-300">
                             <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden">
-                                {/* Ảnh nền */}
                                 <div
                                     style={{ backgroundImage: `url(${formData.image})` }}
                                     className="bg-cover bg-center w-full h-full transform transition-transform duration-500 hover:scale-105"
