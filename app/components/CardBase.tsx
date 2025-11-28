@@ -7,22 +7,14 @@ type CardProps = {
   img?: string;
   title?: string;
   description: string;
-  link?: string;
 };
 
-export default function NewsCard({
-  img,
-  title,
-  description,
-}: CardProps) {
+export default function NewsCard({ img, title, description }: CardProps) {
   const [expanded, setExpanded] = useState(false);
 
-  // detect mô tả dài hay ngắn
-  const isLong = description.length > 80;
-
   return (
-    <div className="w-full bg-white rounded overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-shadow duration-300">
-      {/* IMAGE */}
+    <div className="w-full bg-white rounded overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-all duration-300 flex flex-col">
+      
       <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden">
         <div
           style={{ backgroundImage: `url(${img})` }}
@@ -32,53 +24,40 @@ export default function NewsCard({
         <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/70 pointer-events-none"></div>
       </div>
 
-      {/* CONTENT */}
-      <div className="p-6 relative">
+      {/* Content */}
+      <div className="p-6 flex flex-col justify-between flex-grow">
 
-        {/* CASE: mô tả ngắn -> không animation */}
-        {!isLong && <h2 className={`text-xl md:text-2xl font-semibold text-gray-900 mb-2 ${expanded ? "" : 'line-clamp-1'}`}>{title}</h2>}
+        {/* Title (Clamped 1 line → Expand full) */}
+        <motion.h2
+          initial={false}
+          animate={{ height: expanded ? "auto" : 30 }}
+          transition={{ duration: 0.3 }}
+          className="text-xl font-semibold text-gray-900 overflow-hidden"
+        >
+          <span className={`${!expanded ? "line-clamp-1" : ""}`}>
+            {title}
+          </span>
+        </motion.h2>
 
-        {/* CASE: mô tả dài -> animation height ONLY */}
-        {isLong && (
-          <motion.div
-            initial={false}
-            animate={{ height: expanded ? "auto" : 32 }}
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <h2 className={`text-xl md:text-2xl font-semibold text-gray-900 mb-2 ${expanded ? "" : 'line-clamp-1'}`}>{title}</h2>
-          </motion.div>
-        )}
+        {/* Description (Clamped 3 lines → Expand full) */}
+        <motion.p
+          initial={false}
+          animate={{ height: expanded ? "auto" : 66 }} 
+          transition={{ duration: 0.3 }}
+          className="text-sm text-gray-700 mt-2 overflow-hidden"
+        >
+          <span className={`${!expanded ? "line-clamp-3" : ""}`}>
+            {description}
+          </span>
+        </motion.p>
 
-
-        {/* CASE: mô tả ngắn -> không animation */}
-        {!isLong && <p className="text-sm text-gray-600 min-h-[2.6rem]">{description}</p>}
-
-        {/* CASE: mô tả dài -> animation height ONLY */}
-        {isLong && (
-          <motion.div
-            initial={false}
-            animate={{ height: expanded ? "auto" : 40 }} // 60px ≈ 3 dòng
-            transition={{ duration: 0.35, ease: "easeInOut" }}
-            className="overflow-hidden"
-          >
-            <p className="text-sm text-gray-600 min-h-[2.6rem]">{description}</p>
-          </motion.div>
-        )}
-
-
-        {/* ACTION BUTTONS */}
-        <div className="mt-3 flex items-center justify-between">
-          {/* chỉ hiện khi mô tả dài */}
-          {isLong && (
-            <button
-              onClick={() => setExpanded(!expanded)}
-              className="text-blue-600 font-medium text-sm hover:underline absolute bottom-0 left-[40%]"
-            >
-              {expanded ? "Ẩn bớt" : "Xem thêm"}
-            </button>
-          )}
-        </div>
+        {/* Button */}
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="mt-3 text-blue-600 text-sm font-medium hover:underline self-start"
+        >
+          {expanded ? "Ẩn bớt" : "Xem thêm"}
+        </button>
       </div>
     </div>
   );
