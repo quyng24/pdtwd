@@ -16,7 +16,6 @@ export default function ClbActivities() {
         const formattedData = response as Activity[];
         if (formattedData.length > 0) {
           const latestActivities = [...formattedData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
-          console.log(latestActivities)
           setActivities(latestActivities);
         } else {
           setActivities(dataCardActivities);

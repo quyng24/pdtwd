@@ -4,6 +4,7 @@ import { FadeIn } from "./animation";
 import { useState } from "react";
 import { IoBody, IoHandLeft, IoWalk } from "react-icons/io5";
 import { FaFacebookMessenger } from "react-icons/fa";
+import Image from "next/image";
 
 export default function OverView() {
   const [modals, setModals] = useState({
@@ -14,17 +15,17 @@ export default function OverView() {
     {
       title: 'Kỹ năng',
       desc: 'Nắm vững các đòn thế Taekwondo từ cơ bản đến nâng cao',
-      icon: <IoBody size={60} color="black"/>
+      icon: "/images/woman.svg"
     },
     {
       title: 'Thể chất',
       desc: 'Tăng sức bền, dẻo dai và phản xạ nhanh nhạy',
-      icon: <IoWalk size={60} color="black"/>
+      icon: "/images/martial-arts.svg"
     },
     {
       title: 'Tinh thần',
       desc: 'Xây dựng tính kỉ luật, sử tỉ mỉ và tinh thần võ đạo',
-      icon: <IoHandLeft size={60} color="black"/>
+      icon: "/images/occupation.svg"
     },
   ]
     
@@ -55,7 +56,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Đối tượng</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]"><strong>Từ 5 tuổi trở lên</strong>(Phù hợp với các bạn nhỏ từ 5 tuổi đến hết THCS)</p>
+                <p className="w-[50%]"><strong>Từ 5 tuổi trở lên</strong></p>
                 <p className="w-[50%]">Khuyến khích phát triển toàn diện (thể chất, tinh thần, kỷ luật)</p>
               </div>
             </div>
@@ -71,7 +72,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Thời gian học</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">18h15 – 19h30 (Các ngày: Thứ Ba, Năm, Bảy)</p>
+                <p className="w-[50%]">18h15 – 19h30 (Các ngày: Thứ Ba, Năm, Chủ Nhật)</p>
                 <p className="w-[50%]">Khung giờ phù hợp sau giờ học và trước giờ nghỉ ngơi của gia đình</p>
               </div>
             </div>
@@ -82,11 +83,17 @@ export default function OverView() {
             </div>
           </div>
           <div className="my-4 w-full">
-            <a href="tel:0338287804">
-              <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
-                Gọi điện đăng ký trực tiếp
-              </div>
-            </a>
+            <div className="w-full flex flex-col gap-4">
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7">
+                <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
+              </a>
+              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr">
+                <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
+                  <FaFacebookMessenger/>
+                  Tư vấn miễn phí
+                </div>
+              </a>
+            </div>
             <p className="mt-6">Hoặc liên hệ tư vấn đăng ký qua Zalo: 0338287804 (Phạm Thanh Nhàn)</p>
           </div>
         </Modal>
@@ -124,7 +131,7 @@ export default function OverView() {
             <div className="w-full flex items-start border-t-[1px] border-t-gray-200 py-4">
               <div className="w-[30%] font-semibold">Thời gian học</div>
               <div className="w-[70%] flex items-start gap-4">
-                <p className="w-[50%]">19h15 – 20h30 (Các ngày: Thứ Ba, Năm, Bảy)</p>
+                <p className="w-[50%]">19h15 – 20h30 (Các ngày: Thứ Ba, Năm, Chủ Nhật)</p>
                 <p className="w-[50%]">Khung giờ sau giờ làm, thuận tiện cho người bận rộn</p>
               </div>
             </div>
@@ -157,7 +164,7 @@ export default function OverView() {
           <div key={idx} className="w-full sm:w-[48%] md:w-[30%] flex flex-col items-center cursor-pointer">
             <FadeIn direction="up">
               <div className="w-full flex items-center justify-center mb-5">
-                {item.icon}
+                <Image src={item.icon} alt="Icon" width={100} height={100}/>
               </div>
               <div className="flex flex-col items-center rounded-2xl bg-white min-h-[112px] p-5">
                 <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-1">{item.title}</h3>
