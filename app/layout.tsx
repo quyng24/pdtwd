@@ -39,7 +39,7 @@ export const metadata: Metadata = {
         url: "/og/img-share-open-drap.jpg",
         width: 1200,
         height: 630,
-         alt: "Panda Taekwondo – Ảnh quảng cáo",
+        alt: "Panda Taekwondo – Ảnh quảng cáo",
       },
     ],
     locale: "vi_VN",
