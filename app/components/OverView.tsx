@@ -24,7 +24,7 @@ export default function OverView() {
     },
     {
       title: 'Tinh thần',
-      desc: 'Xây dựng tính kỉ luật, sử tỉ mỉ và tinh thần võ đạo',
+      desc: 'Xây dựng tính kỉ luật, sự tỉ mỉ và tinh thần võ đạo',
       icon: "/images/occupation.svg"
     },
   ]
