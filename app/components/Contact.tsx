@@ -93,7 +93,7 @@ export default function Contact() {
         <iframe
           className="h-[300px] md:h-[500px] shadow-xl"
           src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.08683611179!2d105.76518!3d21.0292112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455d28f5067fd%3A0x703684d0f6ec182a!2zQ0xCIFBhbmRhIFRhZWt3b25kbyAtIE3hu7kgxJDDrG5oLCBU4burIExpw6ptLCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1765547148485!5m2!1svi!2s"
-          style={{ border: 0, width: "100%", borderRadius: '20px' }}
+          style={{ border: 0, width: "100%", borderRadius: '10px' }}
           allowFullScreen
           loading="lazy"
           referrerPolicy="no-referrer-when-downgrade"

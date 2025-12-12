@@ -27,7 +27,7 @@ export default function Footer() {
             </div>
 
             <div className="w-full bg-gray-900 h-0.5 my-3"></div>
-            <p className="font-light md:font-semibold text-xs md:text-base">Address: Chung cư CT5DN2, Trần Hữu Dực, Mỹ Đình, Từ Liêm, Hà Nội</p>
+            <p className="font-light md:font-semibold text-xs text-black md:text-base">Address: Chung cư CT5DN2, Trần Hữu Dực, Mỹ Đình, Từ Liêm, Hà Nội</p>
         </footer>
     )
 }
