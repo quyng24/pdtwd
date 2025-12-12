@@ -16,7 +16,7 @@ export default function ClbActivities() {
         const response = await getDataActivities();
         const formattedData = response as Activity[];
         if (formattedData.length > 0) {
-          const latestActivities = [...formattedData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 3);
+          const latestActivities = [...formattedData].sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime()).slice(0, 6);
           const optimizedList = latestActivities.map(item => ({...item, img: base64ToBlobUrl(item.image)}));
           setActivities(optimizedList);
         } else {

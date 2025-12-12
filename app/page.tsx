@@ -41,6 +41,7 @@ export default function Home() {
 
         <a
           href="https://forms.gle/fkx7VL47VDwkHZDR7"
+          target="_blank"
           className="inline-block py-4 px-10 bg-[#1677ff] text-white font-semibold rounded-full shadow-lg hover:bg-[#DBF4FE] hover:text-black transition duration-300 ease-in-out transform hover:scale-95"
         >
           Đăng ký tập luyện
@@ -52,7 +53,7 @@ export default function Home() {
 
       {/* Section2 Overview clb */}
       <section id="introduce" className="w-full px-10 sm:px-16 md:px-20 py-20">
-        <FadeIn direction="down"><h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-center mb-20 md:mb-40">Tổng quan về CLB</h2></FadeIn>
+        <FadeIn direction="down"><h2 className="text-3xl text-black sm:text-4xl md:text-5xl font-bold text-center mb-20 md:mb-40">Tổng quan về CLB</h2></FadeIn>
         <OverView/>
       </section>
 
