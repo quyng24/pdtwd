@@ -12,11 +12,11 @@ export default function Footer() {
                     <p className="font-light md:font-semibold text-xs md:text-base ">Theo dõi CLB: </p>
                     <div className="flex gap-2 items-center">
                         <div className="w-[30px] h-[30px] rounded-full bg-gray-400 flex items-center justify-center cursor-pointer">
-                            <a href="https://www.tiktok.com/@panda_taekwondo?_t=ZS-90l39N8Zc0X&_r=1"><FaTiktok size={14} /></a>
+                            <a href="https://www.tiktok.com/@panda_taekwondo?_t=ZS-90l39N8Zc0X&_r=1" target="_blank"><FaTiktok size={14} /></a>
                         </div>
 
                         <div className="w-[30px] h-[30px] rounded-full bg-gray-400 flex items-center justify-center cursor-pointer">
-                            <a href="https://www.facebook.com/share/1JoPgGY9pS/"><FaFacebookF size={14} /></a>
+                            <a href="https://www.facebook.com/share/1JoPgGY9pS/" target="_blank"><FaFacebookF size={14} /></a>
                         </div>
 
                         <div className="w-[30px] h-[30px] rounded-full bg-gray-400 flex items-center justify-center cursor-pointer">

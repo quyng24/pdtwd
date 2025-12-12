@@ -2,7 +2,6 @@
 import { Button, Modal } from "antd";
 import { FadeIn } from "./animation";
 import { useState } from "react";
-import { IoBody, IoHandLeft, IoWalk } from "react-icons/io5";
 import { FaFacebookMessenger } from "react-icons/fa";
 import Image from "next/image";
 
@@ -42,7 +41,7 @@ export default function OverView() {
         <FadeIn direction="right" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalA")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 1: Bắt đầu với võ thuật</h3>
-            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho trẻ em và thiếu niên)</p>
+            <p className="text-xs md:text-sm xl:text-lg text-gray-700 mb-10">(Dành cho trẻ em và thiếu niên)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
@@ -84,10 +83,10 @@ export default function OverView() {
           </div>
           <div className="my-4 w-full">
             <div className="w-full flex flex-col gap-4">
-              <a href="https://forms.gle/fkx7VL47VDwkHZDR7">
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7" target="_blank">
                 <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
               </a>
-              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr">
+              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" target="_blank">
                 <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
                   <FaFacebookMessenger/>
                   Tư vấn miễn phí
@@ -101,7 +100,7 @@ export default function OverView() {
         <FadeIn direction="left" className="w-full">
           <div className="bg-white p-5 xl:p-10 rounded w-full flex flex-col items-center justify-between" onClick={() => open("modalB")}>
             <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-2">Lớp 2: Nâng cao tự vệ chuyên sâu</h3>
-            <p className="text-xs md:text-sm xl:text-lg text-gray-500 mb-10">(Dành cho người lớn)</p>
+            <p className="text-xs md:text-sm xl:text-lg text-gray-700 mb-10">(Dành cho người lớn)</p>
             <Button type="primary" size="large" className="text-white font-semibold">Xem chi tiết</Button>
           </div>
         </FadeIn>
@@ -144,10 +143,10 @@ export default function OverView() {
 
           <div className="my-4 w-full">
             <div className="w-full flex flex-col gap-4">
-              <a href="https://forms.gle/fkx7VL47VDwkHZDR7">
+              <a href="https://forms.gle/fkx7VL47VDwkHZDR7" target="_black">
                 <div className="w-full p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">Đăng ký trực tiếp</div>
               </a>
-              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr">
+              <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" target="_blank">
                 <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
                   <FaFacebookMessenger/>
                   Tư vấn miễn phí
