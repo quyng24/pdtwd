@@ -14,7 +14,7 @@ export function middleware(req: NextRequest) {
     try {
       const user = JSON.parse(userCookie);
       if (allowedEmails.includes(user.email))
-        return NextResponse.redirect(new URL("/admin", req.url));
+        return NextResponse.redirect(new URL("/dashboard", req.url));
     } catch {
       // cookie hỏng => cho tiếp tục để tránh loop
       return NextResponse.next();
@@ -37,7 +37,7 @@ export function middleware(req: NextRequest) {
     try {
       const user = JSON.parse(userCookie);
       if (allowedEmails.includes(user.email))
-        return NextResponse.redirect(new URL("/admin", req.url));
+        return NextResponse.redirect(new URL("/dashboard", req.url));
       else return NextResponse.redirect(new URL("/", req.url));
     } catch {
       return NextResponse.redirect(new URL("/", req.url));
