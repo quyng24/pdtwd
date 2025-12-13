@@ -4,7 +4,7 @@ import { useState } from "react";
 import { signInWithPopup } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth, provider } from "../lib/firebase";
-import { setUserCookie } from "../lib/cookies";
+import { clearUserCookie, setUserCookie } from "../lib/cookies";
 import { UserCookie } from "../types/type";
 import { Button, message } from "antd";
 import { AiFillGoogleCircle } from "react-icons/ai";
@@ -20,12 +20,13 @@ export default function LoginPage() {
       setLoading(true);
       const result = await signInWithPopup(auth, provider);
       const user = { name: result.user.displayName, email: result.user.email };
-      if (user) setUserCookie(user as UserCookie);
 
       if (allowedEmails.includes(user.email || "")) {
         messageApi.success("Đăng nhập thành công");
-        router.push("/admin");
+        setUserCookie(user as UserCookie);
+        router.push("/dashboard");
       } else {
+        clearUserCookie();
         messageApi.error("Bạn không có quyền đăng nhập");
         router.push("/");
       }
