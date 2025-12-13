@@ -8,6 +8,7 @@ import { setUserCookie } from "../lib/cookies";
 import { UserCookie } from "../types/type";
 import { Button, message } from "antd";
 import { AiFillGoogleCircle } from "react-icons/ai";
+import { allowedEmails } from "../lib/auth";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -18,11 +19,10 @@ export default function LoginPage() {
     try {
       setLoading(true);
       const result = await signInWithPopup(auth, provider);
-      const user = {name: result.user.displayName, email: result.user.email,};
-      setUserCookie(user as UserCookie);
-      const allowedEmail = ["nquy50771@gmail.com", "phanthanhnhan2460@gmail.com"];
-      
-      if (allowedEmail.includes(user.email || "")) {
+      const user = { name: result.user.displayName, email: result.user.email };
+      if (user) setUserCookie(user as UserCookie);
+
+      if (allowedEmails.includes(user.email || "")) {
         messageApi.success("Đăng nhập thành công");
         router.push("/admin");
       } else {
@@ -42,11 +42,19 @@ export default function LoginPage() {
       {contextHolder}
       <div className="flex justify-center items-center min-h-screen bg-transparent px-10 sm:px-16 md:px-20">
         <div className="bg-white p-8 rounded-lg shadow-lg w-full md:w-[40%]">
-          <h2 className="text-3xl font-bold text-center text-black mb-4">ĐĂNG NHẬP</h2>
+          <h2 className="text-3xl font-bold text-center text-black mb-4">
+            ĐĂNG NHẬP
+          </h2>
           <p className="text-gray-500 mb-6">
             Đây là trang đăng nhập chỉ dành cho Admin <br />
             Nếu bạn không phải Admin, hãy
-            <a onClick={() => router.push("/")} className="font-bold text-blue-600 cursor-pointer hover:underline">{" "}Quay lại trang chủ</a>
+            <a
+              onClick={() => router.push("/")}
+              className="font-bold text-blue-600 cursor-pointer hover:underline"
+            >
+              {" "}
+              Quay lại trang chủ
+            </a>
           </p>
 
           <Button
@@ -62,7 +70,9 @@ export default function LoginPage() {
             </span>
           </Button>
 
-          <p className="mt-4 text-sm text-center text-gray-400">© 2025 Panda Taekwondo</p>
+          <p className="mt-4 text-sm text-center text-gray-400">
+            © 2025 Panda Taekwondo
+          </p>
         </div>
       </div>
     </>
