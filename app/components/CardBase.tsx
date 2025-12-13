@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
+import { API_BASE } from "../services/api";
 
 type CardProps = {
   img?: string;
@@ -12,7 +13,7 @@ type CardProps = {
 
 export default function NewsCard({ img, title, description }: CardProps) {
   const [expanded, setExpanded] = useState(false);
-
+  console.log(img);
   return (
     <div
       className="
@@ -45,9 +46,7 @@ export default function NewsCard({ img, title, description }: CardProps) {
           transition={{ duration: 0.3 }}
           className="text-xl font-semibold text-gray-900 overflow-hidden"
         >
-          <span className={!expanded ? "line-clamp-1" : ""}>
-            {title}
-          </span>
+          <span className={!expanded ? "line-clamp-1" : ""}>{title}</span>
         </motion.h2>
 
         {/* DESCRIPTION */}
@@ -57,9 +56,7 @@ export default function NewsCard({ img, title, description }: CardProps) {
           transition={{ duration: 0.3 }}
           className="text-sm text-gray-700 mt-2 overflow-hidden"
         >
-          <span className={!expanded ? "line-clamp-3" : ""}>
-            {description}
-          </span>
+          <span className={!expanded ? "line-clamp-3" : ""}>{description}</span>
         </motion.p>
 
         {/* BUTTON */}

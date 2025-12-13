@@ -27,10 +27,9 @@ export interface FormDataType {
 }
 
 export interface Activity {
-  image: string;
+  img_url: string;
   title: string;
   description: string;
-  createdAt: string;
 }
 
 export interface CardActivity {

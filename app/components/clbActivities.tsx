@@ -2,9 +2,7 @@
 import { FadeIn } from "./animation";
 import CardBase from "./CardBase";
 import { useEffect, useState } from "react";
-import { getDataActivities } from "../lib/apiActivities";
-import { Activity, dataCardActivities } from "../types/type";
-import { base64ToBlobUrl } from "../lib/convertBase64";
+import { Activity } from "../types/type";
 import { getActivities } from "../services/activities";
 import { API_BASE } from "../services/api";
 
@@ -15,8 +13,9 @@ export default function ClbActivities() {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = getActivities();
-        console.log(data, API_BASE);
+        const data = await getActivities();
+        setActivities(data);
+        console.log(`${API_BASE}${data[0].img_url}`);
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -32,7 +31,7 @@ export default function ClbActivities() {
           <FadeIn direction="up" delay={0}>
             <CardBase
               img={
-                item.image ||
+                `${API_BASE}${item.img_url}` ||
                 "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg"
               }
               title={item.title}
