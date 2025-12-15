@@ -4,10 +4,9 @@ import type { UploadFile } from "antd/es/upload/interface";
 import { FormDataType } from "../types/type";
 import Navbar from "../components/Navbar";
 import { useState } from "react";
-import { collection, addDoc } from "firebase/firestore";
-import { db } from "../lib/firebase";
 import { Modal, Button, Upload, Input, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
+import { createActivities } from "../services/activities";
 
 export default function Admin() {
   const [messageApi, contextHolder] = message.useMessage();
@@ -16,8 +15,8 @@ export default function Admin() {
   const [formData, setFormData] = useState<FormDataType>({
     title: "",
     description: "",
-    link: "",
-    image: null,
+    image_base64: null,
+    createdAt: ""
   });
 
   // function convert file → Base64
@@ -39,7 +38,7 @@ export default function Admin() {
     if (latestFile.originFileObj) {
       try {
         const base64 = await toBase64(latestFile.originFileObj);
-        setFormData((prev) => ({ ...prev, image: base64 }));
+        setFormData((prev) => ({ ...prev, image_base64: base64 }));
         messageApi.open({ type: "success", content: "Đã thêm ảnh thành công" });
       } catch (err) {
         messageApi.open({ type: "error", content: "Lỗi tải hình ảnh" });
@@ -48,28 +47,21 @@ export default function Admin() {
     }
   };
 
-  // handle save Firestore
+  // handle save database
   const handleConfirm = async () => {
     if (
       !formData.title.trim() ||
       !formData.description.trim() ||
-      !formData.image
+      !formData.image_base64
     ) {
       message.error("Bạn phải nhập Title, Description và Ảnh!");
       return;
     }
     setLoading(true);
     try {
-      await addDoc(collection(db, "activities"), {
-        ...formData,
-        createdAt: new Date().toISOString(),
-      });
-      messageApi.open({
-        type: "success",
-        content: "Đã thêm hoạt động mới thành công!",
-      });
-      // Reset
-      setFormData({ title: "", description: "", link: "", image: null });
+      await createActivities({...formData, createdAt: new Date().toISOString(),})
+      messageApi.open({type: "success", content: "Đã thêm hoạt động mới thành công!"});
+      setFormData({ title: "", description: "", image_base64: null, createdAt: "" });
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       Modal.error({ title: "Lỗi!", content: errorMessage });
@@ -133,19 +125,19 @@ export default function Admin() {
               onChange={handleUploadChange}
               maxCount={1}
               fileList={
-                formData.image
+                formData.image_base64
                   ? [
                       {
                         uid: "-1",
                         name: "image.png",
                         status: "done",
-                        url: formData.image,
+                        url: formData.image_base64,
                       },
                     ]
                   : []
               }
             >
-              {!formData.image && (
+              {!formData.image_base64 && (
                 <div>
                   <PlusOutlined />
                   <div style={{ marginTop: 8 }}>Thêm ảnh</div>
@@ -172,7 +164,7 @@ export default function Admin() {
                 });
                 return;
               }
-              if (!formData.image) {
+              if (!formData.image_base64) {
                 messageApi.open({
                   type: "error",
                   content: "Vui lòng thêm ảnh!",
@@ -207,7 +199,7 @@ export default function Admin() {
             <div className="w-full bg-white rounded overflow-hidden shadow-lg max-w-sm mx-auto hover:shadow-xl transition-shadow duration-300">
               <div className="relative w-full h-64 md:h-72 lg:h-80 overflow-hidden">
                 <div
-                  style={{ backgroundImage: `url(${formData.image})` }}
+                  style={{ backgroundImage: `url(${formData.image_base64})` }}
                   className="bg-cover bg-center w-full h-full transform transition-transform duration-500 hover:scale-105"
                 ></div>
 

@@ -22,12 +22,12 @@ export interface AuthContextType {
 export interface FormDataType {
   title: string;
   description: string;
-  link?: string;
-  image: string | null; // base64
+  image_base64: string | null;
+  createdAt: string;
 }
 
 export interface Activity {
-  img_url: string;
+  img_url: string | null;
   title: string;
   description: string;
 }
