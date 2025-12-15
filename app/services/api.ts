@@ -1,1 +1,1 @@
-export const API_BASE = process.env.VITE_API_BASE!;
+export const API_BASE = "https://be-pdtwd-production.up.railway.app";

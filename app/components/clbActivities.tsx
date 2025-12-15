@@ -13,6 +13,7 @@ export default function ClbActivities() {
     const fetchData = async () => {
       try {
         const data = await getActivities();
+        console.log(data);
         setActivities(data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -29,7 +30,8 @@ export default function ClbActivities() {
           <FadeIn direction="up" delay={0}>
             <CardBase
               img={
-                `${API_BASE}${item.img_url}` || "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg"
+                `${API_BASE}${item.img_url}` ||
+                "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg"
               }
               title={item.title}
               description={item.description}
