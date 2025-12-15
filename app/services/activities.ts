@@ -14,8 +14,9 @@ export const getActivities = async () => {
 
 export const createActivities = async (data: FormDataType) => {
   try {
-    await axios.post(API_ACTIVITIES, data)
+    const response = await axios.post(API_ACTIVITIES, data);
+    return response.data;
   } catch (error) {
-    alert(error)
+    alert(error);
   }
-}
+};
