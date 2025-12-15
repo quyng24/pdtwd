@@ -13,7 +13,6 @@ type CardProps = {
 
 export default function NewsCard({ img, title, description }: CardProps) {
   const [expanded, setExpanded] = useState(false);
-  console.log(img);
   return (
     <div
       className="
@@ -28,6 +27,7 @@ export default function NewsCard({ img, title, description }: CardProps) {
           src={img as string}
           alt={title || "image"}
           fill
+          unoptimized
           loading="lazy"
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
           className="object-cover transition-transform duration-500 hover:scale-105"
