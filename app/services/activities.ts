@@ -1,4 +1,4 @@
-import { Activity, dataCardActivities, FormDataType } from "../types/type";
+import { dataCardActivities, FormDataType } from "../types/type";
 import { API_BASE } from "./api";
 import axios from "axios";
 
