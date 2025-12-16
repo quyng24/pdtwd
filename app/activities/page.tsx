@@ -79,7 +79,6 @@ export default function Admin() {
       const errorMessage = err instanceof Error ? err.message : String(err);
       Modal.error({ title: "Lỗi!", content: errorMessage });
     }
-
     setLoading(false);
     setPreviewOpen(false);
   };
