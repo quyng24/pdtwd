@@ -58,9 +58,23 @@ export default function Admin() {
     }
     setLoading(true);
     try {
-      await createActivities(formData)
-      messageApi.open({type: "success", content: "Đã thêm hoạt động mới thành công!"});
-      setFormData({ title: "", description: "", image_base64: null });
+      const res = await createActivities(formData);
+      if (res.status === "success") {
+        messageApi.open({
+          type: "success",
+          content: "Đã thêm hoạt động mới thành công!",
+        });
+        setFormData({
+          title: "",
+          description: "",
+          image_base64: null,
+        });
+      } else {
+        messageApi.open({
+          type: "error",
+          content: "Thêm hoạt động thất bại!",
+        });
+      }
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       Modal.error({ title: "Lỗi!", content: errorMessage });

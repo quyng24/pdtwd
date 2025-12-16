@@ -13,6 +13,7 @@ export default function ClbActivities() {
     const fetchData = async () => {
       try {
         const data = await getActivities();
+        console.log(data);
         setActivities(data);
       } catch (error) {
         console.error("Error fetching data", error);
@@ -28,9 +29,7 @@ export default function ClbActivities() {
         <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
           <FadeIn direction="up" delay={0}>
             <CardBase
-              img={
-                `${API_BASE}${item.img_url}`
-              }
+              img={`${API_BASE}${item.img_url}`}
               title={item.title}
               description={item.description}
             />
