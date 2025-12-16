@@ -23,7 +23,6 @@ export interface FormDataType {
   title: string;
   description: string;
   image_base64: string | null;
-  createdAt: string;
 }
 
 export interface Activity {
@@ -44,6 +43,18 @@ export interface NotifyOptions {
   description?: string;
   placement?: NotificationPlacement;
   duration?: number;
+}
+
+export interface DataTypeTable {
+  key: string;
+  name: string;
+  age: number;
+  address: string;
+}
+
+export interface BaseChartProps {
+  data: { name: string; value: number }[];
+  title?: string;
 }
 
 export type NotifyType = "success" | "error" | "info" | "warning";
@@ -74,3 +85,42 @@ export const dataCardActivities = [
     createdAt: "",
   },
 ];
+
+export const initialData = [
+    {
+      key: '1',
+      name: 'John Brown',
+      age: 16,
+      address: 'New York No. 1 Lake Park',
+    },
+    {
+      key: '2',
+      name: 'Jim Green',
+      age: 32,
+      address: 'London No. 1 Lake Park',
+    },
+    {
+      key: '3',
+      name: 'Joe Black',
+      age: 17,
+      address: 'Sydney No. 1 Lake Park',
+    },
+    {
+      key: '4',
+      name: 'Quicy Black',
+      age: 32,
+      address: 'Sydney No. 1 Lake Park',
+    },
+    {
+      key: '5',
+      name: 'Joe Quicy',
+      age: 32,
+      address: 'Sydney No. 1 Lake Park',
+    },
+    {
+      key: '6',
+      name: 'Quicy',
+      age: 32,
+      address: 'Sydney No. 1 Lake Park',
+    },
+  ]

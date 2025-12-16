@@ -16,7 +16,6 @@ export default function Admin() {
     title: "",
     description: "",
     image_base64: null,
-    createdAt: ""
   });
 
   // function convert file → Base64
@@ -59,9 +58,9 @@ export default function Admin() {
     }
     setLoading(true);
     try {
-      await createActivities({...formData, createdAt: new Date().toISOString(),})
+      await createActivities(formData)
       messageApi.open({type: "success", content: "Đã thêm hoạt động mới thành công!"});
-      setFormData({ title: "", description: "", image_base64: null, createdAt: "" });
+      setFormData({ title: "", description: "", image_base64: null });
     } catch (err: unknown) {
       const errorMessage = err instanceof Error ? err.message : String(err);
       Modal.error({ title: "Lỗi!", content: errorMessage });
