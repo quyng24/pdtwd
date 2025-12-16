@@ -16,7 +16,6 @@ export default function Admin() {
     title: "",
     description: "",
     image_base64: null,
-    createdAt: "",
   });
 
   // function convert file → Base64
@@ -59,9 +58,7 @@ export default function Admin() {
     }
     setLoading(true);
     try {
-      const res = await createActivities({
-        ...formData,
-      });
+      const res = await createActivities(formData);
       if (res.status === "success") {
         messageApi.open({
           type: "success",
@@ -71,7 +68,6 @@ export default function Admin() {
           title: "",
           description: "",
           image_base64: null,
-          createdAt: "",
         });
       } else {
         messageApi.open({
@@ -83,7 +79,6 @@ export default function Admin() {
       const errorMessage = err instanceof Error ? err.message : String(err);
       Modal.error({ title: "Lỗi!", content: errorMessage });
     }
-
     setLoading(false);
     setPreviewOpen(false);
   };

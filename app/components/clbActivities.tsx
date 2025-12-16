@@ -29,10 +29,7 @@ export default function ClbActivities() {
         <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
           <FadeIn direction="up" delay={0}>
             <CardBase
-              img={
-                `${API_BASE}${item.img_url}` ||
-                "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg"
-              }
+              img={`${API_BASE}${item.img_url}`}
               title={item.title}
               description={item.description}
             />

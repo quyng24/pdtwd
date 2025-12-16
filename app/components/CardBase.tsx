@@ -3,7 +3,6 @@
 import { useState } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { API_BASE } from "../services/api";
 
 type CardProps = {
   img?: string;
