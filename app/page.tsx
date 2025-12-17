@@ -65,7 +65,7 @@ export default function Home() {
 
         {/* Section4 contact */}
         <section id="register" className="px-10 sm:px-16 md:px-20 py-20">
-          <FadeIn direction="down"><h2 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-5">Thông tin liên hệ Panda Taekwondo</h2></FadeIn>
+          <FadeIn direction="down"><h2 className="text-black text-3xl sm:text-4xl md:text-5xl font-bold mb-10 md:mb-5">Thông tin liên hệ Panda Taekwondo</h2></FadeIn>
           <Contact/>
         </section>
 

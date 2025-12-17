@@ -167,7 +167,7 @@ export default function Navbar() {
             <li className="hover:text-blue-600 duration-300">
               <a
                 href="#introduce"
-                className="hover-underline text-2xl font-semibold"
+                className="hover-underline text-2xl font-semibold text-black"
                 onClick={closeMenu}
               >
                 Giới thiệu
@@ -176,7 +176,7 @@ export default function Navbar() {
             <li className="hover:text-blue-600 duration-300">
               <a
                 href="#work"
-                className="hover-underline text-2xl font-semibold"
+                className="hover-underline text-2xl font-semibold text-black"
                 onClick={closeMenu}
               >
                 Hoạt động của lớp
@@ -185,7 +185,7 @@ export default function Navbar() {
             <li className="hover:text-blue-600 duration-300">
               <a
                 href="#register"
-                className="hover-underline text-2xl font-semibold"
+                className="hover-underline text-2xl font-semibold text-black"
                 onClick={closeMenu}
               >
                 Đăng ký học
@@ -197,7 +197,7 @@ export default function Navbar() {
                 className="py-2 px-5 rounded-lg text-sm font-medium border-[2px] border-blue-200 text-blue-500"
                 onClick={closeMenu}
               >
-                Login Admin
+                Admin
               </Link>
             </li>
           </ul>
