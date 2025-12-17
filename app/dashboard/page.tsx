@@ -7,8 +7,8 @@ import { useRouter } from "next/navigation";
 import { Button, Input, Table, Modal } from "antd";
 import type { TableProps } from "antd";
 import { DataTypeTable, initialData } from "../types/type";
-import TakeAttendance from "../components/TakeAttendance";
 import RegisterStudent from "../components/RegisterStudent";
+import TakeAttendance from "../components/TakeAttendance";
 
 export default function AdminDashboard() {
   const router = useRouter();

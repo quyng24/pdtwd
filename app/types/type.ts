@@ -59,6 +59,14 @@ export interface BaseChartProps {
 
 export type NotifyType = "success" | "error" | "info" | "warning";
 
+export interface CameraCaptureProps {
+  onFaceCaptured: (base64: string) => void;
+  buttonTextOff?: string;
+  buttonTextOn?: string;
+  showPreview?: boolean;
+  autoCloseAfterCapture?: boolean;
+}
+
 export const dataCardActivities = [
   {
     image:
@@ -87,40 +95,40 @@ export const dataCardActivities = [
 ];
 
 export const initialData = [
-    {
-      key: '1',
-      name: 'John Brown',
-      age: 16,
-      address: 'New York No. 1 Lake Park',
-    },
-    {
-      key: '2',
-      name: 'Jim Green',
-      age: 32,
-      address: 'London No. 1 Lake Park',
-    },
-    {
-      key: '3',
-      name: 'Joe Black',
-      age: 17,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '4',
-      name: 'Quicy Black',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '5',
-      name: 'Joe Quicy',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-    {
-      key: '6',
-      name: 'Quicy',
-      age: 32,
-      address: 'Sydney No. 1 Lake Park',
-    },
-  ]
+  {
+    key: "1",
+    name: "John Brown",
+    age: 16,
+    address: "New York No. 1 Lake Park",
+  },
+  {
+    key: "2",
+    name: "Jim Green",
+    age: 32,
+    address: "London No. 1 Lake Park",
+  },
+  {
+    key: "3",
+    name: "Joe Black",
+    age: 17,
+    address: "Sydney No. 1 Lake Park",
+  },
+  {
+    key: "4",
+    name: "Quicy Black",
+    age: 32,
+    address: "Sydney No. 1 Lake Park",
+  },
+  {
+    key: "5",
+    name: "Joe Quicy",
+    age: 32,
+    address: "Sydney No. 1 Lake Park",
+  },
+  {
+    key: "6",
+    name: "Quicy",
+    age: 32,
+    address: "Sydney No. 1 Lake Park",
+  },
+];
