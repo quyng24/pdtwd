@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 import { Button, Input, Table } from "antd";
 import type { TableProps } from 'antd';
 import { DataTypeTable, initialData } from "../types/type";
+import FaceCheckButton from "../components/FaceCheckButton";
 
 
 export default function AdminDashboard() {
@@ -84,7 +85,7 @@ export default function AdminDashboard() {
         </h2>
         {/* Button action */}
         <div className="w-full flex items-center gap-2 md:gap-10 mt-10">
-          <Button type="primary">Bắt đầu điểm danh</Button>
+          <FaceCheckButton/>
           <Button type="primary">Thêm học sinh mới</Button>
         </div>
 
