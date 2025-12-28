@@ -1,4 +1,5 @@
 import { NotificationPlacement } from "antd/es/notification/interface";
+import { Dayjs } from "dayjs";
 
 export interface UserCookie {
   name?: string;
@@ -55,6 +56,12 @@ export interface DataTypeTable {
 export interface BaseChartProps {
   data: { name: string; value: number }[];
   title?: string;
+}
+
+export interface StudentsType {
+  name: string;
+  birthday: string;
+  image_base64: string;
 }
 
 export type NotifyType = "success" | "error" | "info" | "warning";

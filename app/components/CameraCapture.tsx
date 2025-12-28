@@ -14,30 +14,28 @@ export default function CameraCapture({
   const [loading, setLoading] = useState(false);
   const [isCameraOn, setIsCameraOn] = useState(false);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const hasCapturedRef = useRef(false);
 
   const loadModels = async () => {
     const MODEL_URL = "/models/tiny_face_detector";
     await faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL);
   };
 
-  const startDetection = () => {
+  const startDetection = async () => {
     if (!videoRef.current || intervalRef.current) return;
 
-    intervalRef.current = setInterval(async () => {
-      const video = videoRef.current;
-      if (!video || video.paused || video.ended) return;
+    const detection = await faceapi.detectSingleFace(
+      videoRef.current,
+      new faceapi.TinyFaceDetectorOptions()
+    );
 
-      const detection = await faceapi.detectSingleFace(
-        video,
-        new faceapi.TinyFaceDetectorOptions()
-      );
+    if (detection) {
+      hasCapturedRef.current = true;
+      await captureSnapshot(); // 🔥 await
+      return;
+    }
 
-      if (detection) {
-        clearInterval(intervalRef.current!);
-        intervalRef.current = null;
-        captureSnapshot();
-      }
-    }, 300);
+    requestAnimationFrame(startDetection);
   };
 
   const stopDetection = () => {
@@ -57,6 +55,7 @@ export default function CameraCapture({
 
   const openCamera = async () => {
     try {
+      hasCapturedRef.current = false;
       setLoading(true);
       await loadModels();
 
@@ -98,7 +97,7 @@ export default function CameraCapture({
     };
   }, []);
 
-  const captureSnapshot = () => {
+  const captureSnapshot = async () => {
     if (!videoRef.current) return;
 
     const video = videoRef.current;
@@ -112,11 +111,7 @@ export default function CameraCapture({
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
     const base64 = canvas.toDataURL("image/jpeg");
-
-    // GỬI BASE64 VỀ COMPONENT CHA QUA CALLBACK
-    onFaceCaptured(base64);
-
-    // Tự động tắt camera nếu được yêu cầu
+    await onFaceCaptured(base64);
     if (autoCloseAfterCapture) {
       closeCamera();
     }
