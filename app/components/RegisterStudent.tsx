@@ -28,37 +28,28 @@ export default function RegisterStudent() {
 
     try {
       const res = await createStudent(payload as StudentsType);
-      if (res) {
+      console.log(res);
+      if (res.status === 201) {
         messageApi.open({
           type: "success",
-          content: "Đã thêm học sinh mới thành công!",
+          content: "+1 võ sinh!",
         });
         setNameUser("");
         setBirthday(null);
-      }
-    } catch (err: unknown) {
-      function hasResponse(
-        e: unknown
-      ): e is { response?: { status?: number; data?: { detail?: string } } } {
-        return typeof e === "object" && e !== null && "response" in e;
-      }
-
-      if (hasResponse(err)) {
-        const status = err.response?.status;
-        const detail = err.response?.data?.detail;
-
-        if (status === 400) {
-          message.error(
-            detail || "Ảnh không hợp lệ hoặc không phát hiện khuôn mặt"
-          );
-        } else if (status === 409) {
-          message.warning("Khuôn mặt đã tồn tại trong hệ thống");
-        } else {
-          message.error("Lỗi hệ thống");
-        }
+      } else if (res.status === 409) {
+        messageApi.open({
+          type: "error",
+          content: "x2 học sinh, làm 2 lần rồi!",
+        });
+        setNameUser("");
+        setBirthday(null);
       } else {
-        message.error("Lỗi hệ thống");
+        messageApi.open({ type: "error", content: "Ôi thôi chếck lỗi rồi!" });
       }
+    } catch (err: any) {
+      console.log(err);
+    } finally {
+      submittingRef.current = false;
     }
   };
 
