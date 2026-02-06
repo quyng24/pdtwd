@@ -119,7 +119,9 @@ export default function AdminDashboard() {
             onCancel={() => close("modalB")}
             footer={null}
           >
-            <RegisterStudent />
+            <RegisterStudent onFaceCaptured={(base64: string) => {
+              console.log("Face captured:", base64);
+            }} />
           </Modal>
         </div>
 
