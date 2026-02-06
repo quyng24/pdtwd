@@ -2,23 +2,38 @@
 import { FadeIn } from "./animation";
 import CardBase from "./CardBase";
 import { useEffect, useState } from "react";
-import { Activity, dataCardActivities } from "../types/type";
-import { getActivities } from "../services/activities";
+import { ActivitiesFirebase, dataCardActivities } from "../types/type";
+import { getDataActivities } from "../lib/apiActivities";
 import { API_BASE } from "../services/api";
 
 export default function ClbActivities() {
-  const [activities, setActivities] = useState<Activity[]>([]);
+  const [activities, setActivities] = useState<ActivitiesFirebase[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const data = await getActivities();
-        let processedData = [];
-        if (data.length < 3) processedData = dataCardActivities
-        else if (data.length >= 3 && data.length < 6) processedData = data.slice(0, 3);
-        else if (data.length >= 6) processedData = data.slice(0, 6);
+        const data = await getDataActivities();
+        const normalizedData: ActivitiesFirebase[] = Array.isArray(data)
+          ? (data as ActivitiesFirebase[])
+          : dataCardActivities;
+
+        const sortedByLatest = [...normalizedData].sort((a, b) => {
+          const aTime =
+            typeof a.createdAt === "string"
+              ? Date.parse(a.createdAt)
+              : typeof a.createdAt === "number"
+              ? a.createdAt
+              : a.createdAt?.toDate?.().getTime?.() ?? 0;
+          const bTime =
+            typeof b.createdAt === "string"
+              ? Date.parse(b.createdAt)
+              : typeof b.createdAt === "number"
+              ? b.createdAt
+              : b.createdAt?.toDate?.().getTime?.() ?? 0;
+          return bTime - aTime;
+        });
         
-        setActivities(processedData);
+        setActivities(sortedByLatest.slice(0, 3));
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -33,7 +48,7 @@ export default function ClbActivities() {
         <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
           <FadeIn direction="up" delay={0}>
             <CardBase
-              img={`${API_BASE}${item.img_url}`}
+              img={item.image}
               title={item.title}
               description={item.description}
             />

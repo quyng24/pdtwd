@@ -32,6 +32,13 @@ export interface Activity {
   description: string;
 }
 
+export interface ActivitiesFirebase {
+  image: string;
+  title: string;
+  description: string;
+  createdAt: string | number | { toDate: () => Date };
+}
+
 export interface CardActivity {
   id?: number;
   title: string;
