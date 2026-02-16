@@ -5,8 +5,8 @@ export function middleware(req: NextRequest) {
   const userCookie = req.cookies.get("user")?.value;
   const url = req.nextUrl.pathname;
 
-  // Nếu chưa login mà vào /admin => về /
-  if (!userCookie && url.startsWith("/dashboard"))
+  // Nếu chưa login mà vào trang quản trị => về /
+  if (!userCookie && (url.startsWith("/dashboard") || url.startsWith("/activities")))
     return NextResponse.redirect(new URL("/", req.url));
 
   // Nếu đã login và đang ở root "/" => chuyển sang /admin
@@ -21,8 +21,8 @@ export function middleware(req: NextRequest) {
     }
   }
 
-  // Kiểm tra quyền khi truy cập /admin
-  if (userCookie && url.startsWith("/dashboard")) {
+  // Kiểm tra quyền khi truy cập trang quản trị
+  if (userCookie && (url.startsWith("/dashboard") || url.startsWith("/activities"))) {
     try {
       const user = JSON.parse(userCookie);
       if (!allowedEmails.includes(user.email))
@@ -43,7 +43,16 @@ export function middleware(req: NextRequest) {
       return NextResponse.redirect(new URL("/", req.url));
     }
   }
-  return NextResponse.next();
+  const res = NextResponse.next();
+
+  // Hạn chế browser cache cho các route quản trị để tránh back-forward cache giữ màn hình cũ
+  if (url.startsWith("/dashboard") || url.startsWith("/activities")) {
+    res.headers.set("Cache-Control", "no-store, no-cache, must-revalidate, proxy-revalidate");
+    res.headers.set("Pragma", "no-cache");
+    res.headers.set("Expires", "0");
+  }
+
+  return res;
 }
 
-export const config = { matcher: ["/dashboard/:path*", "/login", "/"] };
+export const config = { matcher: ["/dashboard/:path*", "/activities/:path*", "/login", "/"] };

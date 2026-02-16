@@ -5,6 +5,8 @@ import { useRouter } from "next/navigation";
 import { clearUserCookie, getUserCookie } from "../lib/cookies";
 import { UserCookie } from "../types/type";
 import { message } from "antd";
+import { auth } from "../lib/firebase";
+import { signOut } from "firebase/auth";
 
 export default function Navbar() {
   const [user, setUser] = useState<UserCookie | null>(null);
@@ -46,6 +48,21 @@ export default function Navbar() {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
+
+  const handleLogout = async () => {
+    try {
+      await clearUserCookie();
+      await signOut(auth);
+      setUser(null);
+      messageApi.success("Đăng xuất thành công");
+      router.replace("/");
+      router.refresh();
+    } catch (error) {
+      console.error("Logout failed", error);
+      messageApi.error("Đăng xuất thất bại");
+    }
+  };
+
   if (loading) {
     return (
       <nav className="fixed top-0 w-screen bg-white shadow z-50 min-h-[88px]" />
@@ -76,11 +93,7 @@ export default function Navbar() {
             </Link>
           </div>
           <button
-            onClick={() => {
-              clearUserCookie();
-              router.push("/");
-              messageApi.success("Đăng xuất thành công");
-            }}
+            onClick={handleLogout}
             className="py-1 md:py-3 px-2 md:px-5 rounded-lg text-xs md:text-base font-semibold border-[2px] border-blue-200 text-blue-500"
           >
             Logout

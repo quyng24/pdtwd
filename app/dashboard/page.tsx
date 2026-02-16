@@ -70,21 +70,31 @@ export default function AdminDashboard() {
   ];
 
   useEffect(() => {
-    let isMouted = true;
-    const fetchData = async () => {
+    let isMounted = true;
+    const verifyUser = async () => {
       try {
         const user = await getUserCookie();
-        if (isMouted) {
-          if (!user || !allowedEmails.includes(user.email)) router.push("/");
+        if (isMounted) {
+          if (!user || !allowedEmails.includes(user.email)) router.replace("/");
           else setNameUser(user.name);
         }
       } catch (error) {
         console.error("Error fetching user: ", error);
+        if (isMounted) router.replace("/");
       }
     };
-    fetchData();
+
+    verifyUser();
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) verifyUser();
+    };
+
+    window.addEventListener("pageshow", handlePageShow);
+
     return () => {
-      isMouted = false;
+      isMounted = false;
+      window.removeEventListener("pageshow", handlePageShow);
     };
   }, [router]);
   return (

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { signInWithPopup } from "firebase/auth";
+import { signInWithPopup, signOut } from "firebase/auth";
 import { useRouter } from "next/navigation";
 import { auth, provider } from "../lib/firebase";
 import { clearUserCookie, setUserCookie } from "../lib/cookies";
@@ -23,12 +23,14 @@ export default function LoginPage() {
 
       if (allowedEmails.includes(user.email || "")) {
         messageApi.success("Đăng nhập thành công");
-        setUserCookie(user as UserCookie);
-        router.push("/dashboard");
+        await setUserCookie(user as UserCookie);
+        router.replace("/dashboard");
+        router.refresh();
       } else {
-        clearUserCookie();
+        await clearUserCookie();
+        await signOut(auth);
         messageApi.error("Bạn không có quyền đăng nhập");
-        router.push("/");
+        router.replace("/");
       }
     } catch (error) {
       messageApi.error("Đăng nhập thất bại");

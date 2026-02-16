@@ -3,12 +3,16 @@ import type { UploadChangeParam } from "antd/es/upload";
 import type { UploadFile } from "antd/es/upload/interface";
 import { FormDataType } from "../types/type";
 import Navbar from "../components/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Modal, Button, Upload, Input, message } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-import { createActivities } from "../services/activities";
+import { createDataActivities } from "../lib/apiActivities";
+import { allowedEmails } from "../lib/auth";
+import { getUserCookie } from "../lib/cookies";
+import { useRouter } from "next/navigation";
 
 export default function Admin() {
+  const router = useRouter();
   const [messageApi, contextHolder] = message.useMessage();
   const [previewOpen, setPreviewOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -17,6 +21,35 @@ export default function Admin() {
     description: "",
     image_base64: null,
   });
+
+  useEffect(() => {
+    let isMounted = true;
+
+    const verifyUser = async () => {
+      try {
+        const user = await getUserCookie();
+        if (!isMounted) return;
+        if (!user || !allowedEmails.includes(user.email)) {
+          router.replace("/");
+        }
+      } catch (error) {
+        console.error("Error checking user:", error);
+        if (isMounted) router.replace("/");
+      }
+    };
+
+    verifyUser();
+
+    const handlePageShow = (event: PageTransitionEvent) => {
+      if (event.persisted) verifyUser();
+    };
+    window.addEventListener("pageshow", handlePageShow);
+
+    return () => {
+      isMounted = false;
+      window.removeEventListener("pageshow", handlePageShow);
+    };
+  }, [router]);
 
   // function convert file → Base64
   const toBase64 = (file: File): Promise<string> =>
@@ -28,9 +61,9 @@ export default function Admin() {
     });
 
   const handleUploadChange = async (info: UploadChangeParam<UploadFile>) => {
-    const { file, fileList } = info;
+    const { fileList } = info;
     if (fileList.length === 0) {
-      setFormData((prev) => ({ ...prev, image: null }));
+      setFormData((prev) => ({ ...prev, image_base64: null }));
       return;
     }
     const latestFile = fileList[fileList.length - 1];
@@ -58,7 +91,7 @@ export default function Admin() {
     }
     setLoading(true);
     try {
-      const res = await createActivities(formData);
+      const res = await createDataActivities(formData);
       if (res.status === "success") {
         messageApi.open({
           type: "success",
@@ -72,7 +105,7 @@ export default function Admin() {
       } else {
         messageApi.open({
           type: "error",
-          content: "Thêm hoạt động thất bại!",
+          content: res.message || "Thêm hoạt động thất bại!",
         });
       }
     } catch (err: unknown) {

@@ -33,7 +33,7 @@ export default function ClbActivities() {
           return bTime - aTime;
         });
         
-        setActivities(sortedByLatest.slice(0, 3));
+        setActivities(sortedByLatest.slice(0, 4));
       } catch (error) {
         console.error("Error fetching data", error);
       }
@@ -43,9 +43,9 @@ export default function ClbActivities() {
   }, []);
 
   return (
-    <div className="flex justify-between items-center flex-wrap gap-20 md:gap-8">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
       {activities.map((item, idx) => (
-        <div key={idx} className="w-full sm:w-[48%] md:w-[30%]">
+        <div key={idx} className="w-full">
           <FadeIn direction="up" delay={0}>
             <CardBase
               img={item.image}
