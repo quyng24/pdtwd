@@ -115,118 +115,193 @@ export default function Admin() {
     setLoading(false);
     setPreviewOpen(false);
   };
+
+  const isFormReady = Boolean(
+    formData.title.trim() && formData.description.trim() && formData.image_base64
+  );
+
   return (
-    <div className="w-full min-h-screen">
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-blue-50/40">
       {contextHolder}
       <Navbar />
-      <div className="w-full h-full px-10 sm:px-16 md:px-20 py-5 lg:py-10 mt-[88px]">
-        <div className="mx-auto p-5 bg-white flex flex-col gap-5">
-          <h2 className="text-lg md:text-xl lg:text-2xl font-semibold">
-            Thêm bài viết về hoạt động mới của lớp
-          </h2>
-          {/* Title */}
-          <div className="border-b border-b-gray-200 py-3 flex flex-col items-start gap-3">
-            <label htmlFor="input-title" className="font-medium">
-              Tiêu đề
-            </label>
-            <Input
-              id="input-title"
-              placeholder="Nhập tiêu đề của bài viết"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, title: e.target.value }))
-              }
-            />
-          </div>
+      <div className="mx-auto mt-[88px] w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
+        <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+            Admin Activities
+          </p>
+          <h1 className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+            Quản lý bài viết hoạt động
+          </h1>
+          <p className="mt-2 max-w-3xl text-sm text-slate-600 sm:text-base">
+            Tạo nội dung mới cho fanpage/lịch sử hoạt động CLB với định dạng ảnh
+            + mô tả thống nhất.
+          </p>
+        </div>
 
-          {/* Description */}
-          <div className="border-b border-b-gray-200 py-3 flex flex-col items-start gap-3">
-            <label htmlFor="input-description" className="font-medium">
-              Mô tả chi tiết
-            </label>
-            <Input.TextArea
-              id="input-description"
-              placeholder="Nhập nội dung của bài viết"
-              rows={4}
-              value={formData.description}
-              onChange={(e) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  description: e.target.value,
-                }))
-              }
-            />
-          </div>
+        <div className="mt-6 grid gap-6 lg:grid-cols-[1.55fr_1fr]">
+          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <div className="grid gap-5">
+              <div className="space-y-2">
+                <label
+                  htmlFor="input-title"
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+                >
+                  Tiêu đề bài viết
+                </label>
+                <Input
+                  id="input-title"
+                  placeholder="Nhập tiêu đề của bài viết"
+                  value={formData.title}
+                  onChange={(e) =>
+                    setFormData((prev) => ({ ...prev, title: e.target.value }))
+                  }
+                  className="h-11 rounded-xl border-slate-200"
+                />
+              </div>
 
-          {/* Upload Image */}
-          <div className="py-3 flex flex-col items-start gap-3">
-            <label htmlFor="input-uploadimg" className="font-medium">
-              Tải lên ảnh
-            </label>
-            <Upload
-              id="input-uploadimg"
-              listType="picture-card"
-              beforeUpload={() => false}
-              onChange={handleUploadChange}
-              maxCount={1}
-              fileList={
-                formData.image_base64
-                  ? [
-                      {
-                        uid: "-1",
-                        name: "image.png",
-                        status: "done",
-                        url: formData.image_base64,
-                      },
-                    ]
-                  : []
-              }
-            >
-              {!formData.image_base64 && (
-                <div>
-                  <PlusOutlined />
-                  <div style={{ marginTop: 8 }}>Thêm ảnh</div>
+              <div className="space-y-2">
+                <label
+                  htmlFor="input-description"
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+                >
+                  Nội dung mô tả
+                </label>
+                <Input.TextArea
+                  id="input-description"
+                  placeholder="Nhập nội dung của bài viết"
+                  rows={6}
+                  value={formData.description}
+                  onChange={(e) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      description: e.target.value,
+                    }))
+                  }
+                  className="rounded-xl border-slate-200"
+                />
+              </div>
+
+              <div className="space-y-2">
+                <label
+                  htmlFor="input-uploadimg"
+                  className="text-xs font-bold uppercase tracking-[0.18em] text-slate-500"
+                >
+                  Ảnh hoạt động
+                </label>
+                <div className="rounded-xl border border-dashed border-slate-300 p-3">
+                  <Upload
+                    id="input-uploadimg"
+                    listType="picture-card"
+                    beforeUpload={() => false}
+                    onChange={handleUploadChange}
+                    maxCount={1}
+                    fileList={
+                      formData.image_base64
+                        ? [
+                            {
+                              uid: "-1",
+                              name: "image.png",
+                              status: "done",
+                              url: formData.image_base64,
+                            },
+                          ]
+                        : []
+                    }
+                  >
+                    {!formData.image_base64 && (
+                      <div>
+                        <PlusOutlined />
+                        <div style={{ marginTop: 8 }}>Thêm ảnh</div>
+                      </div>
+                    )}
+                  </Upload>
                 </div>
-              )}
-            </Upload>
+              </div>
+
+              <div className="pt-2">
+                <Button
+                  type="primary"
+                  size="large"
+                  className="h-11 rounded-xl bg-blue-600 px-6 hover:!bg-blue-700"
+                  onClick={() => {
+                    if (!formData.title.trim()) {
+                      messageApi.open({
+                        type: "error",
+                        content: "Vui lòng nhập tiêu đề!",
+                      });
+                      return;
+                    }
+                    if (!formData.description.trim()) {
+                      messageApi.open({
+                        type: "error",
+                        content: "Vui lòng nhập nội dung mô tả của hoạt động!",
+                      });
+                      return;
+                    }
+                    if (!formData.image_base64) {
+                      messageApi.open({
+                        type: "error",
+                        content: "Vui lòng thêm ảnh!",
+                      });
+                      return;
+                    }
+                    setPreviewOpen(true);
+                  }}
+                >
+                  Xem Preview
+                </Button>
+              </div>
+            </div>
           </div>
 
-          {/* Nút Preview */}
-          <Button
-            type="primary"
-            onClick={() => {
-              if (!formData.title.trim()) {
-                messageApi.open({
-                  type: "error",
-                  content: "Vui lòng nhập tiêu đề!",
-                });
-                return;
-              }
-              if (!formData.description.trim()) {
-                messageApi.open({
-                  type: "error",
-                  content: "Vui lòng nhập nội dung mô tả của hoạt động!",
-                });
-                return;
-              }
-              if (!formData.image_base64) {
-                messageApi.open({
-                  type: "error",
-                  content: "Vui lòng thêm ảnh!",
-                });
-                return;
-              }
-              setPreviewOpen(true);
-            }}
-          >
-            Xem Preview
-          </Button>
+          <aside className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+            <h3 className="text-lg font-bold text-slate-900">Trạng thái bài viết</h3>
+            <div className="mt-4 space-y-3">
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                  Tiêu đề
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {formData.title.trim() ? "Đã nhập" : "Chưa nhập"}
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                  Nội dung
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {formData.description.trim() ? "Đã nhập" : "Chưa nhập"}
+                </p>
+              </div>
+              <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+                <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                  Ảnh
+                </p>
+                <p className="mt-1 text-sm font-semibold text-slate-900">
+                  {formData.image_base64 ? "Đã tải lên" : "Chưa tải lên"}
+                </p>
+              </div>
+            </div>
+
+            <div
+              className={`mt-5 rounded-xl border p-4 text-sm ${
+                isFormReady
+                  ? "border-emerald-200 bg-emerald-50 text-emerald-700"
+                  : "border-amber-200 bg-amber-50 text-amber-700"
+              }`}
+            >
+              {isFormReady
+                ? "Sẵn sàng xem preview và lưu bài viết."
+                : "Điền đầy đủ tiêu đề, mô tả và ảnh để hoàn tất."}
+            </div>
+          </aside>
 
           {/* MODAL PREVIEW */}
           <Modal
             title="Xem trước nội dung"
             open={previewOpen}
             onCancel={() => setPreviewOpen(false)}
+            width={760}
             footer={[
               <Button key="cancel" onClick={() => setPreviewOpen(false)}>
                 Hủy

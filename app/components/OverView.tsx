@@ -9,52 +9,6 @@ import { dataOverview } from "../store/dataMock";
 
 type ModalKey = "modalA" | "modalB";
 
-const classRowsA = [
-  {
-    label: "Đối tượng",
-    value: "Từ 5 tuổi trở lên",
-    note: "Khuyến khích phát triển toàn diện (thể chất, tinh thần, kỷ luật)",
-  },
-  {
-    label: "Môn học",
-    value: "Taekwondo",
-    note: "Tập trung vào căn bản, tăng cường sức khỏe, kỹ năng tự vệ cơ bản",
-  },
-  {
-    label: "Thời gian học",
-    value: "18h15 - 19h30 (Thứ Ba, Thứ Năm, Chủ Nhật)",
-    note: "Khung giờ phù hợp sau giờ học và trước giờ nghỉ ngơi của gia đình",
-  },
-  {
-    label: "Lợi ích nổi bật",
-    value: "Tăng khả năng tập trung, nâng cao thể lực, hình thành kỷ luật và sự tự tin",
-    note: "",
-  },
-];
-
-const classRowsB = [
-  {
-    label: "Đối tượng",
-    value: "Từ 16 tuổi trở lên",
-    note: "Phù hợp với thanh thiếu niên và người lớn muốn rèn sức khỏe, giảm stress",
-  },
-  {
-    label: "Môn học",
-    value: "Taekwondo",
-    note: "Tập trung kỹ thuật thực chiến, đối kháng cường độ cao, cải thiện sức bền",
-  },
-  {
-    label: "Thời gian học",
-    value: "19h15 - 20h30 (Thứ Ba, Thứ Năm, Chủ Nhật)",
-    note: "Khung giờ sau giờ làm, thuận tiện cho người bận rộn",
-  },
-  {
-    label: "Lợi ích nổi bật",
-    value: "Giảm stress, tăng cường sức khỏe tim mạch, tự vệ hiệu quả và tự tin hơn",
-    note: "",
-  },
-];
-
 function ClassDetail({
   title,
   rows,
@@ -231,13 +185,13 @@ export default function OverView() {
         <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:gap-8">
           {dataOverview.skill_cards.map((item, idx) => (
             <FadeIn key={idx} direction="up" delay={idx * 0.2}>
-              <div className="group p-6 text-center">
+              <div className="group text-center">
                 <div className="relative flex justify-center items-center mb-6 transform transition-all duration-500 ease-out group-hover:scale-125 group-hover:-rotate-12 group-hover:-translate-y-2">
                   <Image src={item.icon} alt={item.title} width={108} height={108} />
                 </div>
                 <div className="flex flex-col items-center rounded-2xl bg-white min-h-[110px] lg:min-h-[150px] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
-                  <h3 className="text-base md:text-xl xl:text-2xl text-black font-bold mb-1">{item.title}</h3>
-                  <p className="text-xs md:text-sm xl:text-lg text-black text-center">{item.desc}</p>
+                  <h3 className="mb-2 text-xl font-bold text-slate-900 md:text-2xl">{item.title}</h3>
+                  <p className="mb-8 text-sm text-slate-600 md:text-base">{item.desc}</p>
                 </div>
               </div>
             </FadeIn>

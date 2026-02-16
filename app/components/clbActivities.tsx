@@ -2,9 +2,9 @@
 import { FadeIn } from "./animation";
 import CardBase from "./CardBase";
 import { useEffect, useState } from "react";
-import { ActivitiesFirebase, dataCardActivities } from "../types/type";
+import { ActivitiesFirebase } from "../types/type";
 import { getDataActivities } from "../lib/apiActivities";
-import { API_BASE } from "../services/api";
+import { dataCardActivities } from "../store/dataMock";
 
 export default function ClbActivities() {
   const [activities, setActivities] = useState<ActivitiesFirebase[]>([]);

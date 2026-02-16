@@ -47,7 +47,7 @@ export default function Contact() {
   ];
 
   return (
-    <div className="max-w-7xl mx-auto px-4">
+    <div className="max-w-7xl mx-auto">
       {/* CONTACT CARDS GRID */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 py-12">
         {contactData.map((item) => (
@@ -94,7 +94,7 @@ export default function Contact() {
       <FadeIn direction="up" delay={0.6}>
         <div className="relative w-full rounded-3xl overflow-hidden shadow-2xl border-4 border-white mb-10 group">
           <iframe
-            className="h-[400px] md:h-[550px] w-full"
+            className="h-100 md:h-137.5 w-full"
             src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.08683611179!2d105.76518!3d21.0292112!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x313455d28f5067fd%3A0x703684d0f6ec182a!2zQ0xCIFBhbmRhIFRhZWt3b25kbyAtIE3hu7kgxJDDrG5oLCBU4burIExpw6ptLCBIw6AgTuG7mWk!5e0!3m2!1svi!2s!4v1765547148485!5m2!1svi!2s"
             style={{ border: 0 }}
             allowFullScreen
@@ -102,7 +102,7 @@ export default function Contact() {
             referrerPolicy="no-referrer-when-downgrade"
           ></iframe>
           {/* Overlay gradient cho map */}
-          <div className="absolute inset-0 pointer-events-none border-[1px] border-black/5 rounded-3xl" />
+          <div className="absolute inset-0 pointer-events-none border border-black/5 rounded-3xl" />
         </div>
       </FadeIn>
     </div>

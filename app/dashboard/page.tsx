@@ -18,7 +18,7 @@ export default function AdminDashboard() {
   });
   const [nameUser, setNameUser] = useState<string | undefined>("");
   const [ageFilter, setAgeFilter] = useState(""); // Trạng thái lưu giá trị filter
-  const [data, setData] = useState<DataTypeTable[]>(initialData);
+  const [data] = useState<DataTypeTable[]>(initialData);
   const [filterData, setFilterData] = useState<DataTypeTable[]>(initialData);
 
   const open = (key: "modalA" | "modalB") => {
@@ -35,8 +35,13 @@ export default function AdminDashboard() {
 
   // Hàm xử lý lọc dữ liệu khi người dùng nhấn nút "Lọc"
   const handleFilter = () => {
+    const parsedAge = parseInt(ageFilter, 10);
+    if (Number.isNaN(parsedAge)) {
+      setFilterData(data);
+      return;
+    }
     const filteredData = data.filter(
-      (item) => item.age < parseInt(ageFilter, 10)
+      (item) => item.age < parsedAge
     );
     setFilterData(filteredData);
   };
@@ -98,59 +103,117 @@ export default function AdminDashboard() {
     };
   }, [router]);
   return (
-    <div className="w-full min-h-screen">
+    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-blue-50/30">
       <Navbar />
-      <div className="w-full h-full px-10 sm:px-16 md:px-20 py-5 lg:py-10 mt-[88px]">
-        {/* Text welcome */}
-        <h2 className="text-xl md:text-2xl lg:text-3xl font-bold mb-4">
-          Xin chào, {nameUser}
-        </h2>
-        {/* Button action */}
-        <div className="w-full flex items-center gap-2 md:gap-10 mt-10">
-          <Button onClick={() => open("modalA")} type="primary">
-            Điểm danh
-          </Button>
-          <Modal
-            title="Điểm danh"
-            closable={true}
-            open={modals.modalA}
-            onCancel={() => close("modalA")}
-            footer={null}
-          >
-            <TakeAttendance />
-          </Modal>
-          <Button onClick={() => open("modalB")} type="primary">
-            Thêm học sinh mới
-          </Button>
-          <Modal
-            title="Thêm học sinh mới"
-            closable={true}
-            open={modals.modalB}
-            onCancel={() => close("modalB")}
-            footer={null}
-          >
-            <RegisterStudent />
-          </Modal>
-        </div>
+      <div className="mx-auto mt-[88px] w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
+        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
+            Panda Dashboard
+          </p>
+          <h1 className="mt-2 text-2xl font-black text-slate-900 sm:text-3xl">
+            Xin chào, {nameUser}
+          </h1>
+          <p className="mt-2 text-sm text-slate-600 sm:text-base">
+            Theo dõi nhanh hoạt động lớp, điểm danh và quản lý học viên mới tại
+            một nơi.
+          </p>
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                Tổng học viên mẫu
+              </p>
+              <p className="mt-2 text-2xl font-bold text-slate-900">{data.length}</p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                Sau khi lọc
+              </p>
+              <p className="mt-2 text-2xl font-bold text-slate-900">
+                {filterData.length}
+              </p>
+            </div>
+            <div className="rounded-xl border border-slate-200 bg-slate-50 p-4">
+              <p className="text-xs uppercase tracking-[0.16em] text-slate-500">
+                Bộ lọc hiện tại
+              </p>
+              <p className="mt-2 text-lg font-bold text-slate-900">
+                {ageFilter ? `< ${ageFilter}` : "Chưa áp dụng"}
+              </p>
+            </div>
+          </div>
+        </section>
 
-        {/**Table */}
-        <div className="mt-10">
-          <h3 className="font-semibold text-black text-lg md:text-xl lg:text-2xl">
-            Tổng quan đi/nghỉ tập của lớp
-          </h3>
-          <div className="w-full flex items-center justify-between gap-2 py-5">
-            <Button onClick={handleReset} color="danger" variant="outlined">
-              Bỏ lọc
-            </Button>
-            <div className="flex items-center gap-2">
+        <section className="mt-6 grid gap-4 md:grid-cols-2">
+          <button
+            onClick={() => open("modalA")}
+            className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-blue-100">
+              Attendance
+            </p>
+            <h2 className="mt-2 text-xl font-bold">Mở điểm danh khuôn mặt</h2>
+            <p className="mt-2 text-sm text-blue-100">
+              Bắt đầu camera để nhận diện học viên trong buổi tập.
+            </p>
+          </button>
+          <button
+            onClick={() => open("modalB")}
+            className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
+          >
+            <p className="text-xs uppercase tracking-[0.2em] text-emerald-100">
+              Registration
+            </p>
+            <h2 className="mt-2 text-xl font-bold">Thêm học sinh mới</h2>
+            <p className="mt-2 text-sm text-emerald-100">
+              Nhập thông tin và quét khuôn mặt để tạo hồ sơ mới.
+            </p>
+          </button>
+        </section>
+
+        <Modal
+          title="Điểm danh"
+          closable={true}
+          open={modals.modalA}
+          onCancel={() => close("modalA")}
+          footer={null}
+          width={760}
+        >
+          <TakeAttendance />
+        </Modal>
+        <Modal
+          title="Thêm học sinh mới"
+          closable={true}
+          open={modals.modalB}
+          onCancel={() => close("modalB")}
+          footer={null}
+          width={760}
+        >
+          <RegisterStudent />
+        </Modal>
+
+        <section className="mt-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <h3 className="text-xl font-bold text-slate-900">
+                Tổng quan đi/nghỉ tập của lớp
+              </h3>
+              <p className="mt-1 text-sm text-slate-600">
+                Dữ liệu mẫu để theo dõi và lọc nhanh theo số buổi.
+              </p>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
               <Input
                 type="number"
                 value={ageFilter}
                 onChange={handleFilterChange}
                 placeholder="Nhập số buổi học để lọc"
+                className="w-56"
               />
               <Button type="primary" onClick={handleFilter}>
                 Lọc
+              </Button>
+              <Button onClick={handleReset} color="danger" variant="outlined">
+                Bỏ lọc
               </Button>
             </div>
           </div>
@@ -158,8 +221,10 @@ export default function AdminDashboard() {
             columns={columns}
             dataSource={filterData}
             pagination={{ pageSize: 5 }}
+            rowKey="key"
+            className="mt-5"
           />
-        </div>
+        </section>
       </div>
     </div>
   );

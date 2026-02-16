@@ -65,14 +65,14 @@ export default function Navbar() {
 
   if (loading) {
     return (
-      <nav className="fixed top-0 w-screen bg-white shadow z-50 min-h-[88px]" />
+      <nav className="fixed top-0 w-screen bg-white shadow z-50 min-h-22" />
     );
   }
   return (
     <>
       {contextHolder}
       {user ? (
-        <nav className="fixed top-0 w-screen bg-white shadow z-50 min-h-[88px] flex items-center justify-between px-5 sm:px-10 md:px-20">
+        <nav className="fixed top-0 w-screen bg-white shadow z-50 min-h-22 flex items-center justify-between px-5 sm:px-10 md:px-20">
           <img
             src="/images/logo-primary.svg"
             alt="Logo"
@@ -94,7 +94,7 @@ export default function Navbar() {
           </div>
           <button
             onClick={handleLogout}
-            className="py-1 md:py-3 px-2 md:px-5 rounded-lg text-xs md:text-base font-semibold border-[2px] border-blue-200 text-blue-500"
+            className="py-1 md:py-3 px-2 md:px-5 rounded-lg text-xs md:text-base font-semibold border-2 border-blue-200 text-blue-500"
           >
             Logout
           </button>
@@ -140,7 +140,7 @@ export default function Navbar() {
           {/* Login Link */}
           <Link
             href="/login"
-            className="sm:py-1 sm:px-3 md:py-3 md:px-5 rounded-lg sm:text-xs md:text-base sm:font-light md:font-semibold border-[2px] border-blue-200 text-blue-500 hidden sm:block"
+            className="sm:py-1 sm:px-3 md:py-3 md:px-5 rounded-lg sm:text-xs md:text-base sm:font-light md:font-semibold border-2 border-blue-200 text-blue-500 hidden sm:block"
           >
             Admin
           </Link>
@@ -207,7 +207,7 @@ export default function Navbar() {
             <li className="my-4">
               <Link
                 href="/login"
-                className="py-2 px-5 rounded-lg text-sm font-medium border-[2px] border-blue-200 text-blue-500"
+                className="py-2 px-5 rounded-lg text-sm font-medium border-2 border-blue-200 text-blue-500"
                 onClick={closeMenu}
               >
                 Admin

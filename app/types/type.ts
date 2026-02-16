@@ -80,33 +80,6 @@ export interface CameraCaptureProps {
   autoCloseAfterCapture?: boolean;
 }
 
-export const dataCardActivities = [
-  {
-    image:
-      "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg",
-    title: "Lớp tham gia kì thi lên đai",
-    description:
-      "Hình ảnh các bạn học viên tham gia cuộc thi quý thường liên tại chung cư Tòa Báo Nhân Dân Xuân Phương",
-    createdAt: "",
-  },
-  {
-    image:
-      "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg",
-    title: "Lớp tham gia kì thi lên đai",
-    description:
-      "Hình ảnh các bạn học viên tham gia cuộc thi quý thường liên tại chung cư Tòa Báo Nhân Dân Xuân Phương",
-    createdAt: "",
-  },
-  {
-    image:
-      "https://c8.alamy.com/comp/2D9BRRD/taekwondo-vector-icon-design-illustration-template-2D9BRRD.jpg",
-    title: "Lớp tham gia kì thi lên đai",
-    description:
-      "Hình ảnh các bạn học viên tham gia cuộc thi quý thường liên tại chung cư Tòa Báo Nhân Dân Xuân Phương",
-    createdAt: "",
-  },
-];
-
 export const initialData = [
   {
     key: "1",
