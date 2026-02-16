@@ -4,7 +4,7 @@ import * as faceapi from "face-api.js";
 import { memo, useEffect, useRef, useState } from "react";
 
 type Props = {
-  onFaceCaptured: (embedding: number[]) => void;
+  onFaceCaptured: (embedding: number[]) => Promise<boolean | void> | boolean | void;
   mode: "register" | "attendance";
 };
 
@@ -33,8 +33,12 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
   }, []);
 
   const startCamera = async () => {
-    const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-    if (videoRef.current) videoRef.current.srcObject = stream;
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      if (videoRef.current) videoRef.current.srcObject = stream;
+    } catch (error) {
+      console.error("Không thể mở camera", error);
+    }
   };
 
   const stopCamera = () => {
@@ -88,13 +92,13 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
 
           const vector = Array.from(result.descriptor);
 
-          if (mode === "register") {
+          const captureResult = await onFaceCaptured(vector);
+
+          if (mode === "register" && captureResult !== false) {
             setRunning(false);
             active = false;
             stopCamera();
           }
-
-          onFaceCaptured(vector);
         }
       } finally {
         detecting = false;
@@ -139,5 +143,7 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
     </div>
   );
 });
+
+CameraCapture.displayName = "CameraCapture";
 
 export default CameraCapture;
