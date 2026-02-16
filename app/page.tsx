@@ -14,7 +14,7 @@ export default function Home() {
         {/* Section1 hero section */}
         <section
           id="hero"
-          className="relative min-h-screen overflow-hidden bg-[#07111f] text-white"
+          className="relative min-h-screen overflow-hidden bg-[#244067] text-white"
         >
           <div className="absolute inset-0">
             <Image
@@ -26,7 +26,7 @@ export default function Home() {
             />
           </div>
 
-          <div className="absolute inset-0 bg-gradient-to-r from-[#04080f]/95 via-[#091b31]/85 to-[#0d223c]/70" />
+          <div className="absolute inset-0 bg-linear-to-r from-[#04080f]/70 via-[#091b31]/50 to-[#0d223c]/30" />
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_20%,rgba(22,119,255,0.3),transparent_42%)]" />
 
           <div className="relative z-10 mx-auto flex min-h-screen max-w-7xl items-center px-6 py-28 sm:px-10 md:px-14 lg:px-20">

@@ -103,10 +103,10 @@ export default function AdminDashboard() {
     };
   }, [router]);
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-blue-50/30">
+    <div className="min-h-screen w-full to-blue-50/30">
       <Navbar />
-      <div className="mx-auto mt-[88px] w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
-        <section className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+      <div className="mx-auto mt-22 w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
+        <section className="rounded-2xl p-6 shadow-sm sm:p-8 bg-white">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
             Panda Dashboard
           </p>

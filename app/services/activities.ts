@@ -1,4 +1,5 @@
-import { dataCardActivities, FormDataType } from "../types/type";
+import { FormDataType } from "../types/type";
+import { dataCardActivities } from "../store/dataMock";
 import { API_BASE } from "./api";
 import axios from "axios";
 

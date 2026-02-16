@@ -121,7 +121,7 @@ export default function Admin() {
   );
 
   return (
-    <div className="min-h-screen w-full bg-gradient-to-b from-slate-50 via-white to-blue-50/40">
+    <div className="min-h-screen w-full">
       {contextHolder}
       <Navbar />
       <div className="mx-auto mt-[88px] w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
@@ -139,7 +139,7 @@ export default function Admin() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.55fr_1fr]">
-          <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
+          <div className="rounded-2xl bg-transparent p-6 shadow-sm sm:p-8 bg-white">
             <div className="grid gap-5">
               <div className="space-y-2">
                 <label
