@@ -146,7 +146,7 @@ export default function AdminDashboard() {
         <section className="mt-6 grid gap-4 md:grid-cols-2">
           <button
             onClick={() => open("modalA")}
-            className="rounded-2xl border border-blue-200 bg-gradient-to-r from-blue-600 to-indigo-700 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
+            className="rounded-2xl border border-blue-200 bg-linear-to-r from-blue-600 to-indigo-700 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-blue-100">
               Attendance
@@ -158,7 +158,7 @@ export default function AdminDashboard() {
           </button>
           <button
             onClick={() => open("modalB")}
-            className="rounded-2xl border border-emerald-200 bg-gradient-to-r from-emerald-600 to-teal-600 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
+            className="rounded-2xl border border-emerald-200 bg-linear-to-r from-emerald-600 to-teal-600 p-6 text-left text-white shadow-sm transition hover:-translate-y-0.5"
           >
             <p className="text-xs uppercase tracking-[0.2em] text-emerald-100">
               Registration

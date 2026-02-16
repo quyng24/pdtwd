@@ -65,7 +65,7 @@ export default function OverView() {
 
   return (
     <div className="w-full">
-      <div className="mb-14 rounded-xl border border-sky-100 bg-gradient-to-br from-white via-sky-50 to-cyan-100 p-6 shadow-sm md:mb-20 md:p-10">
+      <div className="mb-14 rounded lg:rounded-2xl border border-sky-100 bg-linear-to-br from-white via-sky-50 to-cyan-100 p-6 shadow-sm md:mb-20 md:p-10">
         <div className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-10">
           <FadeIn direction="right">
             <div className="space-y-4">
@@ -83,8 +83,8 @@ export default function OverView() {
           </FadeIn>
 
           <FadeIn direction="left">
-            <div className="rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-100 md:p-6">
-              <p className="text-xs font-semibold uppercase tracking-[0.1em] text-slate-500">
+            <div className="rounded lg:rounded-2xl bg-white p-5 shadow-sm ring-1 ring-slate-100 md:p-6">
+              <p className="text-xs font-semibold uppercase tracking-widest] text-slate-500">
                 Lợi ích cốt lõi
               </p>
               <div className="mt-4 grid grid-cols-2 gap-3">
@@ -111,7 +111,7 @@ export default function OverView() {
       <div className="mb-16 grid w-full grid-cols-1 gap-6 lg:grid-cols-2">
         <FadeIn direction="right" className="w-full">
           <div
-            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8"
+            className="group relative overflow-hidden rounded lg:rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8"
             onClick={() => open("modalA")}
           >
             <div className="absolute right-0 top-0 h-10 md:h-24 w-10 md:w-24 rounded-bl-[36px] bg-sky-100" />
@@ -132,7 +132,7 @@ export default function OverView() {
 
         <FadeIn direction="left" className="w-full">
           <div
-            className="group relative overflow-hidden rounded-xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8"
+            className="group relative overflow-hidden rounded lg:rounded-2xl border border-slate-200 bg-white p-6 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg md:p-8"
             onClick={() => open("modalB")}
           >
             <div className="absolute right-0 top-0 h-10 md:h-24 w-10 md:w-24 rounded-bl-[36px] bg-cyan-100" />
@@ -189,7 +189,7 @@ export default function OverView() {
                 <div className="relative flex justify-center items-center mb-6 transform transition-all duration-500 ease-out group-hover:scale-125 group-hover:-rotate-12 group-hover:-translate-y-2">
                   <Image src={item.icon} alt={item.title} width={108} height={108} />
                 </div>
-                <div className="flex flex-col items-center rounded-2xl bg-white min-h-[110px] lg:min-h-[150px] p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
+                <div className="flex flex-col items-center rounded lg:rounded-2xl bg-white min-h-27.5 lg:min-h-37.5 p-5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-lg">
                   <h3 className="mb-2 text-xl font-bold text-slate-900 md:text-2xl">{item.title}</h3>
                   <p className="mb-8 text-sm text-slate-600 md:text-base">{item.desc}</p>
                 </div>

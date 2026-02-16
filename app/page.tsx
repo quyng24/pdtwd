@@ -65,19 +65,19 @@ export default function Home() {
               </div>
 
               <div className="mt-12 grid max-w-2xl grid-cols-1 gap-3 sm:grid-cols-3">
-                <div className="rounded-2xl border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
+                <div className="rounded border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
                   <p className="text-2xl font-bold text-[#7EC8FF]">5+</p>
                   <p className="mt-1 text-xs uppercase tracking-widest text-white/65">
                     Năm huấn luyện
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
+                <div className="rounded border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
                   <p className="text-2xl font-bold text-[#7EC8FF]">30+</p>
                   <p className="mt-1 text-xs uppercase tracking-widest text-white/65">
                     Học viên đã tham gia
                   </p>
                 </div>
-                <div className="rounded-2xl border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
+                <div className="rounded border border-white/20 bg-white/[0.07] px-5 py-4 backdrop-blur-sm">
                   <p className="text-2xl font-bold text-[#7EC8FF]">100%</p>
                   <p className="mt-1 text-xs uppercase tracking-widest text-white/65">
                     Tập trung kỹ luật

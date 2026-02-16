@@ -123,7 +123,7 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
   }, [running, mode, onFaceCaptured]);
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-2xl border border-slate-200 bg-gradient-to-b from-slate-50 to-white p-4 shadow-sm">
+    <div className="w-full max-w-xl mx-auto rounded-2xl border border-slate-200 bg-linear-to-b from-slate-50 to-white p-4 shadow-sm">
       <div className="mb-3 flex items-center justify-between">
         <span className="rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
           {mode === "register" ? "Face Register" : "Attendance Scan"}

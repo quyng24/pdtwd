@@ -112,7 +112,7 @@ export default function RegisterStudent() {
                 <Button
                   type="primary"
                   size="large"
-                  className="rounded-xl bg-blue-600 hover:!bg-blue-700"
+                  className="rounded-xl bg-blue-600 bg-linear-to-r"
                   onClick={handleOpenCamera}
                 >
                   {scanCompleted ? "Quét lại khuôn mặt" : "Bật camera để quét"}

@@ -124,7 +124,7 @@ export default function Admin() {
     <div className="min-h-screen w-full">
       {contextHolder}
       <Navbar />
-      <div className="mx-auto mt-[88px] w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
+      <div className="mx-auto mt-22 w-full max-w-7xl px-6 py-8 sm:px-10 lg:px-12">
         <div className="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm sm:p-8">
           <p className="text-xs font-semibold uppercase tracking-[0.2em] text-blue-600">
             Admin Activities
@@ -139,7 +139,7 @@ export default function Admin() {
         </div>
 
         <div className="mt-6 grid gap-6 lg:grid-cols-[1.55fr_1fr]">
-          <div className="rounded-2xl bg-transparent p-6 shadow-sm sm:p-8 bg-white">
+          <div className="rounded-2xl p-6 shadow-sm sm:p-8 bg-white">
             <div className="grid gap-5">
               <div className="space-y-2">
                 <label
@@ -222,7 +222,7 @@ export default function Admin() {
                 <Button
                   type="primary"
                   size="large"
-                  className="h-11 rounded-xl bg-blue-600 px-6 hover:!bg-blue-700"
+                  className="h-11 rounded-xl bg-blue-600 px-6 hover:bg-blue-700!"
                   onClick={() => {
                     if (!formData.title.trim()) {
                       messageApi.open({
@@ -324,7 +324,7 @@ export default function Admin() {
                 ></div>
 
                 {/* Overlay gradient đen mờ dần từ trên xuống dưới */}
-                <div className="absolute inset-0 bg-gradient-to-b from-black/15 via-transparent to-black/70 pointer-events-none"></div>
+                <div className="absolute inset-0 bg-linear-to-b from-black/15 via-transparent to-black/70 pointer-events-none"></div>
               </div>
 
               <div className="p-6">
