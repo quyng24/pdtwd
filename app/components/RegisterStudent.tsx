@@ -1,5 +1,5 @@
 import { DatePicker, Input, Card, Divider, Button } from "antd";
-import { FaUser, FaCalendar,FaCheckCircle,FaInfoCircle } from "react-icons/fa";
+import { FaUser, FaCalendar, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import CameraCapture from "./CameraCapture";
 import { useRef, useCallback, useReducer } from "react";
 import { message } from "antd";
@@ -13,7 +13,7 @@ export default function RegisterStudent() {
   const [state, dispatch] = useReducer(registrationReducer, initialState);
   const { name, birthday, scanCompleted, isCameraOpen } = state;
 
-  
+
   const hasRequiredInfo = Boolean(name.trim() && birthday);
   const isReadyToScan = hasRequiredInfo && isCameraOpen;
 
@@ -41,8 +41,8 @@ export default function RegisterStudent() {
         dispatch({ type: 'SCAN_SUCCESS' });
       }
     } catch (error) {
-      messageApi.error("Có lỗi xảy ra khi lưu dữ liệu");
-      return false;
+      messageApi.error("Học sinh này đã được thêm!");
+      dispatch({ type: "SCAN_SUCCESS" });
     } finally {
       submittingRef.current = false;
     }
@@ -74,8 +74,8 @@ export default function RegisterStudent() {
       <div className={`flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed text-center transition-colors ${hasRequiredInfo ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-200'}`}>
         <FaInfoCircle size={24} className={`mb-4 ${hasRequiredInfo ? 'text-blue-500' : 'text-gray-400'}`} />
         <p className="text-xs font-medium text-gray-500 px-4">
-          {hasRequiredInfo 
-            ? "Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera." 
+          {hasRequiredInfo
+            ? "Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera."
             : "Vui lòng nhập đầy đủ thông tin để kích hoạt hệ thống."}
         </p>
       </div>
@@ -144,7 +144,7 @@ export default function RegisterStudent() {
                   mode="register"
                 />
                 <div className="absolute top-3 right-3 animate-pulse">
-                    <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
+                  <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
                 </div>
               </div>
             ) : scanCompleted ? (

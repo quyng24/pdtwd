@@ -8,38 +8,37 @@ import { message } from "antd";
 export default function TakeAttendance() {
   const [messageApi, contextHolder] = message.useMessage();
   const isProcessingRef = useRef(false);
-  const cooldownRef = useRef<number>(0);
-  const lastStudentRef = useRef<string | null>(null);
 
-  const COOLDOWN_TIME = 5000;
+  const lastLogsRef = useRef<Record<string, number>>({});
+  const globalThrottleRef = useRef<number>(0);
 
   const handleFaceCaptured = useCallback(async (vector: number[]) => {
     const now = Date.now();
     if (isProcessingRef.current) return;
-    if (now < cooldownRef.current) return;
+    if (now < globalThrottleRef.current) return;
     try {
       isProcessingRef.current = true;
-
       const res = await attendanceStudentApi({ face_vector: vector });
 
       if (res?.status === 200) {
         const studentId = res.data.id;
-        const now = Date.now();
+        const lastTime = lastLogsRef.current[studentId] || 0;
 
-        const isSameStudent = studentId === lastStudentRef.current;
-        const isTooSoon = now - (cooldownRef.current - COOLDOWN_TIME) < 60000; // 1 phút
+        if (now - lastTime < 60000) {
+          console.log(`Chặn spam cho: ${res.data.name}`);
+          return;
+        }
 
-        if (isSameStudent && isTooSoon) return;
+        lastLogsRef.current[studentId] = now;
+        globalThrottleRef.current = now + 3000;
 
-        lastStudentRef.current = studentId;
-        cooldownRef.current = now + COOLDOWN_TIME;
-        messageApi.success(`${res.message}: ${res.data.name}`);
-      } else {
-        messageApi.error("Ai đây tôi không quen bro!");
+        messageApi.success(`${res.message} ${res.data.name}`);
+      } else if (res.status === 202) {
+        messageApi.success(`${res.message} ${res.data.name} ơi!`);
       }
     } catch (err) {
-      cooldownRef.current = now + 2000;
-      console.log("No match");
+      globalThrottleRef.current = now + 2000;
+      messageApi.error("Ai đây tôi không quen bro!");
     } finally {
       isProcessingRef.current = false;
     }

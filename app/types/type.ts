@@ -54,10 +54,9 @@ export interface NotifyOptions {
 }
 
 export interface DataTypeTable {
-  key: string;
-  name: string;
-  age: number;
-  address: string;
+  id: number;
+  student_name: string;
+  checkin_time: string
 }
 
 export interface BaseChartProps {

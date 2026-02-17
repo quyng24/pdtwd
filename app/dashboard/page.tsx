@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useEffect, useCallback, useMemo } from "react";
-import { Modal, message } from "antd";
+import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import { toast } from "sonner";
+import dayjs from "dayjs";
 
 import Navbar from "../components/Navbar";
 import { getUserCookie } from "../lib/cookies";
@@ -13,140 +14,118 @@ import TableLog from "../components/TableLog";
 import { DataTypeTable } from "../types/type";
 import { attendanceLogApi } from "../services/student";
 
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from "../components/ui/dialog";
+
 export default function AdminDashboard() {
   const router = useRouter();
   const [modals, setModals] = useState({ modalA: false, modalB: false });
   const [nameUser, setNameUser] = useState<string>("");
-  const [data, setData] = useState<DataTypeTable[]>([]); // Khởi tạo mảng rỗng
+  const [data, setData] = useState<DataTypeTable[]>([]);
   const [ageFilter, setAgeFilter] = useState("");
 
-  // --- Logic Xác thực User ---
   useEffect(() => {
-    let isMounted = true;
     const verifyUser = async () => {
-      try {
-        const user = await getUserCookie();
-        if (!isMounted) return;
-        if (!user || !allowedEmails.includes(user.email)) {
-          router.replace("/");
-        } else {
-          setNameUser(user.name);
-        }
-      } catch (error) {
+      const user = await getUserCookie();
+      if (!user || !allowedEmails.includes(user.email)) {
         router.replace("/");
+      } else {
+        setNameUser(user.name);
       }
     };
     verifyUser();
-    return () => { isMounted = false; };
   }, [router]);
 
-  // --- Logic Lấy dữ liệu ---
-  const fetchStudents = useCallback(async () => {
+  const fetchLogs = useCallback(async () => {
     try {
       const response = await attendanceLogApi();
-      if (response?.data) {
-        setData(response.data);
-      }
+      if (response?.data) setData(response.data);
     } catch (error) {
-      message.error("Không thể tải danh sách học viên");
+      toast.error("Lỗi tải dữ liệu");
     }
   }, []);
 
   useEffect(() => {
-    fetchStudents();
-  }, [fetchStudents]);
+    fetchLogs();
+  }, [fetchLogs]);
 
-  // --- Logic Bộ Lọc (Tối ưu dùng useMemo) ---
-  const filteredData = useMemo(() => {
-    const parsedAge = parseInt(ageFilter, 10);
-    if (isNaN(parsedAge)) return data;
-    return data.filter((item) => item.age < parsedAge);
-  }, [data, ageFilter]);
-
-  const handleReset = () => setAgeFilter("");
+  // Tính toán số liệu thống kê thực tế
+  const stats = {
+    total: data.length,
+    today: data.filter(i => dayjs(i.checkin_time).isSame(dayjs(), 'day')).length,
+    unique: new Set(data.map(i => i.student_name)).size
+  };
 
   return (
     <div className="min-h-screen bg-slate-50/50">
       <Navbar />
       <div className="mx-auto mt-20 w-full max-w-7xl px-6 py-8">
 
-        {/* Dashboard Header */}
+        {/* Header & Stats */}
         <section className="rounded-2xl p-6 shadow-sm bg-white border border-slate-100">
-          <p className="text-xs font-bold uppercase tracking-widest text-blue-600">Panda Management</p>
-          <h1 className="mt-2 text-3xl font-black text-slate-900">Xin chào, {nameUser || "Admin"}</h1>
+          <p className="text-xs font-bold uppercase tracking-widest text-blue-600 font-mono">Panda Management</p>
+          <h1 className="mt-2 text-3xl font-black text-slate-900 italic">Xin chào, {nameUser || "Admin"}</h1>
 
           <div className="mt-6 grid gap-4 sm:grid-cols-3">
-            <StatCard label="Tổng học viên" value={data.length} color="blue" />
-            <StatCard label="Kết quả lọc" value={filteredData.length} color="emerald" />
-            <StatCard label="Bộ lọc tuổi" value={ageFilter ? `< ${ageFilter}` : "Tất cả"} color="indigo" />
+            <StatCard label="Tổng lượt điểm danh" value={stats.total} color="text-blue-600" />
+            <StatCard label="Đi tập hôm nay" value={stats.today} color="text-emerald-600" />
+            <StatCard label="Số võ sinh đã quét" value={stats.unique} color="text-indigo-600" />
           </div>
         </section>
 
-        {/* Quick Actions */}
+        {/* Action Buttons */}
         <section className="mt-6 grid gap-4 md:grid-cols-2">
           <ActionButton
             title="Điểm danh khuôn mặt"
-            desc="Mở camera nhận diện học viên"
-            theme="blue"
+            desc="Mở camera nhận diện AI"
+            gradient="from-blue-600 to-indigo-700"
             onClick={() => setModals(p => ({ ...p, modalA: true }))}
           />
           <ActionButton
-            title="Thêm học sinh mới"
-            desc="Quét khuôn mặt & tạo hồ sơ"
-            theme="emerald"
+            title="Thêm võ sinh mới"
+            desc="Đăng ký vector khuôn mặt"
+            gradient="from-emerald-600 to-teal-600"
             onClick={() => setModals(p => ({ ...p, modalB: true }))}
           />
         </section>
 
-        {/* Modals */}
-        <Modal
-          title="Hệ thống điểm danh"
-          open={modals.modalA}
-          onCancel={() => setModals(p => ({ ...p, modalA: false }))}
-          footer={null} width={700} destroyOnHidden
-        >
-          <TakeAttendance />
-        </Modal>
+        {/* Shadcn Dialogs (Thay cho Antd Modal) */}
+        <Dialog open={modals.modalA} onOpenChange={(val) => setModals(p => ({ ...p, modalA: val }))}>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader><DialogTitle>Hệ thống điểm danh AI</DialogTitle></DialogHeader>
+            <TakeAttendance />
+          </DialogContent>
+        </Dialog>
 
-        <Modal
-          title="Ghi danh học viên mới"
-          open={modals.modalB}
-          onCancel={() => setModals(p => ({ ...p, modalB: false }))}
-          footer={null} width={500} destroyOnHidden
-        >
-          <RegisterStudent />
-        </Modal>
+        <Dialog open={modals.modalB} onOpenChange={(val) => setModals(p => ({ ...p, modalB: val }))}>
+          <DialogContent className="max-w-md">
+            <DialogHeader><DialogTitle>Đăng ký võ sinh mới</DialogTitle></DialogHeader>
+            <RegisterStudent />
+          </DialogContent>
+        </Dialog>
 
         {/* Table Section */}
-        <div className="mt-8">
-          <TableLog
-            data={data}
-            ageFilter={ageFilter}
-            filterData={filteredData}
-            handleFilterChange={(e: any) => setAgeFilter(e.target.value)}
-            handleFilter={() => { }}
-            handleReset={handleReset}
-          />
-        </div>
+        <TableLog
+          data={data}
+          ageFilter={ageFilter}
+          handleFilterChange={(e) => setAgeFilter(e.target.value)}
+          handleReset={() => setAgeFilter("")}
+        />
       </div>
     </div>
   );
 }
 
-// --- Sub-components để sạch code ---
+// UI Sub-components
 const StatCard = ({ label, value, color }: any) => (
-  <div className="rounded-xl border border-slate-100 bg-slate-50/50 p-4 shadow-sm">
-    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{label}</p>
-    <p className={`mt-1 text-2xl font-black text-${color}-600`}>{value}</p>
+  <div className="rounded-xl border border-slate-100 bg-slate-50 p-4">
+    <p className="text-[10px] font-bold uppercase text-slate-400 tracking-tight">{label}</p>
+    <p className={`mt-1 text-2xl font-black ${color}`}>{value}</p>
   </div>
 );
 
-const ActionButton = ({ title, desc, theme, onClick }: any) => {
-  const colors = theme === "blue" ? "from-blue-600 to-indigo-700 shadow-blue-100" : "from-emerald-600 to-teal-600 shadow-emerald-100";
-  return (
-    <button onClick={onClick} className={`rounded-2xl bg-gradient-to-r ${colors} p-6 text-left text-white shadow-xl transition-all hover:scale-[1.02] active:scale-95`}>
-      <h2 className="text-xl font-bold">{title}</h2>
-      <p className="mt-1 text-sm opacity-80">{desc}</p>
-    </button>
-  );
-};
+const ActionButton = ({ title, desc, gradient, onClick }: any) => (
+  <button onClick={onClick} className={`rounded-2xl bg-gradient-to-r ${gradient} p-6 text-left text-white shadow-lg transition-transform hover:scale-[1.01] active:scale-95`}>
+    <h2 className="text-xl font-bold">{title}</h2>
+    <p className="mt-1 text-sm opacity-80">{desc}</p>
+  </button>
+);
