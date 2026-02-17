@@ -127,13 +127,13 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
   }, [running, mode, onFaceCaptured]);
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-2xl border border-slate-200 bg-linear-to-b from-slate-50 to-white p-4 shadow-sm">
-      <div className="mb-3 flex items-center justify-between">
-        <span className="rounded-full bg-slate-900 px-3 py-1 text-[10px] font-semibold uppercase tracking-[0.2em] text-white">
+    <div className="w-full max-w-xl mx-auto rounded-2xl sm:rounded-3xl border border-slate-200 bg-linear-to-b from-slate-50 to-white p-3 sm:p-4 shadow-sm">
+      <div className="mb-2 sm:mb-3 flex flex-col sm:flex-row gap-2 sm:gap-0 items-start sm:items-center justify-between">
+        <span className="rounded-full bg-slate-900 px-2 sm:px-3 py-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-widest text-white">
           {mode === "register" ? "Face Register" : "Attendance Scan"}
         </span>
         <span
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${running
+          className={`inline-flex items-center gap-2 rounded-full px-2 sm:px-3 py-1 text-[11px] sm:text-xs font-medium ${running
             ? "bg-emerald-50 text-emerald-700"
             : "bg-slate-100 text-slate-600"
             }`}
@@ -147,7 +147,7 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
       </div>
 
       <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-black">
-        <div className="aspect-video w-full">
+        <div className="aspect-3/4 sm:aspect-video w-full">
           <video
             ref={videoRef}
             autoPlay
@@ -160,13 +160,13 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
 
         {!cameraReady && running && (
           <div className="absolute inset-0 flex items-center justify-center bg-slate-950/75">
-            <p className="text-sm font-medium text-slate-100">Đang khởi động camera...</p>
+            <p className="text-xs sm:text-sm font-medium text-slate-100 text-center px-4">Đang khởi động camera...</p>
           </div>
         )}
 
         {running && (
           <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/2 top-1/2 h-[60%] w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border-2 border-cyan-300/80 shadow-[0_0_30px_rgba(56,189,248,0.35)]" />
+            <div className="absolute left-1/2 top-1/2 h-[65%] w-[75%] sm:h-[60%] sm:w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border-2 border-cyan-300/80 shadow-[0_0_30px_rgba(56,189,248,0.35)]" />
           </div>
         )}
       </div>
@@ -174,7 +174,7 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
       {mode === "attendance" && (
         <div className="mt-4 flex justify-center">
           <button
-            className={`rounded-lg px-4 py-2 text-sm font-semibold text-white transition ${running
+            className={`w-full sm:w-auto rounded-lg px-4 py-2.5 sm:py-2 text-sm font-semibold text-white transition ${running
               ? "bg-red-500 hover:bg-red-600"
               : "bg-emerald-600 hover:bg-emerald-700"
               }`}

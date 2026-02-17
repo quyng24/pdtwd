@@ -62,7 +62,7 @@ export default function RegisterStudent() {
 
     if (scanCompleted) {
       return (
-        <div className="flex flex-col items-center justify-center p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
+        <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
           <FaCheckCircle size={32} className="text-green-500 mb-3" />
           <h4 className="text-green-800 font-bold italic">Thành công!</h4>
           <p className="text-xs text-green-600 mt-1">Đã quét khuôn mặt. Nhấn nút bên trên để quét lại.</p>
@@ -71,7 +71,7 @@ export default function RegisterStudent() {
     }
 
     return (
-      <div className={`flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed text-center transition-colors ${hasRequiredInfo ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-200'}`}>
+      <div className={`flex flex-col items-center justify-center p-4 sm:p-8 rounded-2xl border border-dashed text-center transition-colors ${hasRequiredInfo ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-200'}`}>
         <FaInfoCircle size={24} className={`mb-4 ${hasRequiredInfo ? 'text-blue-500' : 'text-gray-400'}`} />
         <p className="text-xs font-medium text-gray-500 px-4">
           {hasRequiredInfo
@@ -83,13 +83,13 @@ export default function RegisterStudent() {
   };
 
   return (
-    <div className="w-full max-w-md mx-auto">
+    <div className="w-full max-w-md mx-auto px-3 sm:px-4">
       {contextHolder}
-      <Card className=" overflow-hidden bg-white/80 backdrop-blur-lg">
+      <Card className="overflow-hidden bg-white/90 backdrop-blur-lg shadow-lg rounded-2xl sm:rounded-3xl">
         {/* Header Section */}
-        <div className="bg-linear-to-r from-blue-600 to-indigo-700 p-6 text-center rounded-xl">
-          <h2 className="text-white text-xl font-bold uppercase tracking-wider">Ghi danh học viên</h2>
-          <p className="text-blue-100 text-xs mt-1">Đăng ký thông tin và nhận diện khuôn mặt</p>
+        <div className="bg-linear-to-r from-blue-600 to-indigo-700 p-4 sm:p-6 text-center rounded-xl sm:rounded-2xl">
+          <h2 className="text-white text-lg sm:text-xl font-bold uppercase tracking-wider">Ghi danh học viên</h2>
+          <p className="text-blue-100 text-[10px] sm:text-xs mt-1">Đăng ký thông tin và nhận diện khuôn mặt</p>
         </div>
 
         <div className="p-6 space-y-6">
@@ -102,7 +102,7 @@ export default function RegisterStudent() {
               placeholder="Ví dụ: Nguyễn Văn A"
               value={name}
               onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
-              className="h-12 rounded-xl border-gray-100 hover:border-blue-400 focus:border-blue-500 transition-all bg-gray-50/50"
+              className="h-12 sm:h-11 rounded-xl border-gray-100 hover:border-blue-400 focus:border-blue-500 transition-all bg-gray-50/50 text-base"
             />
           </div>
 
@@ -116,7 +116,7 @@ export default function RegisterStudent() {
               placeholder="Chọn ngày sinh"
               onChange={(date) => dispatch({ type: "SET_BIRTHDAY", payload: date })}
               value={birthday}
-              className="w-full h-12 rounded-xl border-gray-100 hover:border-blue-400 bg-gray-50/50"
+              className="w-full h-12 rounded-xl border-gray-100 hover:border-blue-400 bg-gray-50/50 text-base"
             />
           </div>
 
@@ -129,7 +129,7 @@ export default function RegisterStudent() {
                 <Button
                   type="primary"
                   size="large"
-                  className="rounded-xl bg-blue-600 bg-linear-to-r"
+                  className="w-full sm:w-auto rounded-xl bg-blue-600 bg-linear-to-r"
                   onClick={handleOpenCamera}
                 >
                   {scanCompleted ? "Quét lại khuôn mặt" : "Bật camera để quét"}
@@ -138,7 +138,7 @@ export default function RegisterStudent() {
             )}
 
             {isReadyToScan ? (
-              <div className="relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-200 p-1 bg-blue-50/30">
+              <div className="relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-200 p-1 bg-blue-50/30 aspect-3/4 sm:aspect-auto">
                 <CameraCapture
                   onFaceCaptured={handleFaceCaptured}
                   mode="register"
@@ -148,7 +148,7 @@ export default function RegisterStudent() {
                 </div>
               </div>
             ) : scanCompleted ? (
-              <div className="flex flex-col items-center justify-center p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
+              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
                 <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-3 shadow-lg shadow-green-200">
                   <FaCheckCircle size={32} className="text-white" />
                 </div>
@@ -158,13 +158,13 @@ export default function RegisterStudent() {
                 </p>
               </div>
             ) : hasRequiredInfo ? (
-              <div className="flex flex-col items-center justify-center p-8 bg-blue-50 rounded-2xl border border-blue-100 text-center">
+              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-blue-50 rounded-2xl border border-blue-100 text-center">
                 <p className="text-xs font-medium text-blue-700 leading-relaxed px-4">
                   Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera và quét khuôn mặt.
                 </p>
               </div>
             ) : (
-              <div className="flex flex-col items-center justify-center p-8 bg-gray-50 rounded-2xl border border-dashed border-gray-200 text-center group transition-colors hover:bg-blue-50/30 hover:border-blue-200">
+              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-gray-50 rounded-2xl border border-dashed border-gray-200 text-center group transition-colors hover:bg-blue-50/30 hover:border-blue-200">
                 <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
                   <FaInfoCircle size={24} className="text-gray-400 group-hover:text-blue-500" />
                 </div>
@@ -177,7 +177,7 @@ export default function RegisterStudent() {
         </div>
       </Card>
 
-      <p className="text-center text-[10px] text-gray-400 mt-4 uppercase tracking-[0.2em]">
+      <p className="text-center text-[9px] sm:text-[10px] text-gray-400 mt-4 uppercase tracking-widest px-2">
         Hệ thống nhận diện Panda Taekwondo v2.0
       </p>
     </div>
