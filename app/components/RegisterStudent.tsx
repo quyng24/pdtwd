@@ -1,69 +1,86 @@
-"use client";
-
 import { DatePicker, Input, Card, Divider, Button } from "antd";
 import { FaUser, FaCalendar,FaCheckCircle,FaInfoCircle } from "react-icons/fa";
 import CameraCapture from "./CameraCapture";
-import { useState, useRef, useCallback, useEffect } from "react";
-import { Dayjs } from "dayjs";
+import { useRef, useCallback, useReducer } from "react";
 import { message } from "antd";
+import { initialState, registrationReducer } from "../store/reducer";
+import { createStudentApi } from "../services/student";
+import { StudentsType } from "../types/type";
 
 export default function RegisterStudent() {
   const [messageApi, contextHolder] = message.useMessage();
-  const [nameStudent, setNameUser] = useState<string>("");
-  const [birthday, setBirthday] = useState<Dayjs | null>(null);
-  const [scanCompleted, setScanCompleted] = useState(false);
-  const [isCameraOpen, setIsCameraOpen] = useState(false);
   const submittingRef = useRef(false);
-  const hasRequiredInfo = Boolean(nameStudent.trim() && birthday);
+  const [state, dispatch] = useReducer(registrationReducer, initialState);
+  const { name, birthday, scanCompleted, isCameraOpen } = state;
+
+  
+  const hasRequiredInfo = Boolean(name.trim() && birthday);
   const isReadyToScan = hasRequiredInfo && isCameraOpen;
 
-  useEffect(() => {
-    setScanCompleted(false);
-    setIsCameraOpen(false);
-  }, [nameStudent, birthday]);
-
   const handleOpenCamera = useCallback(() => {
-    if (!nameStudent.trim() || !birthday) {
+    if (!name.trim() || !birthday) {
       messageApi.warning("Vui lòng nhập tên và ngày sinh trước khi quét khuôn mặt");
       return;
     }
-    setScanCompleted(false);
-    setIsCameraOpen(true);
-  }, [birthday, messageApi, nameStudent]);
+    dispatch({ type: "OPEN_CAMERA" });
+  }, [birthday, messageApi, name]);
 
-  const handleFaceCaptured = useCallback(
-    async (vector: number[]) => {
-      if (submittingRef.current) return false;
+  const handleFaceCaptured = useCallback(async (vector: number[]) => {
+    if (submittingRef.current || !hasRequiredInfo) return false;
 
-      if (!nameStudent.trim() || !birthday) {
-        messageApi.warning("Vui lòng nhập tên và ngày sinh trước khi quét khuôn mặt");
-        return false;
+    submittingRef.current = true;
+    try {
+      const payload = {
+        name: name.trim(),
+        birthday: birthday?.format("YYYY-MM-DD"),
+        face_vector: vector,
+      };
+      const response = await createStudentApi(payload as StudentsType)
+      if (response.status === 201) {
+        messageApi.success(`${response.message}`);
+        dispatch({ type: 'SCAN_SUCCESS' });
       }
+    } catch (error) {
+      messageApi.error("Có lỗi xảy ra khi lưu dữ liệu");
+      return false;
+    } finally {
+      submittingRef.current = false;
+    }
+  }, [birthday, name, hasRequiredInfo, messageApi]);
 
-      submittingRef.current = true;
-      try {
-        const payload = {
-          name: nameStudent.trim(),
-          birthday: birthday.format("YYYY-MM-DD"),
-          face_vector: vector,
-        };
-        console.log(payload);
-        setScanCompleted(true);
-        setIsCameraOpen(false);
-        setNameUser("");
-        setBirthday(null);
-        messageApi.success("+ 1 Võ sinh");
-        return true;
-      } catch (error) {
-        console.error("Register student failed", error);
-        messageApi.error("Ôi thôi chết, lỗi rồi");
-        return false;
-      } finally {
-        submittingRef.current = false;
-      }
-    },
-    [birthday, messageApi, nameStudent]
-  );
+  const renderStatusArea = () => {
+    if (isCameraOpen && hasRequiredInfo) {
+      return (
+        <div className="relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-200 p-1 bg-blue-50/30">
+          <CameraCapture onFaceCaptured={handleFaceCaptured} mode="register" />
+          <div className="absolute top-3 right-3 animate-pulse">
+            <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
+          </div>
+        </div>
+      );
+    }
+
+    if (scanCompleted) {
+      return (
+        <div className="flex flex-col items-center justify-center p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
+          <FaCheckCircle size={32} className="text-green-500 mb-3" />
+          <h4 className="text-green-800 font-bold italic">Thành công!</h4>
+          <p className="text-xs text-green-600 mt-1">Đã quét khuôn mặt. Nhấn nút bên trên để quét lại.</p>
+        </div>
+      );
+    }
+
+    return (
+      <div className={`flex flex-col items-center justify-center p-8 rounded-2xl border border-dashed text-center transition-colors ${hasRequiredInfo ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-200'}`}>
+        <FaInfoCircle size={24} className={`mb-4 ${hasRequiredInfo ? 'text-blue-500' : 'text-gray-400'}`} />
+        <p className="text-xs font-medium text-gray-500 px-4">
+          {hasRequiredInfo 
+            ? "Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera." 
+            : "Vui lòng nhập đầy đủ thông tin để kích hoạt hệ thống."}
+        </p>
+      </div>
+    );
+  };
 
   return (
     <div className="w-full max-w-md mx-auto">
@@ -83,8 +100,8 @@ export default function RegisterStudent() {
             </label>
             <Input
               placeholder="Ví dụ: Nguyễn Văn A"
-              value={nameStudent}
-              onChange={(e) => setNameUser(e.target.value)}
+              value={name}
+              onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
               className="h-12 rounded-xl border-gray-100 hover:border-blue-400 focus:border-blue-500 transition-all bg-gray-50/50"
             />
           </div>
@@ -97,7 +114,7 @@ export default function RegisterStudent() {
             <DatePicker
               format="YYYY-MM-DD"
               placeholder="Chọn ngày sinh"
-              onChange={(date) => setBirthday(date)}
+              onChange={(date) => dispatch({ type: "SET_BIRTHDAY", payload: date })}
               value={birthday}
               className="w-full h-12 rounded-xl border-gray-100 hover:border-blue-400 bg-gray-50/50"
             />

@@ -10,27 +10,34 @@ type Props = {
 
 const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const detectingRef = useRef(false);
   const [running, setRunning] = useState(true);
   const [cameraReady, setCameraReady] = useState(false);
-  const lastEmitRef = useRef(0);
 
   // load models
   useEffect(() => {
+    let mounted = true;
     const load = async () => {
       const MODEL_URL = "/models";
 
-      await Promise.all([
-        faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-      ]);
+      if (!faceapi.nets.tinyFaceDetector.params) {
+        await Promise.all([
+          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
+          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        ]);
+      }
 
+      if (!mounted) return;
       startCamera();
     };
 
     load();
 
-    return () => stopCamera();
+    return () => {
+      mounted = false;
+      stopCamera();
+    };
   }, []);
 
   const startCamera = async () => {
@@ -61,22 +68,26 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
 
     let rafId: number | null = null;
     let lastRun = 0;
-    let detecting = false;
     let active = true;
 
     const loop = async (time: number) => {
       if (!active || !videoRef.current || !running) return;
+      if (detectingRef.current) {
+        rafId = requestAnimationFrame(loop);
+        return;
+      }
+
       if (videoRef.current.readyState < 2) {
         rafId = requestAnimationFrame(loop);
         return;
       }
 
-      if (time - lastRun < 700 || detecting) {
+      if (time - lastRun < 700 || detectingRef.current) {
         rafId = requestAnimationFrame(loop);
         return;
       }
 
-      detecting = true;
+      detectingRef.current = true;
       try {
         const result = await faceapi
           .detectSingleFace(
@@ -87,13 +98,6 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
           .withFaceDescriptor();
 
         if (result && running) {
-          if (mode === "attendance") {
-            const now = Date.now();
-            if (now - lastEmitRef.current < 5000) {
-              return;
-            }
-            lastEmitRef.current = now;
-          }
 
           const vector = Array.from(result.descriptor);
 
@@ -106,7 +110,7 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
           }
         }
       } finally {
-        detecting = false;
+        detectingRef.current = false;
         lastRun = time;
         if (active && running) {
           rafId = requestAnimationFrame(loop);
@@ -129,16 +133,14 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
           {mode === "register" ? "Face Register" : "Attendance Scan"}
         </span>
         <span
-          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${
-            running
-              ? "bg-emerald-50 text-emerald-700"
-              : "bg-slate-100 text-slate-600"
-          }`}
+          className={`inline-flex items-center gap-2 rounded-full px-3 py-1 text-xs font-medium ${running
+            ? "bg-emerald-50 text-emerald-700"
+            : "bg-slate-100 text-slate-600"
+            }`}
         >
           <span
-            className={`h-2 w-2 rounded-full ${
-              running ? "animate-pulse bg-emerald-500" : "bg-slate-400"
-            }`}
+            className={`h-2 w-2 rounded-full ${running ? "animate-pulse bg-emerald-500" : "bg-slate-400"
+              }`}
           />
           {running ? "Đang quét" : "Đã dừng"}
         </span>
@@ -172,11 +174,10 @@ const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
       {mode === "attendance" && (
         <div className="mt-4 flex justify-center">
           <button
-            className={`rounded-lg px-4 py-2 text-sm font-semibold text-white transition ${
-              running
-                ? "bg-red-500 hover:bg-red-600"
-                : "bg-emerald-600 hover:bg-emerald-700"
-            }`}
+            className={`rounded-lg px-4 py-2 text-sm font-semibold text-white transition ${running
+              ? "bg-red-500 hover:bg-red-600"
+              : "bg-emerald-600 hover:bg-emerald-700"
+              }`}
             onClick={async () => {
               if (running) {
                 setRunning(false);

@@ -46,10 +46,10 @@ export default function LoginPage() {
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-[#0a0a0a]">
       {contextHolder}
 
-      {/* 1. BACKGROUND LAYER (Dùng lại phong cách Hero) */}
+      {/* 1. BACKGROUND LAYER */}
       <div className="absolute inset-0 z-0">
         <img
-          src="/images/herosection-v2.jpg"
+          src="/images/mau-trang.jpg"
           alt="Background"
           className="w-full h-full object-cover opacity-30 grayscale-50"
         />
@@ -57,17 +57,17 @@ export default function LoginPage() {
       </div>
 
       {/* 2. LOGIN CARD (Glassmorphism) */}
-      <motion.div 
+      <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         className="relative z-10 w-full max-w-112.5 px-6"
       >
         <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-10 shadow-2xl overflow-hidden">
-          
+
           {/* Logo & Header */}
           <div className="flex flex-col items-center mb-8">
             <div className="w-16 h-16 bg-blue-600 rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_30px_rgba(37,99,235,0.4)] rotate-3 hover:rotate-0 transition-transform duration-300">
-               <LuShieldAlert className="text-white" size={32} />
+              <LuShieldAlert className="text-white" size={32} />
             </div>
             <h2 className="text-3xl font-black text-white tracking-tighter uppercase italic">
               Admin Portal
@@ -104,9 +104,9 @@ export default function LoginPage() {
 
           {/* Decorative Security Line */}
           <div className="mt-10 flex items-center gap-3">
-             <div className="h-px flex-1 bg-white/10" />
-             <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-bold">Secure Access</span>
-             <div className="h-px flex-1 bg-white/10" />
+            <div className="h-px flex-1 bg-white/10" />
+            <span className="text-[10px] text-gray-600 uppercase tracking-[0.3em] font-bold">Secure Access</span>
+            <div className="h-px flex-1 bg-white/10" />
           </div>
         </div>
 
@@ -116,7 +116,7 @@ export default function LoginPage() {
         </p>
       </motion.div>
 
-      {/* 3. LIGHT EFFECTS (Làm trang sinh động hơn) */}
+      {/* 3. LIGHT EFFECTS */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-125 h-125 bg-blue-600/10 blur-[120px] rounded-full pointer-events-none" />
     </div>
   );

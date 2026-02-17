@@ -1,4 +1,5 @@
 import { NotificationPlacement } from "antd/es/notification/interface";
+import { Dayjs } from "dayjs";
 
 export interface UserCookie {
   name?: string;
@@ -78,6 +79,17 @@ export interface CameraCaptureProps {
   buttonTextOn?: string;
   showPreview?: boolean;
   autoCloseAfterCapture?: boolean;
+}
+
+export interface RegisterStudentState {
+  name: string;
+  birthday: Dayjs | null;
+  scanCompleted: boolean;
+  isCameraOpen: boolean;
+};
+
+export interface AttendancePayload {
+  face_vector: number[];
 }
 
 export const initialData = [
