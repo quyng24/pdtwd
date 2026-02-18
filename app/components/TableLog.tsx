@@ -54,9 +54,6 @@ export default function TableLog({
 
     useEffect(() => { setCurrentPage(1); }, [ageFilter]);
 
-    // Hàm lấy chữ cái đầu của tên làm Avatar
-    const getInitials = (name: string) => name.split(" ").map(n => n[0]).join("").toUpperCase().slice(0, 2);
-
     return (
         <section className="mt-8 overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-xl shadow-slate-200/50">
             {/* Search & Filter Header */}
