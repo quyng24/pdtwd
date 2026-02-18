@@ -1,5 +1,5 @@
-import { DatePicker, Input, Card, Divider, Button, message } from "antd";
-import { FaUser, FaCalendar, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
+import { DatePicker, Input, Divider, Button, message } from "antd";
+import { FaUser, FaCalendar } from "react-icons/fa";
 import CameraCapture from "./CameraCapture";
 import { useRef, useCallback, useReducer } from "react";
 import { initialState, registrationReducer } from "../store/reducer";

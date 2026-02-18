@@ -4,7 +4,10 @@ const STUDENT_API = `${process.env.NEXT_PUBLIC_API_BASE}/students`;
 
 export const createStudentApi = async (data: StudentsType) => {
   try {
-    const response = await axios.post(`${STUDENT_API}/create`, data);
+    const response = await axios.post(`${STUDENT_API}/create`, data, {
+      headers: {
+        "Content-Type": "application/json"
+      }});
     return response.data;
   } catch (error) {
     console.error(error);
