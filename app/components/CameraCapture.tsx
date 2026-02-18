@@ -14,7 +14,7 @@ type AttendanceProps = {
   mode: "attendance";
   onFaceCaptured: (embedding: number[])
     => Promise<boolean | void> | boolean | void;
-  onScanComplete: () => void;
+  onScanComplete?: () => void;
 };
 
 type Props = RegisterProps | AttendanceProps;
