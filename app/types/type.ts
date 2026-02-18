@@ -67,7 +67,7 @@ export interface BaseChartProps {
 export interface StudentsType {
   name: string;
   birthday: string;
-  face_vector: number[];
+  face_vector: number[][] | number[];
 }
 
 export type NotifyType = "success" | "error" | "info" | "warning";

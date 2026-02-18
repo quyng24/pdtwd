@@ -1,202 +1,174 @@
 "use client";
 
 import * as faceapi from "face-api.js";
-import { memo, useEffect, useRef, useState } from "react";
+import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 
 type Props = {
-  onFaceCaptured: (embedding: number[]) => Promise<boolean | void> | boolean | void;
+  onFaceCaptured: (embedding: number[] | number[][]) => Promise<boolean | void> | boolean | void;
   mode: "register" | "attendance";
+  onScanComplete?: () => void;
 };
 
-const CameraCapture = memo(({ onFaceCaptured, mode }: Props) => {
+declare global {
+  interface Window {
+    FaceDetection: any;
+    Camera: any;
+  }
+}
+
+const CameraCapture = memo(({ onFaceCaptured, mode, onScanComplete }: Props) => {
   const videoRef = useRef<HTMLVideoElement>(null);
-  const detectingRef = useRef(false);
   const [running, setRunning] = useState(true);
   const [cameraReady, setCameraReady] = useState(false);
+  const [progress, setProgress] = useState(0);
 
-  // load models
+  const capturedVectorsRef = useRef<number[][]>([]);
+  const isProcessingRef = useRef(false);
+  const lastCaptureTimeRef = useRef(0);
+  const cameraInstance = useRef<any>(null);
+
   useEffect(() => {
-    let mounted = true;
-    const load = async () => {
+    const loadDependencies = async () => {
       const MODEL_URL = "/models";
+      await Promise.all([
+        faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
+        faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
+      ]);
 
-      if (!faceapi.nets.tinyFaceDetector.params) {
-        await Promise.all([
-          faceapi.nets.tinyFaceDetector.loadFromUri(MODEL_URL),
-          faceapi.nets.faceLandmark68Net.loadFromUri(MODEL_URL),
-          faceapi.nets.faceRecognitionNet.loadFromUri(MODEL_URL),
-        ]);
+      const scripts = [
+        "https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/face_detection.js",
+        "https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js",
+      ];
+
+      for (const src of scripts) {
+        if (!document.querySelector(`script[src="${src}"]`)) {
+          const script = document.createElement("script");
+          script.src = src;
+          script.async = true;
+          document.body.appendChild(script);
+          await new Promise((res) => (script.onload = res));
+        }
       }
-
-      if (!mounted) return;
-      startCamera();
+      initMediaPipe();
     };
 
-    load();
+    loadDependencies();
 
     return () => {
-      mounted = false;
-      stopCamera();
+      if (cameraInstance.current) cameraInstance.current.stop();
     };
   }, []);
 
-  const startCamera = async () => {
-    try {
-      const stream = await navigator.mediaDevices.getUserMedia({ video: true });
-      if (videoRef.current) {
-        videoRef.current.srcObject = stream;
-        setCameraReady(false);
-      }
-    } catch (error) {
-      console.error("Không thể mở camera", error);
-    }
-  };
+  const initMediaPipe = useCallback(() => {
+    if (!videoRef.current || !window.FaceDetection || !window.Camera) return;
 
-  const stopCamera = () => {
-    if (!videoRef.current?.srcObject) return;
-    videoRef.current.pause();
-    (videoRef.current.srcObject as MediaStream)
-      .getTracks()
-      .forEach((t) => t.stop());
-    videoRef.current.srcObject = null;
-    setCameraReady(false);
-  };
+    const faceDetection = new window.FaceDetection({
+      locateFile: (file: string) => `https://cdn.jsdelivr.net/npm/@mediapipe/face_detection/${file}`,
+    });
 
-  // detect loop
-  useEffect(() => {
-    if (!running) return;
+    faceDetection.setOptions({
+      model: "short",
+      minDetectionConfidence: 0.7,
+    });
 
-    let rafId: number | null = null;
-    let lastRun = 0;
-    let active = true;
+    faceDetection.onResults(async (results: any) => {
+      if (!running || isProcessingRef.current || !videoRef.current) return;
 
-    const loop = async (time: number) => {
-      if (!active || !videoRef.current || !running) return;
-      if (detectingRef.current) {
-        rafId = requestAnimationFrame(loop);
-        return;
-      }
+      if (results.detections.length > 0) {
+        const now = Date.now();
+        const delay = mode === "register" ? 600 : 1500;
+        if (now - lastCaptureTimeRef.current < delay) return;
 
-      if (videoRef.current.readyState < 2) {
-        rafId = requestAnimationFrame(loop);
-        return;
-      }
+        isProcessingRef.current = true;
+        try {
+          const descriptor = await faceapi.computeFaceDescriptor(videoRef.current);
+          if (descriptor) {
+            const vector = Array.from(descriptor as Float32Array);
+            if (mode === "attendance") {
+              await onFaceCaptured(vector);
+            } else {
+              capturedVectorsRef.current.push(vector);
+              setProgress(capturedVectorsRef.current.length);
+              if (capturedVectorsRef.current.length >= 5) {
+                const success = await onFaceCaptured(capturedVectorsRef.current);
+                if (success !== false) {
+                  setRunning(false);
 
-      if (time - lastRun < 700 || detectingRef.current) {
-        rafId = requestAnimationFrame(loop);
-        return;
-      }
+                  if (cameraInstance.current) {
+                    cameraInstance.current.stop();
+                  }
 
-      detectingRef.current = true;
-      try {
-        const result = await faceapi
-          .detectSingleFace(
-            videoRef.current,
-            new faceapi.TinyFaceDetectorOptions()
-          )
-          .withFaceLandmarks()
-          .withFaceDescriptor();
-
-        if (result && running) {
-
-          const vector = Array.from(result.descriptor);
-
-          const captureResult = await onFaceCaptured(vector);
-
-          if (mode === "register" && captureResult !== false) {
-            setRunning(false);
-            active = false;
-            stopCamera();
+                  onScanComplete?.();
+                }
+                else {
+                  capturedVectorsRef.current = [];
+                  setProgress(0);
+                }
+              }
+            }
           }
-        }
-      } finally {
-        detectingRef.current = false;
-        lastRun = time;
-        if (active && running) {
-          rafId = requestAnimationFrame(loop);
+        } finally {
+          lastCaptureTimeRef.current = Date.now();
+          isProcessingRef.current = false;
         }
       }
-    };
+    });
 
-    rafId = requestAnimationFrame(loop);
+    cameraInstance.current = new window.Camera(videoRef.current, {
+      onFrame: async () => {
+        if (videoRef.current) await faceDetection.send({ image: videoRef.current });
+      },
+      width: 640,
+      height: 480,
+    });
 
-    return () => {
-      active = false;
-      if (rafId !== null) cancelAnimationFrame(rafId);
-    };
-  }, [running, mode, onFaceCaptured]);
+    cameraInstance.current.start().then(() => setCameraReady(true));
+  }, [mode, onFaceCaptured, running]);
 
   return (
-    <div className="w-full max-w-xl mx-auto rounded-2xl sm:rounded-3xl border border-slate-200 bg-linear-to-b from-slate-50 to-white p-3 sm:p-4 shadow-sm">
-      <div className="mb-2 sm:mb-3 flex flex-col sm:flex-row gap-2 sm:gap-0 items-start sm:items-center justify-between">
-        <span className="rounded-full bg-slate-900 px-2 sm:px-3 py-1 text-[9px] sm:text-[10px] font-semibold uppercase tracking-widest text-white">
-          {mode === "register" ? "Face Register" : "Attendance Scan"}
-        </span>
-        <span
-          className={`inline-flex items-center gap-2 rounded-full px-2 sm:px-3 py-1 text-[11px] sm:text-xs font-medium ${running
-            ? "bg-emerald-50 text-emerald-700"
-            : "bg-slate-100 text-slate-600"
-            }`}
-        >
-          <span
-            className={`h-2 w-2 rounded-full ${running ? "animate-pulse bg-emerald-500" : "bg-slate-400"
-              }`}
-          />
-          {running ? "Đang quét" : "Đã dừng"}
-        </span>
-      </div>
-
-      <div className="relative overflow-hidden rounded-xl border border-slate-200 bg-black">
-        <div className="aspect-3/4 sm:aspect-video w-full">
-          <video
-            ref={videoRef}
-            autoPlay
-            muted
-            playsInline
-            onLoadedData={() => setCameraReady(true)}
-            className="h-full w-full object-cover"
-          />
+    <div className="w-full bg-white p-2 sm:p-4 rounded-2xl sm:rounded-3xl shadow-xl border border-slate-100">
+      <div className="mb-2 flex justify-between items-center px-1">
+        <div className="flex items-center gap-2">
+          <div className={`h-2 w-2 rounded-full ${running ? "bg-green-500 animate-pulse" : "bg-slate-300"}`} />
+          <span className="text-[9px] sm:text-[10px] font-bold text-slate-500 uppercase tracking-widest">
+            AI Recognition
+          </span>
         </div>
-
-        {!cameraReady && running && (
-          <div className="absolute inset-0 flex items-center justify-center bg-slate-950/75">
-            <p className="text-xs sm:text-sm font-medium text-slate-100 text-center px-4">Đang khởi động camera...</p>
-          </div>
-        )}
-
-        {running && (
-          <div className="pointer-events-none absolute inset-0">
-            <div className="absolute left-1/2 top-1/2 h-[65%] w-[75%] sm:h-[60%] sm:w-[62%] -translate-x-1/2 -translate-y-1/2 rounded-3xl border-2 border-cyan-300/80 shadow-[0_0_30px_rgba(56,189,248,0.35)]" />
-          </div>
+        {mode === "register" && progress > 0 && (
+          <span className="text-[9px] sm:text-[10px] font-black text-blue-600 bg-blue-50 px-2 py-1 mr-5 rounded-lg">
+            {progress}/5
+          </span>
         )}
       </div>
 
-      {mode === "attendance" && (
-        <div className="mt-4 flex justify-center">
-          <button
-            className={`w-full sm:w-auto rounded-lg px-4 py-2.5 sm:py-2 text-sm font-semibold text-white transition ${running
-              ? "bg-red-500 hover:bg-red-600"
-              : "bg-emerald-600 hover:bg-emerald-700"
-              }`}
-            onClick={async () => {
-              if (running) {
-                setRunning(false);
-                stopCamera();
-                return;
-              }
+      <div className="relative aspect-square sm:aspect-video h-auto max-h-[40vh] sm:max-h-none rounded-xl overflow-hidden bg-slate-900 border border-slate-200">
+        <video
+          ref={videoRef}
+          className="h-full w-full object-cover scale-x-[-1]"
+          playsInline
+          muted
+        />
 
-              await startCamera();
-              setRunning(true);
-            }}
-          >
-            {running ? "Tắt camera" : "Bật camera"}
-          </button>
-        </div>
-      )}
+        {!cameraReady && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-900/90 backdrop-blur-sm">
+            <div className="flex flex-col items-center gap-2">
+              <div className="w-5 h-5 border-2 border-blue-500 border-t-transparent rounded-full animate-spin" />
+              <p className="text-[9px] text-slate-400 font-medium uppercase">Loading AI...</p>
+            </div>
+          </div>
+        )}
+
+        {running && cameraReady && (
+          <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
+            {/* Khung quét nhỏ hơn trên mobile */}
+            <div className={`w-[90%] h-[90%] border-2 border-dashed rounded transition-all duration-500 ${progress > 0 ? "border-green-400 scale-105" : "border-white/30"
+              }`} />
+          </div>
+        )}
+      </div>
     </div>
   );
 });
 
 CameraCapture.displayName = "CameraCapture";
-
 export default CameraCapture;

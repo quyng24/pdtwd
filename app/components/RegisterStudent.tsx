@@ -1,18 +1,15 @@
-import { DatePicker, Input, Card, Divider, Button } from "antd";
+import { DatePicker, Input, Card, Divider, Button, message } from "antd";
 import { FaUser, FaCalendar, FaCheckCircle, FaInfoCircle } from "react-icons/fa";
 import CameraCapture from "./CameraCapture";
 import { useRef, useCallback, useReducer } from "react";
-import { message } from "antd";
 import { initialState, registrationReducer } from "../store/reducer";
 import { createStudentApi } from "../services/student";
-import { StudentsType } from "../types/type";
 
 export default function RegisterStudent() {
   const [messageApi, contextHolder] = message.useMessage();
   const submittingRef = useRef(false);
   const [state, dispatch] = useReducer(registrationReducer, initialState);
   const { name, birthday, scanCompleted, isCameraOpen } = state;
-
 
   const hasRequiredInfo = Boolean(name.trim() && birthday);
   const isReadyToScan = hasRequiredInfo && isCameraOpen;
@@ -25,161 +22,117 @@ export default function RegisterStudent() {
     dispatch({ type: "OPEN_CAMERA" });
   }, [birthday, messageApi, name]);
 
-  const handleFaceCaptured = useCallback(async (vector: number[]) => {
-    if (submittingRef.current || !hasRequiredInfo) return false;
+  const handleFaceCaptured = async (data: number[] | number[][]) => {
+    if (Array.isArray(data) && Array.isArray(data[0]) && !submittingRef.current) {
+      submittingRef.current = true;
+      const hideLoading = messageApi.loading("Đang lưu thông tin võ sinh...", 0);
 
-    submittingRef.current = true;
-    try {
-      const payload = {
-        name: name.trim(),
-        birthday: birthday?.format("YYYY-MM-DD"),
-        face_vector: vector,
-      };
-      const response = await createStudentApi(payload as StudentsType)
-      if (response.status === 201) {
-        messageApi.success(`${response.message}`);
-        dispatch({ type: 'SCAN_SUCCESS' });
+      try {
+        const birthdayStr: string = birthday ? birthday.format("YYYY-MM-DD") : "";
+        const payload = { name: name, birthday: birthdayStr, face_vector: data };
+        const response = await createStudentApi(payload);
+        if (response.status === 201) {
+          messageApi.success("Đăng ký võ sinh thành công!");
+          dispatch({ type: "SCAN_SUCCESS" });
+          return true;
+        } else if (response.status === 400) {
+          messageApi.error(response.message);
+          return false;
+        }
+      } catch (error: any) {
+        console.error("Lỗi đăng ký:", error);
+        messageApi.error(error.response?.data?.detail || "Không thể kết nối tới máy chủ.");
+        return false;
+      } finally {
+        hideLoading();
+        submittingRef.current = false;
       }
-    } catch (error) {
-      messageApi.error("Học sinh này đã được thêm!");
-      dispatch({ type: "SCAN_SUCCESS" });
-    } finally {
-      submittingRef.current = false;
     }
-  }, [birthday, name, hasRequiredInfo, messageApi]);
-
-  const renderStatusArea = () => {
-    if (isCameraOpen && hasRequiredInfo) {
-      return (
-        <div className="relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-200 p-1 bg-blue-50/30">
-          <CameraCapture onFaceCaptured={handleFaceCaptured} mode="register" />
-          <div className="absolute top-3 right-3 animate-pulse">
-            <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]" />
-          </div>
-        </div>
-      );
-    }
-
-    if (scanCompleted) {
-      return (
-        <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
-          <FaCheckCircle size={32} className="text-green-500 mb-3" />
-          <h4 className="text-green-800 font-bold italic">Thành công!</h4>
-          <p className="text-xs text-green-600 mt-1">Đã quét khuôn mặt. Nhấn nút bên trên để quét lại.</p>
-        </div>
-      );
-    }
-
-    return (
-      <div className={`flex flex-col items-center justify-center p-4 sm:p-8 rounded-2xl border border-dashed text-center transition-colors ${hasRequiredInfo ? 'bg-blue-50 border-blue-100' : 'bg-gray-50 border-gray-200'}`}>
-        <FaInfoCircle size={24} className={`mb-4 ${hasRequiredInfo ? 'text-blue-500' : 'text-gray-400'}`} />
-        <p className="text-xs font-medium text-gray-500 px-4">
-          {hasRequiredInfo
-            ? "Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera."
-            : "Vui lòng nhập đầy đủ thông tin để kích hoạt hệ thống."}
-        </p>
-      </div>
-    );
+    return false;
   };
 
   return (
-    <div className="w-full max-w-md mx-auto px-3 sm:px-4">
+    <div className="w-full max-w-md mx-auto px-0 lg:px-4">
       {contextHolder}
-      <Card className="overflow-hidden bg-white/90 backdrop-blur-lg shadow-lg rounded-2xl sm:rounded-3xl">
+      <div className="overflow-hidden bg-white/90 backdrop-blur-lg p-4 lg:p-8 shadow-lg rounded sm:rounded-3xl border-none">
         {/* Header Section */}
-        <div className="bg-linear-to-r from-blue-600 to-indigo-700 p-4 sm:p-6 text-center rounded-xl sm:rounded-2xl">
-          <h2 className="text-white text-lg sm:text-xl font-bold uppercase tracking-wider">Ghi danh học viên</h2>
-          <p className="text-blue-100 text-[10px] sm:text-xs mt-1">Đăng ký thông tin và nhận diện khuôn mặt</p>
+        <div className="bg-linear-to-r from-blue-600 to-indigo-700 p-2 sm:p-4 text-center rounded md:rounded-xl sm:rounded-2xl">
+          <h2 className="text-white text-sm sm:text-xl font-bold uppercase tracking-wider">Ghi danh học viên</h2>
+          <p className="text-blue-100 text-[10px] sm:text-xs mt-1 italic opacity-80">Panda Taekwondo Management System</p>
         </div>
 
-        <div className="p-6 space-y-6">
+        <div className="pt-4 md:p-5 space-y-6">
           {/* Input Name */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-              <FaUser size={14} className="text-blue-500" /> Họ tên học sinh
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+              <FaUser size={12} className="text-blue-500" /> Họ tên võ sinh
             </label>
             <Input
-              placeholder="Ví dụ: Nguyễn Văn A"
+              placeholder="Nhập họ và tên..."
               value={name}
               onChange={(e) => dispatch({ type: "SET_NAME", payload: e.target.value })}
-              className="h-12 sm:h-11 rounded-xl border-gray-100 hover:border-blue-400 focus:border-blue-500 transition-all bg-gray-50/50 text-base"
+              className="h-8 md:h-12 rounded-xl border-slate-100 bg-slate-50/50 hover:border-blue-300 focus:shadow-[0_0_0_2px_rgba(59,130,246,0.1)] transition-all"
             />
           </div>
 
           {/* Input Birthday */}
           <div className="space-y-2">
-            <label className="text-xs font-bold text-gray-400 uppercase tracking-widest flex items-center gap-2">
-              <FaCalendar size={14} className="text-blue-500" /> Ngày sinh
+            <label className="text-[10px] font-black text-slate-400 uppercase tracking-[0.2em] flex items-center gap-2">
+              <FaCalendar size={12} className="text-blue-500" /> Ngày tháng năm sinh
             </label>
             <DatePicker
               format="YYYY-MM-DD"
               placeholder="Chọn ngày sinh"
               onChange={(date) => dispatch({ type: "SET_BIRTHDAY", payload: date })}
               value={birthday}
-              className="w-full h-12 rounded-xl border-gray-100 hover:border-blue-400 bg-gray-50/50 text-base"
+              className="w-full h-8 md:h-12 rounded-xl border-slate-100 bg-slate-50/50 hover:border-blue-300 transition-all"
             />
           </div>
 
-          <Divider className="my-2 border-gray-100" />
+          <Divider className="my-2 border-slate-50" />
 
           {/* Camera / Status Section */}
           <div className="relative">
-            {hasRequiredInfo && (
+            {hasRequiredInfo && !isCameraOpen && (
               <div className="mb-4 flex justify-center">
                 <Button
                   type="primary"
                   size="large"
-                  className="w-full sm:w-auto rounded-xl bg-blue-600 bg-linear-to-r"
+                  className="w-full rounded-xl h-11 font-bold shadow-lg"
                   onClick={handleOpenCamera}
                 >
-                  {scanCompleted ? "Quét lại khuôn mặt" : "Bật camera để quét"}
+                  {scanCompleted ? "Quét lại khuôn mặt" : "Bắt đầu quét"}
                 </Button>
               </div>
             )}
 
-            {isReadyToScan ? (
-              <div className="relative rounded-2xl overflow-hidden border-2 border-dashed border-blue-200 p-1 bg-blue-50/30 aspect-3/4 sm:aspect-auto">
+            {isReadyToScan && (
+              <div className="relative animate-in fade-in slide-in-from-bottom-4 duration-500 max-w-full overflow-hidden">
                 <CameraCapture
                   onFaceCaptured={handleFaceCaptured}
                   mode="register"
+                  onScanComplete={() => {
+                    dispatch({ type: "SCAN_SUCCESS" });
+                  }}
                 />
-                <div className="absolute top-3 right-3 animate-pulse">
-                  <div className="w-3 h-3 bg-red-500 rounded-full shadow-[0_0_10px_rgba(239,68,68,0.8)]"></div>
-                </div>
-              </div>
-            ) : scanCompleted ? (
-              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-green-50 rounded-2xl border border-green-100 text-center animate-in fade-in zoom-in duration-300">
-                <div className="w-16 h-16 bg-green-500 rounded-full flex items-center justify-center mb-3 shadow-lg shadow-green-200">
-                  <FaCheckCircle size={32} className="text-white" />
-                </div>
-                <h4 className="text-green-800 font-bold italic">Thành công!</h4>
-                <p className="text-xs text-green-600 mt-1 px-4 leading-relaxed">
-                  Đã quét khuôn mặt. Nhấn "Quét lại khuôn mặt" nếu cần quét lại.
-                </p>
-              </div>
-            ) : hasRequiredInfo ? (
-              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-blue-50 rounded-2xl border border-blue-100 text-center">
-                <p className="text-xs font-medium text-blue-700 leading-relaxed px-4">
-                  Thông tin đã sẵn sàng. Nhấn nút bên trên để bật camera và quét khuôn mặt.
-                </p>
-              </div>
-            ) : (
-              <div className="flex flex-col items-center justify-center p-4 sm:p-8 bg-gray-50 rounded-2xl border border-dashed border-gray-200 text-center group transition-colors hover:bg-blue-50/30 hover:border-blue-200">
-                <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center mb-4 shadow-sm group-hover:scale-110 transition-transform">
-                  <FaInfoCircle size={24} className="text-gray-400 group-hover:text-blue-500" />
-                </div>
-                <p className="text-xs font-medium text-gray-500 leading-relaxed px-4 group-hover:text-gray-600">
-                  Vui lòng <span className="text-blue-600 font-bold">nhập đầy đủ thông tin</span> bên trên để kích hoạt hệ thống quét khuôn mặt.
-                </p>
+
+                {/* Nút đóng camera khẩn cấp trên mobile */}
+                <button
+                  onClick={() => dispatch({ type: "SCAN_SUCCESS" })}
+                  className="absolute top-2 right-2 bg-red-500 text-white w-6 h-6 rounded-full shadow-lg z-50 text-xs flex items-center justify-center font-bold border-2 border-white"
+                >
+                  ✕
+                </button>
               </div>
             )}
           </div>
         </div>
-      </Card>
+      </div>
 
-      <p className="text-center text-[9px] sm:text-[10px] text-gray-400 mt-4 uppercase tracking-widest px-2">
-        Hệ thống nhận diện Panda Taekwondo v2.0
-      </p>
+      <div className="mt-6 flex items-center justify-center gap-4 opacity-30 grayscale">
+        {/* Có thể thêm logo CLB ở đây */}
+        <p className="text-[10px] font-black uppercase tracking-[0.3em] text-slate-500">Panda Taekwondo AI Security</p>
+      </div>
     </div>
   );
 }
