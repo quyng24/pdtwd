@@ -12,13 +12,26 @@ export default function TakeAttendance() {
   const lastLogsRef = useRef<Record<string, number>>({});
   const globalThrottleRef = useRef<number>(0);
 
-  const handleFaceCaptured = useCallback(async (vector: number[]) => {
+  const handleFaceCaptured = useCallback(async (vector: number[] | number[][]) => {
     const now = Date.now();
     if (isProcessingRef.current) return;
     if (now < globalThrottleRef.current) return;
     try {
       isProcessingRef.current = true;
-      const res = await attendanceStudentApi({ face_vector: vector });
+
+      // Normalize vector to number[]:
+      // - if it's an array of arrays, use the first detected face vector
+      // - otherwise use the provided number[] directly
+      const faceVector: number[] = Array.isArray(vector[0])
+        ? (vector as number[][])[0]
+        : (vector as number[]);
+
+      // Guard against empty vectors
+      if (!faceVector || faceVector.length === 0) {
+        throw new Error("Empty face vector");
+      }
+
+      const res = await attendanceStudentApi({ face_vector: faceVector });
 
       if (res?.status === 200) {
         const studentId = res.data.id;
@@ -49,6 +62,7 @@ export default function TakeAttendance() {
       <CameraCapture
         onFaceCaptured={handleFaceCaptured}
         mode="attendance"
+        onScanComplete={() => { }}
       />
     </>
   );
