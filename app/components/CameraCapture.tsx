@@ -3,11 +3,21 @@
 import * as faceapi from "face-api.js";
 import React, { memo, useEffect, useRef, useState, useCallback } from "react";
 
-type Props = {
-  onFaceCaptured: (embedding: number[] | number[][]) => Promise<boolean | void> | boolean | void;
-  mode: "register" | "attendance";
-  onScanComplete?: () => void;
+type RegisterProps = {
+  mode: "register";
+  onFaceCaptured: (embedding: number[][])
+    => Promise<boolean | void> | boolean | void;
+  onScanComplete: () => void;
 };
+
+type AttendanceProps = {
+  mode: "attendance";
+  onFaceCaptured: (embedding: number[])
+    => Promise<boolean | void> | boolean | void;
+  onScanComplete: () => void;
+};
+
+type Props = RegisterProps | AttendanceProps;
 
 declare global {
   interface Window {
