@@ -1,7 +1,7 @@
 import { addDoc, collection, getDocs, serverTimestamp } from "firebase/firestore";
-import { db } from "@/app/lib/firebase";
-import { FormDataType } from "../types/type";
-import { dataCardActivities } from "../store/dataMock";
+import { db } from "@/lib/firebase";
+import { FormDataType } from "@/types/type";
+import { dataCardActivities } from "@/store/dataMock";
 
 export const getDataActivities = async () => {
     try {

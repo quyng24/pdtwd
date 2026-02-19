@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { allowedEmails } from "./app/lib/auth";
+import { allowedEmails } from "@/lib/auth";
 
 export function middleware(req: NextRequest) {
   const userCookie = req.cookies.get("user")?.value;

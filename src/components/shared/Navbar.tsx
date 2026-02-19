@@ -2,10 +2,10 @@
 import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { clearUserCookie, getUserCookie } from "../lib/cookies";
-import { UserCookie } from "../types/type";
+import { clearUserCookie, getUserCookie } from "@/lib/cookies";
+import { UserCookie } from "@/types/type";
 import { message } from "antd";
-import { auth } from "../lib/firebase";
+import { auth } from "@/lib/firebase";
 import { signOut } from "firebase/auth";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdLogout, MdMenu, MdMenuOpen } from "react-icons/md";
@@ -21,7 +21,7 @@ export default function Navbar() {
   const [loading, setLoading] = useState(true);
   const [menuOpen, setMenuOpen] = useState<boolean>(false);
   const [scrolled, setScrolled] = useState(false);
-  
+
   const menuRef = useRef<HTMLDivElement | null>(null);
   const router = useRouter();
   const pathname = usePathname();
@@ -73,8 +73,8 @@ export default function Navbar() {
           <div className="hidden md:flex items-center gap-8">
             {user ? (
               <>
-                <NavLink href="/dashboard" icon={<TbLayoutDashboardFilled size={18}/>} label="Dashboard" active={pathname === "/dashboard"} />
-                <NavLink href="/activities" icon={<FiActivity size={18}/>} label="Bài viết" active={pathname === "/activities"} />
+                <NavLink href="/dashboard" icon={<TbLayoutDashboardFilled size={18} />} label="Dashboard" active={pathname === "/dashboard"} />
+                <NavLink href="/activities" icon={<FiActivity size={18} />} label="Bài viết" active={pathname === "/activities"} />
               </>
             ) : (
               <>
@@ -97,7 +97,7 @@ export default function Navbar() {
                 <MdLogout size={16} /> Thoát
               </button>
             )}
-            
+
             {/* MOBILE TOGGLE BUTTON - Luôn hiển thị trên mobile */}
             <button className="md:hidden p-2 text-blue-600" onClick={() => setMenuOpen(!menuOpen)}>
               {menuOpen ? <MdMenuOpen size={28} /> : <MdMenu size={28} />}
@@ -129,7 +129,7 @@ export default function Navbar() {
                     <li><a href="#register" onClick={() => setMenuOpen(false)} className="text-2xl font-black text-gray-800">Liên hệ</a></li>
                     <li className="pt-6 border-t border-gray-100">
                       <Link href="/login" onClick={() => setMenuOpen(false)} className="w-full py-5 bg-blue-600 text-white rounded-2xl font-bold flex items-center justify-center gap-3 shadow-lg shadow-blue-200">
-                        <FaUser size={24}/> Quản trị viên
+                        <FaUser size={24} /> Quản trị viên
                       </Link>
                     </li>
                   </>

@@ -1,10 +1,10 @@
 "use client";
-import { FadeIn } from "./animation";
-import CardBase from "./CardBase";
+import { FadeIn } from "./common/animation";
+import CardBase from "./common/CardBase";
 import { useEffect, useState } from "react";
-import { ActivitiesFirebase } from "../types/type";
-import { getDataActivities } from "../lib/apiActivities";
-import { dataCardActivities } from "../store/dataMock";
+import { ActivitiesFirebase } from "@/types/type";
+import { getDataActivities } from "@/services/activities";
+import { dataCardActivities } from "@/store/dataMock";
 
 export default function ClbActivities() {
   const [activities, setActivities] = useState<ActivitiesFirebase[]>([]);
@@ -22,17 +22,17 @@ export default function ClbActivities() {
             typeof a.createdAt === "string"
               ? Date.parse(a.createdAt)
               : typeof a.createdAt === "number"
-              ? a.createdAt
-              : a.createdAt?.toDate?.().getTime?.() ?? 0;
+                ? a.createdAt
+                : a.createdAt?.toDate?.().getTime?.() ?? 0;
           const bTime =
             typeof b.createdAt === "string"
               ? Date.parse(b.createdAt)
               : typeof b.createdAt === "number"
-              ? b.createdAt
-              : b.createdAt?.toDate?.().getTime?.() ?? 0;
+                ? b.createdAt
+                : b.createdAt?.toDate?.().getTime?.() ?? 0;
           return bTime - aTime;
         });
-        
+
         setActivities(sortedByLatest.slice(0, 4));
       } catch (error) {
         console.error("Error fetching data", error);

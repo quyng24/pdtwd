@@ -1,6 +1,6 @@
 "use client";
 import { FaFacebookMessenger } from "react-icons/fa";
-import { FadeIn } from "./animation";
+import { FadeIn } from "./common/animation";
 import { MdCall } from "react-icons/md";
 import { SiZalo } from "react-icons/si";
 import { Image, Modal } from "antd";

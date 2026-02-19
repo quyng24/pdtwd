@@ -1,7 +1,7 @@
 "use client";
 
 import { Button, Modal } from "antd";
-import { FadeIn } from "./animation";
+import { FadeIn } from "./common/animation";
 import { useState } from "react";
 import { FaFacebookMessenger } from "react-icons/fa";
 import Image from "next/image";
@@ -37,7 +37,7 @@ function ClassDetail({
         </a>
         <a href="https://www.facebook.com/share/1GfXapv5Uz/?mibextid=wwXIfr" target="_blank">
           <div className="w-full flex items-center justify-center gap-2 p-4 rounded-xl bg-[#1677ff] text-white text-center font-semibold hover:scale-95 duration-300">
-            <FaFacebookMessenger/>
+            <FaFacebookMessenger />
             Tư vấn miễn phí
           </div>
         </a>

@@ -1,4 +1,4 @@
-import { RegisterStudentState } from "../types/type";
+import { RegisterStudentState } from "../../src/types/type";
 import { Dayjs } from "dayjs";
 
 type Action = 

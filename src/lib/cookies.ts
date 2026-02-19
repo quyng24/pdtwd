@@ -1,6 +1,6 @@
 "use server"
 import {cookies} from "next/headers";
-import { UserCookie } from "../types/type";
+import { UserCookie } from "../../src/types/type";
 
 export async function setUserCookie(user: UserCookie) {
     const cookieStore = await cookies();
