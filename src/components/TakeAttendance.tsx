@@ -1,6 +1,6 @@
 "use client";
 
-import { attendanceStudentApi } from "../services/student";
+import { attendanceStudentApi } from "../services/attendance";
 import CameraCapture from "./CameraCapture";
 import { useRef, useCallback } from "react";
 import { message } from "antd";
