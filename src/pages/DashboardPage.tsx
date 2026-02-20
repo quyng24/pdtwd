@@ -12,7 +12,7 @@ import RegisterStudent from "@/components/RegisterStudent";
 import TakeAttendance from "@/components/TakeAttendance";
 import TableLog from "@/components/TableLog";
 import { DataTypeTable } from "@/types/type";
-import { attendanceLogApi } from "@/services/student";
+import { attendanceLogApi } from "@/services/attendance";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 

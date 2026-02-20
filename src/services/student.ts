@@ -1,5 +1,5 @@
 import axios from "axios";
-import { AttendancePayload, StudentsType } from "../../src/types/type";
+import { StudentsType } from "../../src/types/type";
 const STUDENT_API = `${process.env.NEXT_PUBLIC_API_BASE}/api/students`;
 
 export const createStudentApi = async (data: StudentsType) => {
