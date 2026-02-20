@@ -18,15 +18,10 @@ export default function TakeAttendance() {
     if (now < globalThrottleRef.current) return;
     try {
       isProcessingRef.current = true;
-
-      // Normalize vector to number[]:
-      // - if it's an array of arrays, use the first detected face vector
-      // - otherwise use the provided number[] directly
       const faceVector: number[] = Array.isArray(vector[0])
         ? (vector as number[][])[0]
         : (vector as number[]);
 
-      // Guard against empty vectors
       if (!faceVector || faceVector.length === 0) {
         throw new Error("Empty face vector");
       }
@@ -46,6 +41,7 @@ export default function TakeAttendance() {
         globalThrottleRef.current = now + 3000;
 
         messageApi.success(`${res.message} ${res.data.name}`);
+
       } else if (res.status === 202) {
         messageApi.success(`${res.message} ${res.data.name} ơi!`);
       }

@@ -32,16 +32,16 @@ export default function RegisterStudent() {
         const payload = { name: name, birthday: birthdayStr, face_vector: data };
         const response = await createStudentApi(payload);
         if (response.status === 201) {
-          messageApi.success("Đăng ký võ sinh thành công!");
+          messageApi.success(response.message);
           dispatch({ type: "SCAN_SUCCESS" });
           return true;
-        } else if (response.status === 400) {
+        } else if (response.status === 401) {
           messageApi.error(response.message);
           return false;
         }
       } catch (error: any) {
         console.error("Lỗi đăng ký:", error);
-        messageApi.error(error.response?.data?.detail || "Không thể kết nối tới máy chủ.");
+        messageApi.error(error.response?.data?.detail || "Ôi thôi chết! Tôi bị lỗi rồi");
         return false;
       } finally {
         hideLoading();
