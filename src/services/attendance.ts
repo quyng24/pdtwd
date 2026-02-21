@@ -6,7 +6,7 @@ const ATTENDANCE_API = `${process.env.NEXT_PUBLIC_API_BASE}/api/attendance`
 export const attendanceStudentApi = async (data: AttendancePayload) => {
   try {
     const response = await axios.post(
-      `${ATTENDANCE_API}/main`,
+      `${ATTENDANCE_API}/check-in`,
       data
     );
     return response.data;

@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
 import dayjs from "dayjs";
+import { FaUser, FaCalendar } from "react-icons/fa";
 
 import Navbar from "@/components/shared/Navbar";
 import { getUserCookie } from "@/lib/cookies";
@@ -87,17 +88,20 @@ export default function DashboardPage() {
                     />
                 </section>
 
-                {/* Shadcn Dialogs (Thay cho Antd Modal) */}
                 <Dialog open={modals.modalA} onOpenChange={(val) => setModals(p => ({ ...p, modalA: val }))}>
                     <DialogContent className="max-w-2xl">
-                        <DialogHeader><DialogTitle>Hệ thống điểm danh AI</DialogTitle></DialogHeader>
+                        <DialogHeader>
+                            <DialogTitle >Hệ thống điểm danh AI</DialogTitle>
+                        </DialogHeader>
                         <TakeAttendance />
                     </DialogContent>
                 </Dialog>
 
                 <Dialog open={modals.modalB} onOpenChange={(val) => setModals(p => ({ ...p, modalB: val }))}>
                     <DialogContent className="max-w-md">
-                        <DialogHeader><DialogTitle>Đăng ký võ sinh mới</DialogTitle></DialogHeader>
+                        <DialogHeader>
+                            <DialogTitle className="text-blue-600 text-base md:text-2xl font-bold uppercase tracking-tight">Ghi danh</DialogTitle>
+                        </DialogHeader>
                         <RegisterStudent />
                     </DialogContent>
                 </Dialog>

@@ -1,65 +1,46 @@
 "use client";
 
 import { attendanceStudentApi } from "../services/attendance";
-import CameraCapture from "./CameraCapture";
-import { useRef, useCallback } from "react";
+import { useRef } from "react";
 import { message } from "antd";
+import FaceRecognition from "./FaceRecognition";
 
 export default function TakeAttendance() {
   const [messageApi, contextHolder] = message.useMessage();
-  const isProcessingRef = useRef(false);
+  const isProcessingBus = useRef(false);
 
-  const lastLogsRef = useRef<Record<string, number>>({});
-  const globalThrottleRef = useRef<number>(0);
-
-  const handleFaceCaptured = useCallback(async (vector: number[] | number[][]) => {
-    const now = Date.now();
-    if (isProcessingRef.current) return;
-    if (now < globalThrottleRef.current) return;
+  const handleEmbeddingReady = async (embedding: Float32Array) => {
+    if (isProcessingBus.current) return;
     try {
-      isProcessingRef.current = true;
-      const faceVector: number[] = Array.isArray(vector[0])
-        ? (vector as number[][])[0]
-        : (vector as number[]);
+      isProcessingBus.current = true;
 
-      if (!faceVector || faceVector.length === 0) {
-        throw new Error("Empty face vector");
-      }
+      const embeddingSrt = Array.from(embedding);
+      const result = await attendanceStudentApi({ face_vector: embeddingSrt });
 
-      const res = await attendanceStudentApi({ face_vector: faceVector });
-
-      if (res?.status === 200) {
-        const studentId = res.data.id;
-        const lastTime = lastLogsRef.current[studentId] || 0;
-
-        if (now - lastTime < 60000) {
-          console.log(`Chặn spam cho: ${res.data.name}`);
-          return;
-        }
-
-        lastLogsRef.current[studentId] = now;
-        globalThrottleRef.current = now + 3000;
-
-        messageApi.success(`${res.message} ${res.data.name}`);
-
-      } else if (res.status === 202) {
-        messageApi.success(`${res.message} ${res.data.name} ơi!`);
-      }
-    } catch (err) {
-      globalThrottleRef.current = now + 2000;
-      messageApi.error("Ai đây tôi không quen bro!");
+      if (result.status === 200) messageApi.success(`${result.message} ${result.data.name}!`);
+      else if (result.status === 202) messageApi.error(`${result.message}`);
+      else if (result.status === 404) messageApi.error(`${result.message}`);
+    } catch (error) {
+      console.error("Lỗi điểm danh:", error);
+      messageApi.error("Lỗi kết nối hệ thống!");
     } finally {
-      isProcessingRef.current = false;
+      setTimeout(() => {
+        isProcessingBus.current = false;
+      }, 2000);
     }
-  }, [messageApi]);
+  };
+
   return (
     <>
       {contextHolder}
-      <CameraCapture
-        onFaceCaptured={handleFaceCaptured}
-        mode="attendance"
-        onScanComplete={() => { }}
-      />
+      <div className="flex flex-col items-center justify-center p-4">
+        <FaceRecognition mode="attendance" onEmbeddingReady={handleEmbeddingReady} />
+
+        {/* Tip: Thêm một dòng chữ nhỏ nhắc nhở người dùng */}
+        <p className="mt-4 text-[10px] text-slate-400 font-medium uppercase tracking-widest">
+          Giữ mặt thẳng ống kính để điểm danh
+        </p>
+      </div>
     </>
   );
 }

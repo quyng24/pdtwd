@@ -67,18 +67,10 @@ export interface BaseChartProps {
 export interface StudentsType {
   name: string;
   birthday: string;
-  face_vector: number[][] | number[];
+  face_vectors: number[][] | number[];
 }
 
 export type NotifyType = "success" | "error" | "info" | "warning";
-
-export interface CameraCaptureProps {
-  onFaceCaptured: (base64: string) => void;
-  buttonTextOff?: string;
-  buttonTextOn?: string;
-  showPreview?: boolean;
-  autoCloseAfterCapture?: boolean;
-}
 
 export interface RegisterStudentState {
   name: string;
