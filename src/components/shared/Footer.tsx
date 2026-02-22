@@ -1,7 +1,7 @@
 "use client";
 import Image from "next/image";
 import { FaTiktok, FaFacebookF } from "react-icons/fa";
-import { AiFillInstagram } from "react-icons/ai";
+import { FaSquareThreads } from "react-icons/fa6";
 import { motion } from "framer-motion";
 
 export default function Footer() {
@@ -19,8 +19,8 @@ export default function Footer() {
       hover: "hover:bg-[#1877F2] hover:text-white"
     },
     {
-      icon: <AiFillInstagram size={20} />,
-      href: "#",
+      icon: <FaSquareThreads size={20} />,
+      href: "https://www.threads.com/@thanhnhanpm",
       hover: "hover:bg-gradient-to-tr hover:from-[#f9ce34] hover:via-[#ee2a7b] hover:to-[#6228d7] hover:text-white"
     },
   ];
@@ -75,7 +75,7 @@ export default function Footer() {
               </svg>
             </div>
             <p className="text-sm font-medium text-gray-600 pt-1">
-              Chung cư CT5DN2, Trần Hữu Dực, Mỹ Đình, Từ Liêm, Hà Nội
+              Tòa CT05 ĐN2, 14 Trần Hữu Dực, Từ Liêm, Hà Nội.
             </p>
           </div>
 

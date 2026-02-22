@@ -1,1 +1,1 @@
-export const allowedEmails = ["nquy50771@gmail.com", "phanthanhnhanh2460@gmail.com", "nguyenhuuhoapeace@gmail.com"];
+export const allowedEmails = ["nquy50771@gmail.com", "phamthanhnhan2460@gmail.com", "nguyenhuuhoapeace@gmail.com"];

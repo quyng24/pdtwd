@@ -43,9 +43,7 @@ export default function Homepage() {
                         </h1>
 
                         <p className="mt-6 max-w-2xl text-base text-white/80 sm:text-lg md:text-xl">
-                            Rèn kỹ luật, tốc độ và bản lĩnh thi đấu trong mỗi buổi tập.
-                            Chuẩn hóa kỹ thuật, phát triển thể lực và tự tin làm chủ mọi
-                            tình huống.
+                            Panda Taekwondo – Kỷ luật tạo chiến binh.
                         </p>
 
                         <div className="mt-9 flex flex-wrap items-center gap-4">
