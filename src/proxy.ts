@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { allowedEmails } from "@/lib/auth";
 
-export function middleware(req: NextRequest) {
+export function proxy(req: NextRequest) {
   const userCookie = req.cookies.get("user")?.value;
   const url = req.nextUrl.pathname;
 
