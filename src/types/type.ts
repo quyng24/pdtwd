@@ -80,7 +80,7 @@ export interface RegisterStudentState {
 };
 
 export interface AttendancePayload {
-  face_vector: number[];
+  face_vectors: number[][];
 }
 
 export const initialData = [

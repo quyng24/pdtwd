@@ -13,15 +13,20 @@ export default function RegisterStudent() {
   const [studentName, setStudentName] = useState<string>("");
   const [birthday, setBirthday] = useState<Dayjs | null>(null);
 
+  const normalize = (v: Float32Array) => {
+    const norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0));
+    return Array.from(v).map(x => x / norm);
+  };
   const handleEmbeddingsReady = useCallback(async (embeddings: Float32Array[]) => {
+    const normalized = embeddings.map(normalize);
+
     if (!studentName || !birthday) {
       messageApi.warning("Vui lòng nhập đầy đủ thông tin trước khi quét mặt");
       return;
     }
     try {
       const birthdayStr: string = birthday ? birthday.format("YYYY-MM-DD") : "";
-      const embeddingSrt = embeddings.map(float32Arr => Array.from(float32Arr));
-      const payload: StudentsType = { name: studentName, birthday: birthdayStr, face_vectors: embeddingSrt };
+      const payload: StudentsType = { name: studentName, birthday: birthdayStr, face_vectors: normalized };
 
       const response = await createStudentApi(payload);
       if (response.status === 201) {

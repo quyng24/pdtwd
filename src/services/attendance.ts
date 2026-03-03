@@ -18,7 +18,7 @@ export const attendanceStudentApi = async (data: AttendancePayload) => {
 
 export const attendanceLogApi = async (page: number = 1, page_size: number = 5) => {
   try {
-    const response = await axios.get(`${ATTENDANCE_API}/logs?page=${page}&page_size=${page_size}`);
+    const response = await axios.get(`${ATTENDANCE_API}/logs`);
     return response.data;
   } catch (error) {
     console.error(error);

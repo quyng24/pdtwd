@@ -6,7 +6,6 @@ import * as faceapi from 'face-api.js';
 interface FaceRecognitionProps {
     mode: 'enroll' | 'attendance';
     onEmbeddingsReady?: (embeddings: Float32Array[]) => void;
-    onEmbeddingReady?: (embedding: Float32Array) => void;
     onError?: (msg: string) => void;
     onComplete?: () => void;
 }
@@ -14,7 +13,6 @@ interface FaceRecognitionProps {
 const FaceRecognition: React.FC<FaceRecognitionProps> = ({
     mode,
     onEmbeddingsReady,
-    onEmbeddingReady,
     onError,
     onComplete,
 }) => {
@@ -105,7 +103,7 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                 .withFaceLandmarks()
                 .withFaceDescriptor();
 
-            if (detection && detection.detection.score > 0.6) {
+            if (detection && detection.detection.score > 0.9) {
                 if (mode === 'enroll') {
                     setDetectState('success');
                     collected.push(detection.descriptor);
@@ -122,28 +120,30 @@ const FaceRecognition: React.FC<FaceRecognitionProps> = ({
                         setTimeout(() => stopScanning(), 500);
                     }
                 } else {
-                    isWaiting = true;
                     setDetectState('success');
-                    setStatus('Xác thực thành công!');
-                    onEmbeddingReady?.(detection.descriptor);
+                    collected.push(detection.descriptor);
 
-
-                    let timeLeft = 5;
-                    setCooldownTime(timeLeft);
-
-                    const countdown = setInterval(() => {
-                        timeLeft -= 1;
+                    if (collected.length >= 5) {
+                        isWaiting = true;
+                        setStatus('Xác thực thành công!');
+                        onEmbeddingsReady?.(collected);
+                        collected = [];
+                        let timeLeft = 5;
                         setCooldownTime(timeLeft);
-                        setDetectState('cooldown');
-                        setStatus(`Chờ quét tiếp trong ${timeLeft}s...`);
+                        const countdown = setInterval(() => {
+                            timeLeft -= 1;
+                            setCooldownTime(timeLeft);
+                            setDetectState('cooldown');
+                            setStatus(`Chờ quét tiếp trong ${timeLeft}s...`);
 
-                        if (timeLeft <= 0) {
-                            clearInterval(countdown);
-                            isWaiting = false;
-                            setDetectState('none');
-                            setStatus('Đang quét điểm danh...');
-                        }
-                    }, 1000);
+                            if (timeLeft <= 0) {
+                                clearInterval(countdown);
+                                isWaiting = false;
+                                setDetectState('none');
+                                setStatus('Đang quét điểm danh...');
+                            }
+                        }, 1000);
+                    }
                 }
             } else {
                 if (!isWaiting) setDetectState('none');

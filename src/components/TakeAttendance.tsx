@@ -9,13 +9,17 @@ export default function TakeAttendance() {
   const [messageApi, contextHolder] = message.useMessage();
   const isProcessingBus = useRef(false);
 
-  const handleEmbeddingReady = async (embedding: Float32Array) => {
+  const normalize = (v: Float32Array) => {
+    const norm = Math.sqrt(v.reduce((s, x) => s + x * x, 0));
+    return Array.from(v).map(x => x / norm);
+  };
+  const handleEmbeddingReady = async (embeddings: Float32Array[]) => {
     if (isProcessingBus.current) return;
     try {
       isProcessingBus.current = true;
 
-      const embeddingSrt = Array.from(embedding);
-      const result = await attendanceStudentApi({ face_vector: embeddingSrt });
+      const normalized = embeddings.map(normalize);
+      const result = await attendanceStudentApi({ face_vectors: normalized });
 
       if (result.status === 200) messageApi.success(`${result.message} ${result.data.name}!`);
       else if (result.status === 202) messageApi.error(`${result.message}`);
@@ -34,9 +38,8 @@ export default function TakeAttendance() {
     <>
       {contextHolder}
       <div className="flex flex-col items-center justify-center p-4">
-        <FaceRecognition mode="attendance" onEmbeddingReady={handleEmbeddingReady} />
+        <FaceRecognition mode="attendance" onEmbeddingsReady={handleEmbeddingReady} />
 
-        {/* Tip: Thêm một dòng chữ nhỏ nhắc nhở người dùng */}
         <p className="mt-4 text-[10px] text-slate-400 font-medium uppercase tracking-widest">
           Giữ mặt thẳng ống kính để điểm danh
         </p>
