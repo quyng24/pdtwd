@@ -54,9 +54,15 @@ export interface NotifyOptions {
 }
 
 export interface DataTypeTable {
-  id: number;
-  student_name: string;
-  checkin_time: string
+  student_id: number;
+  name: string;
+  weeks: Record<string, number>;
+  total_attended: number;
+}
+
+export interface AttendanceLogResponse {
+  total_weeks: number;
+  data: DataTypeTable[];
 }
 
 export interface BaseChartProps {

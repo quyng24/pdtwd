@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useMemo, useEffect } from "react";
-import dayjs from "dayjs";
 import { DataTypeTable } from "../types/type";
 import {
     Table,
@@ -24,6 +23,7 @@ import {
 
 type TableLogProps = {
     data: DataTypeTable[];
+    totalWeeks: number;
     ageFilter: string;
     handleFilterChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     handleReset: () => void;
@@ -31,6 +31,7 @@ type TableLogProps = {
 
 export default function TableLog({
     data,
+    totalWeeks,
     ageFilter,
     handleFilterChange,
     handleReset,
@@ -41,7 +42,7 @@ export default function TableLog({
     const filteredData = useMemo(() => {
         if (!ageFilter) return data;
         return data.filter((item) =>
-            item.student_name.toLowerCase().includes(ageFilter.toLowerCase())
+            item.name.toLowerCase().includes(ageFilter.toLowerCase())
         );
     }, [data, ageFilter]);
 
@@ -84,49 +85,76 @@ export default function TableLog({
             </div>
 
             {/* Modern Table */}
-            <div className="p-2">
-                <Table>
-                    <TableHeader className="bg-transparent">
-                        <TableRow className="hover:bg-transparent border-none">
-                            <TableHead className="w-16 text-center font-bold text-slate-400 uppercase text-[10px] tracking-widest">No.</TableHead>
-                            <TableHead className="font-bold text-slate-400 uppercase text-[10px] tracking-widest">Võ sinh</TableHead>
-                            <TableHead className="text-right font-bold text-slate-400 uppercase text-[10px] tracking-widest">Thời gian vào lớp</TableHead>
+            <div className="p-2 overflow-x-auto">
+                <Table className="min-w-150">
+                    <TableHeader className="bg-slate-50/50">
+                        <TableRow className="hover:bg-transparent border-b border-slate-100">
+                            <TableHead className="w-16 text-center font-bold text-slate-400 uppercase text-[10px] tracking-widest">
+                                No.
+                            </TableHead>
+                            <TableHead className="font-bold text-slate-400 uppercase text-[10px] tracking-widest min-w-37">
+                                Võ sinh
+                            </TableHead>
+
+                            {paginatedData.length > 0 && Object.keys(paginatedData[0].weeks).map((weekKey) => (
+                                <TableHead key={weekKey} className="text-center font-bold text-slate-400 uppercase text-[10px] tracking-widest border-l border-slate-50">
+                                    {weekKey.replace("week_", "Tuần ")}
+                                </TableHead>
+                            ))}
+
+                            <TableHead className="text-center font-bold text-red-400 uppercase text-[10px] tracking-widest border-l border-slate-50">
+                                Nghỉ
+                            </TableHead>
                         </TableRow>
                     </TableHeader>
+
                     <TableBody>
                         {paginatedData.length > 0 ? (
                             paginatedData.map((item, index) => {
-                                const isToday = dayjs(item.checkin_time).isSame(dayjs(), 'day');
+                                const getCurrentWeekOfMonth = () => {
+                                    const today = new Date();
+                                    const day = today.getDate();
+                                    return Math.ceil(day / 7);
+                                };
+                                const currentWeekNum = getCurrentWeekOfMonth();
+                                const absentCount = Object.entries(item.weeks).reduce((count, [key, value]) => {
+                                    const weekIndex = parseInt(key.split('_')[1]);
+                                    if (value === 0 && weekIndex <= currentWeekNum) {
+                                        return count + 1;
+                                    }
+                                    return count;
+                                }, 0);
+
                                 return (
-                                    <TableRow key={item.id || index} className="group transition-colors hover:bg-blue-50/40 border-slate-50">
+                                    <TableRow key={item.student_id || index} className="group hover:bg-blue-50/40 border-slate-50">
                                         <TableCell className="text-center">
-                                            <span className="text-sm font-medium text-slate-400 group-hover:text-blue-500 transition-colors">
+                                            <span className="text-sm font-medium text-slate-400">
                                                 {String((currentPage - 1) * pageSize + index + 1).padStart(2, '0')}
                                             </span>
                                         </TableCell>
                                         <TableCell>
-                                            <div className="flex items-center gap-3">
-                                                <div className="flex flex-col">
-                                                    <span className="text-sm font-bold text-slate-700">{item.student_name}</span>
-                                                </div>
-                                            </div>
+                                            <span className="text-sm font-bold text-slate-700">{item.name}</span>
                                         </TableCell>
-                                        <TableCell className="text-right">
-                                            <div className="flex flex-col items-end">
-                                                <Badge variant={isToday ? "default" : "secondary"} className={`rounded-full px-2 py-0 text-[10px] ${isToday ? "bg-emerald-500 hover:bg-emerald-600" : ""}`}>
-                                                    {isToday ? "Hôm nay" : dayjs(item.checkin_time).format("DD/MM/YYYY")}
-                                                </Badge>
-                                                <span className="mt-1 text-sm font-mono font-medium text-slate-600">
-                                                    {dayjs(item.checkin_time).format("HH:mm:ss")}
+
+                                        {Object.entries(item.weeks).map(([key, value]) => (
+                                            <TableCell key={key} className="text-center border-l border-slate-50/50">
+                                                <span className={`text-sm ${value > 0 ? 'text-blue-600 font-semibold' : 'text-slate-300'}`}>
+                                                    {value > 0 ? value : "-"}
                                                 </span>
-                                            </div>
+                                            </TableCell>
+                                        ))}
+
+                                        <TableCell className="text-center border-l border-slate-50 bg-red-50/20">
+                                            <span className="text-sm font-bold text-red-500">
+                                                {absentCount}
+                                            </span>
                                         </TableCell>
                                     </TableRow>
                                 );
                             })
                         ) : (
                             <TableRow>
-                                <TableCell colSpan={3} className="h-40 text-center">
+                                <TableCell colSpan={10} className="h-40 text-center">
                                     <div className="flex flex-col items-center justify-center text-slate-400">
                                         <Search className="h-8 w-8 opacity-20 mb-2" />
                                         <p className="text-sm">Không tìm thấy dữ liệu phù hợp</p>
@@ -137,7 +165,6 @@ export default function TableLog({
                     </TableBody>
                 </Table>
             </div>
-
             {/* Pagination Style */}
             <div className="flex items-center justify-between bg-slate-50/50 p-4 border-t border-slate-100">
                 <p className="text-xs font-medium text-slate-400 uppercase tracking-tighter">

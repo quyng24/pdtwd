@@ -3,8 +3,6 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import { toast } from "sonner";
-import dayjs from "dayjs";
-import { FaUser, FaCalendar } from "react-icons/fa";
 
 import Navbar from "@/components/shared/Navbar";
 import { getUserCookie } from "@/lib/cookies";
@@ -12,7 +10,7 @@ import { allowedEmails } from "@/lib/auth";
 import RegisterStudent from "@/components/RegisterStudent";
 import TakeAttendance from "@/components/TakeAttendance";
 import TableLog from "@/components/TableLog";
-import { DataTypeTable } from "@/types/type";
+import { AttendanceLogResponse } from "@/types/type";
 import { attendanceLogApi } from "@/services/attendance";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
@@ -21,7 +19,10 @@ export default function DashboardPage() {
     const router = useRouter();
     const [modals, setModals] = useState({ modalA: false, modalB: false });
     const [nameUser, setNameUser] = useState<string>("");
-    const [data, setData] = useState<DataTypeTable[]>([]);
+    const [attendanceLog, setAttendanceLog] = useState<AttendanceLogResponse>({
+        total_weeks: 0,
+        data: [],
+    });
     const [ageFilter, setAgeFilter] = useState("");
 
     useEffect(() => {
@@ -39,7 +40,7 @@ export default function DashboardPage() {
     const fetchLogs = useCallback(async () => {
         try {
             const response = await attendanceLogApi();
-            if (response?.data) setData(response.data);
+            if (response) setAttendanceLog(response);
         } catch (error) {
             toast.error("Lỗi tải dữ liệu");
         }
@@ -50,9 +51,9 @@ export default function DashboardPage() {
     }, [fetchLogs]);
 
     const stats = {
-        total: data.length,
-        today: data.filter(i => dayjs(i.checkin_time).isSame(dayjs(), 'day')).length,
-        unique: new Set(data.map(i => i.student_name)).size
+        total: attendanceLog.total_weeks,
+        today: attendanceLog.data.reduce((sum, item) => sum + item.total_attended, 0),
+        unique: attendanceLog.data.length
     };
 
     return (
@@ -108,7 +109,8 @@ export default function DashboardPage() {
 
                 {/* Table Section */}
                 <TableLog
-                    data={data}
+                    data={attendanceLog.data}
+                    totalWeeks={attendanceLog.total_weeks}
                     ageFilter={ageFilter}
                     handleFilterChange={(e) => setAgeFilter(e.target.value)}
                     handleReset={() => setAgeFilter("")}
